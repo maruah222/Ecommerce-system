@@ -1,11 +1,9 @@
 {
   "pages": [
     "pages/base/base",
-    "pages/cloud/cloud",
     "pages/mine/mine",
     "pages/good-detail/good-detail",
     "pages/cart/cart",
-    "pages/dingdan",
     "pages/order/order"
   ],
   "window": {

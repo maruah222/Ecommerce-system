@@ -1,11 +1,18 @@
-// pages/dingdan.js
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
+    sellernum: 123
+  },
 
+
+  login: function () {
+    let sellerno = this.data.sellernum;
+    wx.navigateTo({
+      url: '/pages/seller/seller?sellerno=' + sellerno,
+    })
   },
 
   /**
