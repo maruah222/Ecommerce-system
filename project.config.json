@@ -1,6 +1,8 @@
 {
-	"miniprogramRoot": "miniprogram/",
-	"cloudfunctionRoot": "cloudfunctions/",
+	"description": "项目配置文件",
+	"packOptions": {
+		"ignore": []
+	},
 	"setting": {
 		"urlCheck": false,
 		"es6": true,
@@ -24,12 +26,22 @@
 		"useCompilerModule": false,
 		"userConfirmedUseCompilerModuleSwitch": false
 	},
-	"appid": "wx0a29bff979c7132f",
-	"projectname": "test",
+	"compileType": "miniprogram",
 	"libVersion": "2.8.1",
+	"appid": "touristappid",
+	"projectname": "test",
+	"miniprogramRoot": "miniprogram/",
+	"cloudfunctionRoot": "cloudfunctions/",
+	"cloudfunctionTemplateRoot": "",
+	"watchOptions": {
+		"ignore": []
+	},
+	"debugOptions": {
+		"hidedInDevtools": []
+	},
+	"scripts": {},
 	"simulatorType": "wechat",
 	"simulatorPluginLibVersion": {},
-	"compileType": "miniprogram",
 	"condition": {
 		"search": {
 			"current": -1,
@@ -55,6 +67,13 @@
 			"list": [
 				{
 					"id": -1,
+					"name": "cloud",
+					"pathName": "pages/cloud/cloud",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
 					"name": "pages/mine/mine",
 					"pathName": "pages/mine/mine",
 					"query": "",
@@ -69,33 +88,22 @@
 				},
 				{
 					"id": -1,
-					"name": "测试",
-					"pathName": "pages/test/test",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-<<<<<<< HEAD
-					"name": "详情",
-					"pathName": "pages/good-detail/good-detail",
-=======
-					"name": "商家",
-					"pathName": "pages/seller/seller",
->>>>>>> master
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-<<<<<<< HEAD
 					"name": "order",
 					"pathName": "pages/order/order",
-=======
-					"name": "pages/delete-good/delete-good",
-					"pathName": "pages/delete-good/delete-good",
 					"query": "",
->>>>>>> master
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "支付",
+					"pathName": "pages/pay/pay",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "管理员",
+					"pathName": "pages/admin/admin",
 					"scene": null
 				}
 			]

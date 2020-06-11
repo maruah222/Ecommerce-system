@@ -170,62 +170,12 @@ Page({
       });
       return;
     }else{//跳转到支付，或者是直接数据库操作？预计跳转到一个界面展示是否成功？
-      this.data.goodData.forEach(v=>{
-        if(v.checked){
-          console.log(v.GoodsNo);
-        }
+      wx.navigateTo({
+        url: '../pay/pay',
       })
-      
     }
   },
 
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad: function (options) {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
-  },
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
-  },
   //设置购物车状态同时重新计算底部工具栏数据
   setCart(gooddata){
     var i=0;
@@ -249,5 +199,6 @@ Page({
     this.setData({totalprice:totalprice});
     this.setData({totalnumber:totalnumber});
     this.setData({goodData:gooddata});
+    wx.setStorageSync('goodData', gooddata);
   }
 })

@@ -4,7 +4,12 @@
     "pages/mine/mine",
     "pages/good-detail/good-detail",
     "pages/cart/cart",
-    "pages/order/order"
+    "pages/order/order",
+    "pages/pay/pay",
+    "pages/admin/admin",
+    "pages/addgood/addgood",
+    "pages/sellermanagement/sellermanagement",
+    "pages/degood/degood"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",
