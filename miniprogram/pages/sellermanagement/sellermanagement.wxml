@@ -4,19 +4,19 @@
   <view wx:for="{{sellers}}" wx:key="userID" class="order_item">
     <view class="order_no_row">
       <view class="order_no_text">用户编号</view>
-      <view class="order_no_value">{{item.userID}}</view>
+      <view class="order_no_value">{{item.shopid}}</view>
     </view>
     <view class="order_name_row">
-    <view class="order_name_text">商家名</view>
-      <view class="order_name_value">{{item.storename}}</view>
+    <view class="order_name_text">商店名</view>
+      <view class="order_name_value">{{item.shopname}}</view>
     </view>
     <view class="order_desc_row">
-    <view class="order_desc_text">商家描述</view>
-      <view class="order_desc_value">{{item.describe}}</view>
+    <view class="order_desc_text">商家地址</view>
+      <view class="order_desc_value">{{item.shopaddress}}</view>
     </view>
     <view>
-      <button style="width:80%" class="ybtn">通过申请</button>
-      <button style="width:80%" class="nbtn">拒绝申请</button>
+      <button style="width:80%" class="ybtn" data-id="{{item.shopid}}" data-val="1" bindtap="verify">通过申请</button>
+      <button style="width:80%" class="nbtn" data-id="{{item.shopid}}" data-val="0" bindtap="verify">拒绝申请</button>
     </view>
   </view>
 </view>

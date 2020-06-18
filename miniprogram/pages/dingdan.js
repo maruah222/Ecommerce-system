@@ -1,33 +1,18 @@
-// miniprogram/pages/goodmanagement/goodmanagement.js
+// pages/dingdan.js
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    up_goods:[{
-      goodID:1,
-      goodname:"狗粮",
-      describe:"很好吃的",
-    },
-    {
-      goodID:1,
-      goodname:"狗粮",
-      describe:"很好吃的",
-    },
-    {
-      goodID:1,
-      goodname:"狗粮",
-      describe:"很好吃的",
-    }
-  ]
+
   },
-  
+
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function () {
-    //this.getgoods();
+  onLoad: function (options) {
+
   },
 
   /**
@@ -77,15 +62,5 @@ Page({
    */
   onShareAppMessage: function () {
 
-  },
-  getgoods(){
-    wx.request({
-      url: 'http://47.105.66.104:8080/ecommerce/Manager/getNeedVerifyGoods?pageNum=1&pageSize=10',
-      method: 'GET',
-      success:(res)=>{
-        console.log(res.data);
-        this.setData({up_goods:res.data.data.list})
-      }
-    })
-  },
+  }
 })
