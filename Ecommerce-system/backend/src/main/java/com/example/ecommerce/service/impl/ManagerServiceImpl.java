@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 /**
  * @author: rain
@@ -46,6 +47,9 @@ public class ManagerServiceImpl implements ManagerService {
 
     @Autowired(required = false)
     private ShopMapper shopMapper;
+
+    @Autowired(required = false)
+    private OrderMapper orderMapper;
 
     @Autowired(required = false)
     private UserDetailsService userDetailsService;
@@ -170,6 +174,24 @@ public class ManagerServiceImpl implements ManagerService {
     @Override
     public CommonResult sendEmail(String emailAddress, String message) {
         return CommonResult.success("账号："+emailAddress,"成功发送邮件");
+    }
+
+    @Override
+    public String getRandomCode() {
+        StringBuilder s=new StringBuilder();
+        Random random = new Random();
+        for(int i=0;i<6;i++)
+        {
+            s.append(random.nextInt(10));
+        }
+        return s.toString();
+    }
+
+    @Override
+    public List<Order> getAllOrder(int pageNum, int pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+
+        return orderMapper.selectByExampleWithBLOBs(new OrderExample());
     }
 
 }

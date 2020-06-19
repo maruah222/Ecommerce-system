@@ -23,6 +23,9 @@ public class Chart implements Serializable {
     @ApiModelProperty(value = "结算状态，0为false，1为true")
     private Integer checkstate;
 
+    @ApiModelProperty(value = "商品的规格")
+    private String attribute;
+
     private static final long serialVersionUID = 1L;
 
     public String getChartid() {
@@ -73,6 +76,14 @@ public class Chart implements Serializable {
         this.checkstate = checkstate;
     }
 
+    public String getAttribute() {
+        return attribute;
+    }
+
+    public void setAttribute(String attribute) {
+        this.attribute = attribute;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -85,6 +96,7 @@ public class Chart implements Serializable {
         sb.append(", number=").append(number);
         sb.append(", price=").append(price);
         sb.append(", checkstate=").append(checkstate);
+        sb.append(", attribute=").append(attribute);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

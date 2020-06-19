@@ -20,7 +20,7 @@ import java.util.List;
 public interface ShopService {
 
     @Transactional
-    CommonResult SellerRegister(String password, String Shopname,String Sellername,String address,String sellertelephone);
+    CommonResult SellerRegister(String ShopId,String password, String Shopname,String Sellername,String address,String sellertelephone);
 
     String SellerLogin(String Sellername,String Sellerpassword);
 
@@ -30,4 +30,11 @@ public interface ShopService {
     void SendDelayMessageOverTime(String ShopId);
 
     CommonResult CancelRegister(String ShopId);
+
+    List<Order> getNeedVerifyReturn(int pageNum,int pageSize);
+    @Transactional
+    CommonResult VerifyReturnSuccess(String OrderId);
+    @Transactional
+    CommonResult VerifyReturnFailed(String OrderId);
+    CommonResult VerifyReturnSendEmail(String userId, int num);
 }

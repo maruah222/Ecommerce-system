@@ -11,7 +11,7 @@ public class Order implements Serializable {
     @ApiModelProperty(value = "用户名")
     private String userid;
 
-    @ApiModelProperty(value = "0未支付，1已支付，2申请退，3已退，4超时")
+    @ApiModelProperty(value = "0未支付，1已支付，2已收货，3申请退，4超时，5取消")
     private Integer state;
 
     @ApiModelProperty(value = "支付时间")

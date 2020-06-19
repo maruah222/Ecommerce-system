@@ -84,7 +84,7 @@
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
-    from order
+    from `order`
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -98,7 +98,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from order
+    from `order`
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -111,21 +111,21 @@
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
-    from order
+    from `order`
     where OrderID = #{orderid,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-    delete from order
+    delete from `order`
     where OrderID = #{orderid,jdbcType=VARCHAR}
   </delete>
   <delete id="deleteByExample" parameterType="com.example.ecommerce.mbg.model.OrderExample">
-    delete from order
+    delete from `order`
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
   <insert id="insert" parameterType="com.example.ecommerce.mbg.model.Order">
-    insert into order (OrderID, UserID, State, 
+    insert into `order` (OrderID, UserID, State,
       PayTime, GetTIme, CommentTime, 
       Comment)
     values (#{orderid,jdbcType=VARCHAR}, #{userid,jdbcType=VARCHAR}, #{state,jdbcType=INTEGER}, 
@@ -133,7 +133,7 @@
       #{comment,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.example.ecommerce.mbg.model.Order">
-    insert into order
+    insert into `order`
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="orderid != null">
         OrderID,
@@ -182,13 +182,13 @@
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.example.ecommerce.mbg.model.OrderExample" resultType="java.lang.Long">
-    select count(*) from order
+    select count(*) from `order`
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update order
+    update `order`
     <set>
       <if test="record.orderid != null">
         OrderID = #{record.orderid,jdbcType=VARCHAR},
@@ -217,7 +217,7 @@
     </if>
   </update>
   <update id="updateByExampleWithBLOBs" parameterType="map">
-    update order
+    update `order`
     set OrderID = #{record.orderid,jdbcType=VARCHAR},
       UserID = #{record.userid,jdbcType=VARCHAR},
       State = #{record.state,jdbcType=INTEGER},
@@ -230,7 +230,7 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update order
+    update `order`
     set OrderID = #{record.orderid,jdbcType=VARCHAR},
       UserID = #{record.userid,jdbcType=VARCHAR},
       State = #{record.state,jdbcType=INTEGER},
@@ -242,7 +242,7 @@
     </if>
   </update>
   <update id="updateByPrimaryKeySelective" parameterType="com.example.ecommerce.mbg.model.Order">
-    update order
+    update `order`
     <set>
       <if test="userid != null">
         UserID = #{userid,jdbcType=VARCHAR},
@@ -266,7 +266,7 @@
     where OrderID = #{orderid,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.example.ecommerce.mbg.model.Order">
-    update order
+    update `order`
     set UserID = #{userid,jdbcType=VARCHAR},
       State = #{state,jdbcType=INTEGER},
       PayTime = #{paytime,jdbcType=TIMESTAMP},
@@ -276,7 +276,7 @@
     where OrderID = #{orderid,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.example.ecommerce.mbg.model.Order">
-    update order
+    update `order`
     set UserID = #{userid,jdbcType=VARCHAR},
       State = #{state,jdbcType=INTEGER},
       PayTime = #{paytime,jdbcType=TIMESTAMP},

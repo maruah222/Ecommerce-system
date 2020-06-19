@@ -23,9 +23,6 @@ public class GoodSku implements Serializable {
     @ApiModelProperty(value = "库存量")
     private Integer leftNumber;
 
-    @ApiModelProperty(value = "销售量")
-    private Integer soldNumber;
-
     @ApiModelProperty(value = "图片")
     private String picture;
 
@@ -82,14 +79,6 @@ public class GoodSku implements Serializable {
         this.leftNumber = leftNumber;
     }
 
-    public Integer getSoldNumber() {
-        return soldNumber;
-    }
-
-    public void setSoldNumber(Integer soldNumber) {
-        this.soldNumber = soldNumber;
-    }
-
     public String getPicture() {
         return picture;
     }
@@ -118,7 +107,6 @@ public class GoodSku implements Serializable {
         sb.append(", price=").append(price);
         sb.append(", vipprice=").append(vipprice);
         sb.append(", leftNumber=").append(leftNumber);
-        sb.append(", soldNumber=").append(soldNumber);
         sb.append(", picture=").append(picture);
         sb.append(", attribute=").append(attribute);
         sb.append(", serialVersionUID=").append(serialVersionUID);

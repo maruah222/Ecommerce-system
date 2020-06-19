@@ -20,9 +20,6 @@ public class Goods implements Serializable {
     @ApiModelProperty(value = "审核状态，0为待审核上架，1为已审核成功上架")
     private Integer checkstate;
 
-    @ApiModelProperty(value = "数量")
-    private Integer number;
-
     @ApiModelProperty(value = "包邮状态，0为不包邮，1为包邮")
     private Integer ispackage;
 
@@ -87,14 +84,6 @@ public class Goods implements Serializable {
 
     public void setCheckstate(Integer checkstate) {
         this.checkstate = checkstate;
-    }
-
-    public Integer getNumber() {
-        return number;
-    }
-
-    public void setNumber(Integer number) {
-        this.number = number;
     }
 
     public Integer getIspackage() {
@@ -172,7 +161,6 @@ public class Goods implements Serializable {
         sb.append(", goodname=").append(goodname);
         sb.append(", goodpicture=").append(goodpicture);
         sb.append(", checkstate=").append(checkstate);
-        sb.append(", number=").append(number);
         sb.append(", ispackage=").append(ispackage);
         sb.append(", frontpicture=").append(frontpicture);
         sb.append(", shangtime=").append(shangtime);

@@ -35,13 +35,14 @@ public class ShopController {
     @ApiOperation("商家的注册")
     @RequestMapping(value = "/Sellerregister",method = RequestMethod.GET)
     @ResponseBody
-    public CommonResult register(@RequestParam String password,
+    public CommonResult register(@RequestParam String ShopId,
+                                 @RequestParam String password,
                                  @RequestParam String Shopname,
                                  @RequestParam String Sellername,
                                  @RequestParam String address,
                                  @RequestParam String sellertelephone)
     {
-        return shopService.SellerRegister(password, Shopname,Sellername,address,sellertelephone);
+        return shopService.SellerRegister(ShopId,password, Shopname,Sellername,address,sellertelephone);
     }
 
     @ApiOperation("商家登录")

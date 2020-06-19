@@ -7,7 +7,6 @@
     <result column="Goodname" jdbcType="VARCHAR" property="goodname" />
     <result column="Goodpicture" jdbcType="VARCHAR" property="goodpicture" />
     <result column="CheckState" jdbcType="INTEGER" property="checkstate" />
-    <result column="number" jdbcType="INTEGER" property="number" />
     <result column="ispackage" jdbcType="INTEGER" property="ispackage" />
     <result column="Frontpicture" jdbcType="VARCHAR" property="frontpicture" />
     <result column="ShangTime" jdbcType="TIMESTAMP" property="shangtime" />
@@ -78,8 +77,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    goodID, ShopID, Goodname, Goodpicture, CheckState, number, ispackage, Frontpicture, 
-    ShangTime, categoryId, AllsellNumber, DeleteState, UpdownState
+    goodID, ShopID, Goodname, Goodpicture, CheckState, ispackage, Frontpicture, ShangTime, 
+    categoryId, AllsellNumber, DeleteState, UpdownState
   </sql>
   <sql id="Blob_Column_List">
     introduction
@@ -134,15 +133,15 @@
   </delete>
   <insert id="insert" parameterType="com.example.ecommerce.mbg.model.Goods">
     insert into goods (goodID, ShopID, Goodname, 
-      Goodpicture, CheckState, number, 
-      ispackage, Frontpicture, ShangTime, 
-      categoryId, AllsellNumber, DeleteState, 
-      UpdownState, introduction)
+      Goodpicture, CheckState, ispackage, 
+      Frontpicture, ShangTime, categoryId, 
+      AllsellNumber, DeleteState, UpdownState, 
+      introduction)
     values (#{goodid,jdbcType=VARCHAR}, #{shopid,jdbcType=VARCHAR}, #{goodname,jdbcType=VARCHAR}, 
-      #{goodpicture,jdbcType=VARCHAR}, #{checkstate,jdbcType=INTEGER}, #{number,jdbcType=INTEGER}, 
-      #{ispackage,jdbcType=INTEGER}, #{frontpicture,jdbcType=VARCHAR}, #{shangtime,jdbcType=TIMESTAMP}, 
-      #{categoryid,jdbcType=VARCHAR}, #{allsellnumber,jdbcType=INTEGER}, #{deletestate,jdbcType=INTEGER}, 
-      #{updownstate,jdbcType=INTEGER}, #{introduction,jdbcType=LONGVARCHAR})
+      #{goodpicture,jdbcType=VARCHAR}, #{checkstate,jdbcType=INTEGER}, #{ispackage,jdbcType=INTEGER}, 
+      #{frontpicture,jdbcType=VARCHAR}, #{shangtime,jdbcType=TIMESTAMP}, #{categoryid,jdbcType=VARCHAR}, 
+      #{allsellnumber,jdbcType=INTEGER}, #{deletestate,jdbcType=INTEGER}, #{updownstate,jdbcType=INTEGER}, 
+      #{introduction,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.example.ecommerce.mbg.model.Goods">
     insert into goods
@@ -161,9 +160,6 @@
       </if>
       <if test="checkstate != null">
         CheckState,
-      </if>
-      <if test="number != null">
-        number,
       </if>
       <if test="ispackage != null">
         ispackage,
@@ -205,9 +201,6 @@
       </if>
       <if test="checkstate != null">
         #{checkstate,jdbcType=INTEGER},
-      </if>
-      <if test="number != null">
-        #{number,jdbcType=INTEGER},
       </if>
       <if test="ispackage != null">
         #{ispackage,jdbcType=INTEGER},
@@ -259,9 +252,6 @@
       <if test="record.checkstate != null">
         CheckState = #{record.checkstate,jdbcType=INTEGER},
       </if>
-      <if test="record.number != null">
-        number = #{record.number,jdbcType=INTEGER},
-      </if>
       <if test="record.ispackage != null">
         ispackage = #{record.ispackage,jdbcType=INTEGER},
       </if>
@@ -298,7 +288,6 @@
       Goodname = #{record.goodname,jdbcType=VARCHAR},
       Goodpicture = #{record.goodpicture,jdbcType=VARCHAR},
       CheckState = #{record.checkstate,jdbcType=INTEGER},
-      number = #{record.number,jdbcType=INTEGER},
       ispackage = #{record.ispackage,jdbcType=INTEGER},
       Frontpicture = #{record.frontpicture,jdbcType=VARCHAR},
       ShangTime = #{record.shangtime,jdbcType=TIMESTAMP},
@@ -318,7 +307,6 @@
       Goodname = #{record.goodname,jdbcType=VARCHAR},
       Goodpicture = #{record.goodpicture,jdbcType=VARCHAR},
       CheckState = #{record.checkstate,jdbcType=INTEGER},
-      number = #{record.number,jdbcType=INTEGER},
       ispackage = #{record.ispackage,jdbcType=INTEGER},
       Frontpicture = #{record.frontpicture,jdbcType=VARCHAR},
       ShangTime = #{record.shangtime,jdbcType=TIMESTAMP},
@@ -344,9 +332,6 @@
       </if>
       <if test="checkstate != null">
         CheckState = #{checkstate,jdbcType=INTEGER},
-      </if>
-      <if test="number != null">
-        number = #{number,jdbcType=INTEGER},
       </if>
       <if test="ispackage != null">
         ispackage = #{ispackage,jdbcType=INTEGER},
@@ -381,7 +366,6 @@
       Goodname = #{goodname,jdbcType=VARCHAR},
       Goodpicture = #{goodpicture,jdbcType=VARCHAR},
       CheckState = #{checkstate,jdbcType=INTEGER},
-      number = #{number,jdbcType=INTEGER},
       ispackage = #{ispackage,jdbcType=INTEGER},
       Frontpicture = #{frontpicture,jdbcType=VARCHAR},
       ShangTime = #{shangtime,jdbcType=TIMESTAMP},
@@ -398,7 +382,6 @@
       Goodname = #{goodname,jdbcType=VARCHAR},
       Goodpicture = #{goodpicture,jdbcType=VARCHAR},
       CheckState = #{checkstate,jdbcType=INTEGER},
-      number = #{number,jdbcType=INTEGER},
       ispackage = #{ispackage,jdbcType=INTEGER},
       Frontpicture = #{frontpicture,jdbcType=VARCHAR},
       ShangTime = #{shangtime,jdbcType=TIMESTAMP},
