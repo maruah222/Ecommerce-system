@@ -26,6 +26,9 @@ public class Chart implements Serializable {
     @ApiModelProperty(value = "商品的规格")
     private String attribute;
 
+    @ApiModelProperty(value = "商品的名字")
+    private String goodname;
+
     private static final long serialVersionUID = 1L;
 
     public String getChartid() {
@@ -84,6 +87,14 @@ public class Chart implements Serializable {
         this.attribute = attribute;
     }
 
+    public String getGoodname() {
+        return goodname;
+    }
+
+    public void setGoodname(String goodname) {
+        this.goodname = goodname;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -97,6 +108,7 @@ public class Chart implements Serializable {
         sb.append(", price=").append(price);
         sb.append(", checkstate=").append(checkstate);
         sb.append(", attribute=").append(attribute);
+        sb.append(", goodname=").append(goodname);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

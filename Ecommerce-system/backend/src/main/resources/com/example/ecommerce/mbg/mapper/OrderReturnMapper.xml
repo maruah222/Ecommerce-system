@@ -2,11 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.ecommerce.mbg.mapper.OrderReturnMapper">
   <resultMap id="BaseResultMap" type="com.example.ecommerce.mbg.model.OrderReturn">
-    <id column="OrderId" jdbcType="VARCHAR" property="orderid" />
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="OrderId" jdbcType="VARCHAR" property="orderid" />
     <result column="Money" jdbcType="DECIMAL" property="money" />
-    <result column="UserId" jdbcType="INTEGER" property="userid" />
-    <result column="SellerAddress" jdbcType="VARCHAR" property="selleraddress" />
-    <result column="OrderStatus" jdbcType="VARCHAR" property="orderstatus" />
+    <result column="UserId" jdbcType="VARCHAR" property="userid" />
+    <result column="OrderStatus" jdbcType="INTEGER" property="orderstatus" />
+    <result column="GoodId" jdbcType="VARCHAR" property="goodid" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.example.ecommerce.mbg.model.OrderReturn">
     <result column="ReturnReason" jdbcType="LONGVARCHAR" property="returnreason" />
@@ -70,7 +71,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    OrderId, Money, UserId, SellerAddress, OrderStatus
+    id, OrderId, Money, UserId, OrderStatus, GoodId
   </sql>
   <sql id="Blob_Column_List">
     ReturnReason
@@ -105,17 +106,17 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
     select 
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
     from order_return
-    where OrderId = #{orderid,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from order_return
-    where OrderId = #{orderid,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="com.example.ecommerce.mbg.model.OrderReturnExample">
     delete from order_return
@@ -124,14 +125,20 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.example.ecommerce.mbg.model.OrderReturn">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into order_return (OrderId, Money, UserId, 
-      SellerAddress, OrderStatus, ReturnReason
+      OrderStatus, GoodId, ReturnReason
       )
-    values (#{orderid,jdbcType=VARCHAR}, #{money,jdbcType=DECIMAL}, #{userid,jdbcType=INTEGER}, 
-      #{selleraddress,jdbcType=VARCHAR}, #{orderstatus,jdbcType=VARCHAR}, #{returnreason,jdbcType=LONGVARCHAR}
+    values (#{orderid,jdbcType=VARCHAR}, #{money,jdbcType=DECIMAL}, #{userid,jdbcType=VARCHAR}, 
+      #{orderstatus,jdbcType=INTEGER}, #{goodid,jdbcType=VARCHAR}, #{returnreason,jdbcType=LONGVARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.example.ecommerce.mbg.model.OrderReturn">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into order_return
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="orderid != null">
@@ -143,11 +150,11 @@
       <if test="userid != null">
         UserId,
       </if>
-      <if test="selleraddress != null">
-        SellerAddress,
-      </if>
       <if test="orderstatus != null">
         OrderStatus,
+      </if>
+      <if test="goodid != null">
+        GoodId,
       </if>
       <if test="returnreason != null">
         ReturnReason,
@@ -161,13 +168,13 @@
         #{money,jdbcType=DECIMAL},
       </if>
       <if test="userid != null">
-        #{userid,jdbcType=INTEGER},
-      </if>
-      <if test="selleraddress != null">
-        #{selleraddress,jdbcType=VARCHAR},
+        #{userid,jdbcType=VARCHAR},
       </if>
       <if test="orderstatus != null">
-        #{orderstatus,jdbcType=VARCHAR},
+        #{orderstatus,jdbcType=INTEGER},
+      </if>
+      <if test="goodid != null">
+        #{goodid,jdbcType=VARCHAR},
       </if>
       <if test="returnreason != null">
         #{returnreason,jdbcType=LONGVARCHAR},
@@ -183,6 +190,9 @@
   <update id="updateByExampleSelective" parameterType="map">
     update order_return
     <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
       <if test="record.orderid != null">
         OrderId = #{record.orderid,jdbcType=VARCHAR},
       </if>
@@ -190,13 +200,13 @@
         Money = #{record.money,jdbcType=DECIMAL},
       </if>
       <if test="record.userid != null">
-        UserId = #{record.userid,jdbcType=INTEGER},
-      </if>
-      <if test="record.selleraddress != null">
-        SellerAddress = #{record.selleraddress,jdbcType=VARCHAR},
+        UserId = #{record.userid,jdbcType=VARCHAR},
       </if>
       <if test="record.orderstatus != null">
-        OrderStatus = #{record.orderstatus,jdbcType=VARCHAR},
+        OrderStatus = #{record.orderstatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.goodid != null">
+        GoodId = #{record.goodid,jdbcType=VARCHAR},
       </if>
       <if test="record.returnreason != null">
         ReturnReason = #{record.returnreason,jdbcType=LONGVARCHAR},
@@ -208,11 +218,12 @@
   </update>
   <update id="updateByExampleWithBLOBs" parameterType="map">
     update order_return
-    set OrderId = #{record.orderid,jdbcType=VARCHAR},
+    set id = #{record.id,jdbcType=INTEGER},
+      OrderId = #{record.orderid,jdbcType=VARCHAR},
       Money = #{record.money,jdbcType=DECIMAL},
-      UserId = #{record.userid,jdbcType=INTEGER},
-      SellerAddress = #{record.selleraddress,jdbcType=VARCHAR},
-      OrderStatus = #{record.orderstatus,jdbcType=VARCHAR},
+      UserId = #{record.userid,jdbcType=VARCHAR},
+      OrderStatus = #{record.orderstatus,jdbcType=INTEGER},
+      GoodId = #{record.goodid,jdbcType=VARCHAR},
       ReturnReason = #{record.returnreason,jdbcType=LONGVARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -220,11 +231,12 @@
   </update>
   <update id="updateByExample" parameterType="map">
     update order_return
-    set OrderId = #{record.orderid,jdbcType=VARCHAR},
+    set id = #{record.id,jdbcType=INTEGER},
+      OrderId = #{record.orderid,jdbcType=VARCHAR},
       Money = #{record.money,jdbcType=DECIMAL},
-      UserId = #{record.userid,jdbcType=INTEGER},
-      SellerAddress = #{record.selleraddress,jdbcType=VARCHAR},
-      OrderStatus = #{record.orderstatus,jdbcType=VARCHAR}
+      UserId = #{record.userid,jdbcType=VARCHAR},
+      OrderStatus = #{record.orderstatus,jdbcType=INTEGER},
+      GoodId = #{record.goodid,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -232,39 +244,44 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.example.ecommerce.mbg.model.OrderReturn">
     update order_return
     <set>
+      <if test="orderid != null">
+        OrderId = #{orderid,jdbcType=VARCHAR},
+      </if>
       <if test="money != null">
         Money = #{money,jdbcType=DECIMAL},
       </if>
       <if test="userid != null">
-        UserId = #{userid,jdbcType=INTEGER},
-      </if>
-      <if test="selleraddress != null">
-        SellerAddress = #{selleraddress,jdbcType=VARCHAR},
+        UserId = #{userid,jdbcType=VARCHAR},
       </if>
       <if test="orderstatus != null">
-        OrderStatus = #{orderstatus,jdbcType=VARCHAR},
+        OrderStatus = #{orderstatus,jdbcType=INTEGER},
+      </if>
+      <if test="goodid != null">
+        GoodId = #{goodid,jdbcType=VARCHAR},
       </if>
       <if test="returnreason != null">
         ReturnReason = #{returnreason,jdbcType=LONGVARCHAR},
       </if>
     </set>
-    where OrderId = #{orderid,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.example.ecommerce.mbg.model.OrderReturn">
     update order_return
-    set Money = #{money,jdbcType=DECIMAL},
-      UserId = #{userid,jdbcType=INTEGER},
-      SellerAddress = #{selleraddress,jdbcType=VARCHAR},
-      OrderStatus = #{orderstatus,jdbcType=VARCHAR},
+    set OrderId = #{orderid,jdbcType=VARCHAR},
+      Money = #{money,jdbcType=DECIMAL},
+      UserId = #{userid,jdbcType=VARCHAR},
+      OrderStatus = #{orderstatus,jdbcType=INTEGER},
+      GoodId = #{goodid,jdbcType=VARCHAR},
       ReturnReason = #{returnreason,jdbcType=LONGVARCHAR}
-    where OrderId = #{orderid,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.example.ecommerce.mbg.model.OrderReturn">
     update order_return
-    set Money = #{money,jdbcType=DECIMAL},
-      UserId = #{userid,jdbcType=INTEGER},
-      SellerAddress = #{selleraddress,jdbcType=VARCHAR},
-      OrderStatus = #{orderstatus,jdbcType=VARCHAR}
-    where OrderId = #{orderid,jdbcType=VARCHAR}
+    set OrderId = #{orderid,jdbcType=VARCHAR},
+      Money = #{money,jdbcType=DECIMAL},
+      UserId = #{userid,jdbcType=VARCHAR},
+      OrderStatus = #{orderstatus,jdbcType=INTEGER},
+      GoodId = #{goodid,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

@@ -21,7 +21,7 @@ public class RabbitMqConfig {
                 .build();
     }
 
-    //超时取消注册延迟队列
+    //超时取消注册延迟队列绑定的交换机
     @Bean
     DirectExchange overTimeTtlDirect(){
         return (DirectExchange) ExchangeBuilder
@@ -202,9 +202,8 @@ public class RabbitMqConfig {
                 .to(ShopUpTtlDirect)
                 .with(QueueEnum.QUEUE_UP_TTL.getRouteKey());
     }
-
+    //审核陈坤实际消息队列绑定的交换机
     @Bean
-        //审核陈坤实际消息队列绑定的交换机
     DirectExchange verifySuccessDirect()
     {
         return (DirectExchange) ExchangeBuilder
@@ -297,5 +296,55 @@ public class RabbitMqConfig {
     {
         return BindingBuilder.bind(verifyFailedTtlQueue).to(verifyFailedTtlDirect).with(QueueEnum.QUEUE_REGISTER_FAILED_TTL.getRouteKey());
     }
+
+    @Bean
+    DirectExchange CancelOrderDirect(){
+        return (DirectExchange) ExchangeBuilder
+                .directExchange(QueueEnum.QUEUE_ORDERCANCEL.getExchange())
+                .durable(true)
+                .build();
+    }
+
+    //超时取消订单延迟队列绑定的交换机
+    @Bean
+    DirectExchange CancelOrderTtlDirect(){
+        return (DirectExchange) ExchangeBuilder
+                .directExchange(QueueEnum.QUEUE_ORDERCANCEL_TTL.getExchange())
+                .durable(true)
+                .build();
+    }
+    //超时触发取消订单队列
+    @Bean
+    public Queue CancelOrderQueue(){return new Queue(QueueEnum.QUEUE_ORDERCANCEL.getName());}
+    @Bean
+    public Queue CancelOrderTtlQueue()
+    {
+        return QueueBuilder
+                .durable(QueueEnum.QUEUE_ORDERCANCEL_TTL.getName())
+                .withArgument("x-dead-letter-exchange",QueueEnum.QUEUE_ORDERCANCEL.getExchange())
+                .withArgument("x-dead-letter-routing-key",QueueEnum.QUEUE_ORDERCANCEL.getRouteKey())
+                .build();
+        //到期后转发到的交换机和路由器
+    }
+    //超时触发取消订单延迟队列绑定到交换机
+    @Bean
+    Binding CancelOrderTtlBinding(DirectExchange CancelOrderTtlDirect,Queue CancelOrderTtlQueue)
+    {
+        return BindingBuilder
+                .bind(CancelOrderTtlQueue)
+                .to(CancelOrderTtlDirect)
+                .with(QueueEnum.QUEUE_ORDERCANCEL_TTL.getRouteKey());
+    }
+
+    //超时触发取消订单队列绑定到交换机
+    @Bean
+    Binding CancelOrderBinding(DirectExchange CancelOrderDirect,Queue CancelOrderQueue)
+    {
+        return BindingBuilder
+                .bind(CancelOrderQueue)
+                .to(CancelOrderDirect)
+                .with(QueueEnum.QUEUE_ORDERCANCEL.getRouteKey());
+    }
+
 
 }

@@ -10,7 +10,7 @@ public interface OrderReturnMapper {
 
     int deleteByExample(OrderReturnExample example);
 
-    int deleteByPrimaryKey(String orderid);
+    int deleteByPrimaryKey(Integer id);
 
     int insert(OrderReturn record);
 
@@ -20,7 +20,7 @@ public interface OrderReturnMapper {
 
     List<OrderReturn> selectByExample(OrderReturnExample example);
 
-    OrderReturn selectByPrimaryKey(String orderid);
+    OrderReturn selectByPrimaryKey(Integer id);
 
     int updateByExampleSelective(@Param("record") OrderReturn record, @Param("example") OrderReturnExample example);
 

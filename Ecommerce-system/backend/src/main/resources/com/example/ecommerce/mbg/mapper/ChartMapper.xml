@@ -9,6 +9,7 @@
     <result column="price" jdbcType="DECIMAL" property="price" />
     <result column="CheckState" jdbcType="INTEGER" property="checkstate" />
     <result column="Attribute" jdbcType="VARCHAR" property="attribute" />
+    <result column="Goodname" jdbcType="VARCHAR" property="goodname" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -69,7 +70,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    chartID, userID, GoodID, number, price, CheckState, Attribute
+    chartID, userID, GoodID, number, price, CheckState, Attribute, Goodname
   </sql>
   <select id="selectByExample" parameterType="com.example.ecommerce.mbg.model.ChartExample" resultMap="BaseResultMap">
     select
@@ -104,10 +105,10 @@
   <insert id="insert" parameterType="com.example.ecommerce.mbg.model.Chart">
     insert into chart (chartID, userID, GoodID, 
       number, price, CheckState, 
-      Attribute)
+      Attribute, Goodname)
     values (#{chartid,jdbcType=VARCHAR}, #{userid,jdbcType=VARCHAR}, #{goodid,jdbcType=VARCHAR}, 
       #{number,jdbcType=INTEGER}, #{price,jdbcType=DECIMAL}, #{checkstate,jdbcType=INTEGER}, 
-      #{attribute,jdbcType=VARCHAR})
+      #{attribute,jdbcType=VARCHAR}, #{goodname,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.example.ecommerce.mbg.model.Chart">
     insert into chart
@@ -133,6 +134,9 @@
       <if test="attribute != null">
         Attribute,
       </if>
+      <if test="goodname != null">
+        Goodname,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="chartid != null">
@@ -155,6 +159,9 @@
       </if>
       <if test="attribute != null">
         #{attribute,jdbcType=VARCHAR},
+      </if>
+      <if test="goodname != null">
+        #{goodname,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -188,6 +195,9 @@
       <if test="record.attribute != null">
         Attribute = #{record.attribute,jdbcType=VARCHAR},
       </if>
+      <if test="record.goodname != null">
+        Goodname = #{record.goodname,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -201,7 +211,8 @@
       number = #{record.number,jdbcType=INTEGER},
       price = #{record.price,jdbcType=DECIMAL},
       CheckState = #{record.checkstate,jdbcType=INTEGER},
-      Attribute = #{record.attribute,jdbcType=VARCHAR}
+      Attribute = #{record.attribute,jdbcType=VARCHAR},
+      Goodname = #{record.goodname,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -227,6 +238,9 @@
       <if test="attribute != null">
         Attribute = #{attribute,jdbcType=VARCHAR},
       </if>
+      <if test="goodname != null">
+        Goodname = #{goodname,jdbcType=VARCHAR},
+      </if>
     </set>
     where chartID = #{chartid,jdbcType=VARCHAR}
   </update>
@@ -237,7 +251,8 @@
       number = #{number,jdbcType=INTEGER},
       price = #{price,jdbcType=DECIMAL},
       CheckState = #{checkstate,jdbcType=INTEGER},
-      Attribute = #{attribute,jdbcType=VARCHAR}
+      Attribute = #{attribute,jdbcType=VARCHAR},
+      Goodname = #{goodname,jdbcType=VARCHAR}
     where chartID = #{chartid,jdbcType=VARCHAR}
   </update>
 </mapper>

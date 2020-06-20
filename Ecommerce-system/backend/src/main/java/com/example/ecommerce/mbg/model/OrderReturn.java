@@ -5,6 +5,9 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 public class OrderReturn implements Serializable {
+    @ApiModelProperty(value = "自增Id")
+    private Integer id;
+
     @ApiModelProperty(value = "订单ID")
     private String orderid;
 
@@ -12,18 +15,25 @@ public class OrderReturn implements Serializable {
     private BigDecimal money;
 
     @ApiModelProperty(value = "用户ID")
-    private Integer userid;
+    private String userid;
 
-    @ApiModelProperty(value = "商家地址")
-    private String selleraddress;
+    @ApiModelProperty(value = "订单状态，0是待审核，1是审核通过，0是拒绝退款")
+    private Integer orderstatus;
 
-    @ApiModelProperty(value = "订单状态")
-    private String orderstatus;
+    private String goodid;
 
     @ApiModelProperty(value = "退换原因")
     private String returnreason;
 
     private static final long serialVersionUID = 1L;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getOrderid() {
         return orderid;
@@ -41,28 +51,28 @@ public class OrderReturn implements Serializable {
         this.money = money;
     }
 
-    public Integer getUserid() {
+    public String getUserid() {
         return userid;
     }
 
-    public void setUserid(Integer userid) {
+    public void setUserid(String userid) {
         this.userid = userid;
     }
 
-    public String getSelleraddress() {
-        return selleraddress;
-    }
-
-    public void setSelleraddress(String selleraddress) {
-        this.selleraddress = selleraddress;
-    }
-
-    public String getOrderstatus() {
+    public Integer getOrderstatus() {
         return orderstatus;
     }
 
-    public void setOrderstatus(String orderstatus) {
+    public void setOrderstatus(Integer orderstatus) {
         this.orderstatus = orderstatus;
+    }
+
+    public String getGoodid() {
+        return goodid;
+    }
+
+    public void setGoodid(String goodid) {
+        this.goodid = goodid;
     }
 
     public String getReturnreason() {
@@ -79,11 +89,12 @@ public class OrderReturn implements Serializable {
         sb.append(getClass().getSimpleName());
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
+        sb.append(", id=").append(id);
         sb.append(", orderid=").append(orderid);
         sb.append(", money=").append(money);
         sb.append(", userid=").append(userid);
-        sb.append(", selleraddress=").append(selleraddress);
         sb.append(", orderstatus=").append(orderstatus);
+        sb.append(", goodid=").append(goodid);
         sb.append(", returnreason=").append(returnreason);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");

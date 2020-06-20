@@ -564,6 +564,76 @@ public class ChartExample {
             addCriterion("Attribute not between", value1, value2, "attribute");
             return (Criteria) this;
         }
+
+        public Criteria andGoodnameIsNull() {
+            addCriterion("Goodname is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGoodnameIsNotNull() {
+            addCriterion("Goodname is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGoodnameEqualTo(String value) {
+            addCriterion("Goodname =", value, "goodname");
+            return (Criteria) this;
+        }
+
+        public Criteria andGoodnameNotEqualTo(String value) {
+            addCriterion("Goodname <>", value, "goodname");
+            return (Criteria) this;
+        }
+
+        public Criteria andGoodnameGreaterThan(String value) {
+            addCriterion("Goodname >", value, "goodname");
+            return (Criteria) this;
+        }
+
+        public Criteria andGoodnameGreaterThanOrEqualTo(String value) {
+            addCriterion("Goodname >=", value, "goodname");
+            return (Criteria) this;
+        }
+
+        public Criteria andGoodnameLessThan(String value) {
+            addCriterion("Goodname <", value, "goodname");
+            return (Criteria) this;
+        }
+
+        public Criteria andGoodnameLessThanOrEqualTo(String value) {
+            addCriterion("Goodname <=", value, "goodname");
+            return (Criteria) this;
+        }
+
+        public Criteria andGoodnameLike(String value) {
+            addCriterion("Goodname like", value, "goodname");
+            return (Criteria) this;
+        }
+
+        public Criteria andGoodnameNotLike(String value) {
+            addCriterion("Goodname not like", value, "goodname");
+            return (Criteria) this;
+        }
+
+        public Criteria andGoodnameIn(List<String> values) {
+            addCriterion("Goodname in", values, "goodname");
+            return (Criteria) this;
+        }
+
+        public Criteria andGoodnameNotIn(List<String> values) {
+            addCriterion("Goodname not in", values, "goodname");
+            return (Criteria) this;
+        }
+
+        public Criteria andGoodnameBetween(String value1, String value2) {
+            addCriterion("Goodname between", value1, value2, "goodname");
+            return (Criteria) this;
+        }
+
+        public Criteria andGoodnameNotBetween(String value1, String value2) {
+            addCriterion("Goodname not between", value1, value2, "goodname");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

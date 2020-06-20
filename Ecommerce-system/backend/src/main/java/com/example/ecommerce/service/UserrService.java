@@ -1,6 +1,7 @@
 package com.example.ecommerce.service;
 
 import com.example.ecommerce.common.api.CommonResult;
+import com.example.ecommerce.dto.GoodDetailParam;
 import com.example.ecommerce.mbg.model.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,7 +27,7 @@ public interface UserrService {
     CommonResult AddChart(String GoodId, int number, BigDecimal price,String Attribute, HttpServletRequest request);
     List<Chart> getAllChartByUserId(int pageNum,int pageSize,HttpServletRequest request);
     CommonResult updateNumInChart(String chartId,String GoodId,String Attribute,int num);
-    CommonResult deleteChartByGoodId(String userId,String goodId);
+    CommonResult deleteChartByGoodId(String chartId);
     CommonResult clearChart(String userId);
 
 
@@ -37,19 +38,31 @@ public interface UserrService {
 
     List<GoodsCategory> getAllGoodsCategory(int pageNum,int pageSize);
 
+    GoodDetailParam getGoodsDetailsByGoodId(String GoodId);
 
     List<Shop> getAllShop(int pageNum,int pageSize);
+
+    Shop getShopByShopId(String ShopId);
     //订单
     List<Order> getAllOrderByUserId(int pageNum, int pageSize, HttpServletRequest request);
 
     Order getOrderDetail(String orderId);
 
+    //确认收货
     CommonResult GetGoodsSuccess(String OrderId);
 
-    CommonResult GoodsReturnApply(String OrderId);
+    CommonResult GoodsReturnApply(String OrderId,String reason, HttpServletRequest request);
 
     //提交订单，评论，购买
-    CommonResult ConfirmOrderByChart(List<String> chartId);
-    CommonResult cancelOverTimeOrder(String orderId);
+    CommonResult ConfirmOrderByChart(List<Chart> charts, HttpServletRequest request);
+    CommonResult cancelOverTimeOrder(String[] orderId_userId);
+    CommonResult sendOrderCancelEmail(String userId,String orderId);
 
+    CommonResult AddComment(String orderId,String message, HttpServletRequest request);
+    List<Order> getNeedCommentByUserId(int pageNum, int pageSize, HttpServletRequest request);
+
+
+    Userr getUserInformationByUserId(String UserId);
+    CommonResult modifyUserInformation(String UserId);
 }
+

@@ -2,6 +2,7 @@ package com.example.ecommerce.mbg.model;
 
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class Order implements Serializable {
@@ -22,6 +23,18 @@ public class Order implements Serializable {
 
     @ApiModelProperty(value = "评论时间")
     private Date commenttime;
+
+    @ApiModelProperty(value = "数量")
+    private Integer number;
+
+    @ApiModelProperty(value = "价钱")
+    private BigDecimal price;
+
+    @ApiModelProperty(value = "订单总价")
+    private BigDecimal money;
+
+    @ApiModelProperty(value = "商品的Id")
+    private String goodid;
 
     @ApiModelProperty(value = "评论")
     private String comment;
@@ -76,6 +89,38 @@ public class Order implements Serializable {
         this.commenttime = commenttime;
     }
 
+    public Integer getNumber() {
+        return number;
+    }
+
+    public void setNumber(Integer number) {
+        this.number = number;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
+
+    public BigDecimal getMoney() {
+        return money;
+    }
+
+    public void setMoney(BigDecimal money) {
+        this.money = money;
+    }
+
+    public String getGoodid() {
+        return goodid;
+    }
+
+    public void setGoodid(String goodid) {
+        this.goodid = goodid;
+    }
+
     public String getComment() {
         return comment;
     }
@@ -96,6 +141,10 @@ public class Order implements Serializable {
         sb.append(", paytime=").append(paytime);
         sb.append(", gettime=").append(gettime);
         sb.append(", commenttime=").append(commenttime);
+        sb.append(", number=").append(number);
+        sb.append(", price=").append(price);
+        sb.append(", money=").append(money);
+        sb.append(", goodid=").append(goodid);
         sb.append(", comment=").append(comment);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");

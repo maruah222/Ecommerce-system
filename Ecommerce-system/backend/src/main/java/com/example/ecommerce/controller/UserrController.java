@@ -2,6 +2,7 @@ package com.example.ecommerce.controller;
 
 import com.example.ecommerce.common.api.CommonPage;
 import com.example.ecommerce.common.api.CommonResult;
+import com.example.ecommerce.dto.GoodDetailParam;
 import com.example.ecommerce.dto.LoginParam;
 import com.example.ecommerce.mbg.mapper.ChartMapper;
 import com.example.ecommerce.mbg.model.*;
@@ -108,10 +109,9 @@ public class UserrController {
     @ApiOperation("删除购物车的商品")
     @RequestMapping(value = "/DeleteChartByGoodId",method = RequestMethod.GET)
     @ResponseBody
-    public CommonResult DeleteChartByGoodId(@RequestParam String userId,
-                                         @RequestParam String GoodId)
+    public CommonResult DeleteChartByGoodId(@RequestParam String chartId)
     {
-        userrService.deleteChartByGoodId(userId,GoodId);
+        userrService.deleteChartByGoodId(chartId);
         return CommonResult.success("购物车商品删除成功");
     }
 
@@ -199,10 +199,42 @@ public class UserrController {
     @ApiOperation("用户申请退货退款")
     @RequestMapping(value = "/GoodsReturnApply",method = RequestMethod.GET)
     @ResponseBody
-    public CommonResult GoodsReturnApply(@RequestParam String orderId)
+    public CommonResult GoodsReturnApply(@RequestParam String orderId,
+                                         @RequestParam String message,
+                                         HttpServletRequest request)
     {
-        return userrService.GoodsReturnApply(orderId);
+        return userrService.GoodsReturnApply(orderId,message,request);
     }
 
+    @ApiOperation("根据GoodId获取商品详情")
+    @RequestMapping(value = "/GetGoodsDetailsByGoodId",method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult GetGoodsDetailsByGoodId(@RequestParam String GoodId)
+    {
+        GoodDetailParam goodDetailParam=userrService.getGoodsDetailsByGoodId(GoodId);
+        return CommonResult.success(goodDetailParam);
+    }
+
+    @ApiOperation("根据GoodId获取商品详情")
+    @RequestMapping(value = "/GetNeedCommentByUserId",method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult getNeedCommentByUserId(@RequestParam int pageNum,
+                                               @RequestParam int pageSize,
+                                               HttpServletRequest request)
+    {
+        List<Order> list=userrService.getNeedCommentByUserId(pageNum, pageSize, request);
+        return CommonResult.success(CommonPage.restPage(list));
+    }
+
+    @ApiOperation("根据GoodId获取商品详情")
+    @RequestMapping(value = "/AddComment",method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult AddComment(@RequestParam String GoodId,
+                                   @RequestParam String message,
+                                   HttpServletRequest request)
+    {
+        userrService.AddComment(GoodId, message, request);
+        return CommonResult.success("评论成功");
+    }
 
 }

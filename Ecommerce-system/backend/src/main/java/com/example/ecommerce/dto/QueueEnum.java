@@ -34,8 +34,11 @@ public enum QueueEnum {
     //商家上架流程队列
     QUEUE_UP("ecommerce.shop.direct","ecommerce.shop.up","ecommerce.shop.up"),
     //商家上架流程延迟队列
-    QUEUE_UP_TTL("ecommerce.shop.direct","ecommerce.shop.up.ttl","ecommerce.shop.up.ttl");
-
+    QUEUE_UP_TTL("ecommerce.shop.direct","ecommerce.shop.up.ttl","ecommerce.shop.up.ttl"),
+    //订单超时取消队列
+    QUEUE_ORDERCANCEL("ecommerce.user.direct","ecommerce.user.ordercancel","ecommerce.user.ordercancel"),
+    //订单超时取消延迟队列
+    QUEUE_ORDERCANCEL_TTL("ecommerce.user.direct","ecommerce.user.ordercancel.ttl","ecommerce.user.ordercancel.ttl");
 
     //交换机名字
     private String exchange;
