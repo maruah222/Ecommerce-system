@@ -1,9 +1,8 @@
 {
-  "component": true,
   "usingComponents": {},
   "backgroundColor": "#F6F6F6",
   "backgroundTextStyle": "light",
   "navigationBarBackgroundColor": "#000000",
-  "navigationBarTitleText": "商家登陆",
+  "navigationBarTitleText": "管理员登陆",
   "navigationBarTextStyle": "white"
 }

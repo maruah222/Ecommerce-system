@@ -8,24 +8,25 @@
     <view class="cart_item" wx:for="{{goodData}}">
       <!-- 复选框-->
       <view class="cart_chk_wrap">
-        <checkbox-group data-id="{{item.GoodsNo}}" bindchange="handleItemChange">
-          <checkbox checked="{{item.checked}}"></checkbox>
+        <checkbox-group data-id="{{item.chartid}}" bindchange="handleItemChange">
+          <checkbox checked="{{item.checkstate}}"></checkbox>
         </checkbox-group>
       </view>
       <!-- 商品图片-->
-      <navigator class="cart_img_wrap"  data-goodid="{{item.GoodsNo}}" bindtap="jumptogood">
-        <image style="width:90%" mode='widthFix'  src="{{item.GoodsImage}}">
+      <navigator class="cart_img_wrap"  data-goodid="{{item.goodid}}" bindtap="jumptogood">
+        <image style="width:90%" mode='widthFix'  src="http://pic42.photophoto.cn/20170213/0005018358833690_b.jpg">
         </image>
       </navigator> 
       <!-- 商品信息-->
       <view class="cart_info_wrap">
-        <view class="goods_name" data-goodid="{{item.GoodsNo}}" bindtap="jumptogood">{{item.Title}}</view>
+        <view class="goods_name" data-goodid="{{item.goodid}}" bindtap="jumptogood">{{item.goodid}}</view>
+        <view class="goods_sku">{{item.att1}} {{item.att2}}</view>
         <view class="goods_price_warp">
           <view class="goods_price">￥{{item.price}}</view>
           <view class="cart_num_tool">
-            <view class="number_edit" data-id="{{item.GoodsNo}}" data-operation="{{-1}}" bindtap="handleItemNumEdit">-</view>
-            <view class="good_num">{{item.SaleAmount}}</view>
-            <view class="number_edit" data-id="{{item.GoodsNo}}" data-operation="{{1}}" bindtap="handleItemNumEdit">+</view>
+            <view class="number_edit" data-id="{{item.chartid}}" data-operation="{{-1}}" bindtap="handleItemNumEdit">-</view>
+            <view class="good_num">{{item.number}}</view>
+            <view class="number_edit" data-id="{{item.chartid}}" data-operation="{{1}}" bindtap="handleItemNumEdit">+</view>
           </view>
         </view>
       </view>

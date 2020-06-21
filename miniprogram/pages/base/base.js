@@ -93,7 +93,6 @@ Page({
         if(result.success && result.data.length>0)//success是自己写的接口的调用成功值，这里是true
         {
           self.setData({ goodData: result.data })
-         
         }
       }
     })

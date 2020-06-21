@@ -7,6 +7,7 @@ Page({
   data: {
     account: '',
     password: '',
+    telephone:'',
   },
 
   AccountInput: function (e) {
@@ -14,6 +15,9 @@ Page({
   },
   PasswordInput: function (e) {
     this.setData({ password: e.detail.value })
+  },
+  telephoneInput: function (e) {
+    this.setData({ telephone: e.detail.value })
   },
   telephoneInput: function (e) {
     this.setData({ telephone: e.detail.value })
@@ -31,14 +35,17 @@ Page({
       method: 'GET',
       dataType: 'json',
       header: { "Content-Type": "application/x-www-form-urlencoded" },
-      success: function(res) {console.log("发送数据成功")},
+      success: function(res) {
+        console.log("res")
+        wx.showToast({
+          title: res.data.message,
+          icon: 'none',
+        })
+    },
       fail: function(res) {},
       complete: function(res) {},
     })
-    wx.showToast({
-      title: '注册成功',
-      icon: 'success',
-    });
+    
   },
   /**
    * 生命周期函数--监听页面加载
@@ -56,14 +63,18 @@ Page({
 
   /**
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
+>>>>>>> master
+=======
 >>>>>>> master
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
     
   },
+
 
 
   /**
@@ -109,6 +120,19 @@ Page({
 <<<<<<< HEAD
    * 生命周期函数--监听页面卸载
    */
+
+
+  /**
+   * 生命周期函数--监听页面隐藏
+   */
+  onHide: function () {
+  },
+
+  /**
+<<<<<<< HEAD
+   * 生命周期函数--监听页面卸载
+   */
+
   onUnload: function () {
     
   },
@@ -126,7 +150,6 @@ Page({
   onReachBottom: function () {
     
   },
-
 
 
   onShareAppMessage: function () {

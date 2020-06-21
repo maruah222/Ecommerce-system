@@ -1,0 +1,102 @@
+<!--pages/good-add/good-add.wxml-->
+<view class="form">
+  <view class="row-group">
+    <text>商品名字</text>
+    <input placeholder="请填写商品名字" placeholder-class='txt' maxlength='20' value="{{Goodname}}" bindinput="GoodnameInput" />
+  </view>
+
+  <view class="row-group">
+    <text>商品图片</text>
+    <input placeholder="请填写图片链接" placeholder-class='txt' maxlength='255' value="{{Goodpicture}}" bindinput="GoodpictureInput" />
+  </view>
+
+
+  <view class="row-group">
+    <text>商品介绍</text>
+    <input placeholder="请填写商品介绍" placeholder-class='txt' maxlength='100' value="{{introduction}}" bindinput="introductionInput" />
+  </view>
+
+  <view class="row-group">
+    <text>数量</text>
+    <input placeholder="请填写商品数量" placeholder-class='txt' maxlength='20' value="{{number1}}" bindinput="numberInput" />
+  </view>
+
+  <view class="row-group">
+    <text>是否包邮(1包邮0不包邮)</text>
+    <input placeholder="1包邮0不包邮" placeholder-class='txt' maxlength='20' value="{{isPackage1}}" bindinput="isPackageInput" />
+  </view>
+
+  <view class="row-group">
+    <text>首页图片</text>
+    <input placeholder="请输入首页图片" placeholder-class='txt' maxlength='255' value="{{Frontpicture}}" bindinput="FrontpictureInput" />
+  </view>
+
+  <view class="row-group">
+    <text>分类编号</text>
+    <input placeholder="请填写分类编号" placeholder-class='txt' maxlength='20' value="{{categoryId}}" bindinput="categoryIdInput" />
+  </view>
+
+    <view class="row-group">
+    <text>商品类型的值：（比如颜色）</text>
+    <input placeholder="请填写商品类型" placeholder-class='txt' maxlength='20' value="{{key1}}" bindinput="key1Input" />
+  </view>
+
+    <view class="row-group">
+    <text>商品类型的值：（比如内存）</text>
+    <input placeholder="请填写商品类型" placeholder-class='txt' maxlength='20' value="{{key2}}" bindinput="key2Input" />
+  </view>
+
+    <view class="row-group">
+    <text>商品编号</text>
+    <input placeholder="请填写商品品牌" placeholder-class='txt' maxlength='20' value="{{GoodId}}" bindinput="GoodIdInput" />
+  </view>
+
+  <view class="row-group">
+  <text>以下是SKU属性，多次填写增加后上架</text>
+  </view>
+
+  <view class="row-group">
+    <text>{{ attribute1[0].attrKey}}</text>
+    <input placeholder="请输入属性" placeholder-class='txt' maxlength='255' value="{{attribute2}}" bindinput="attributeIdInput" />
+  </view>
+
+    <view class="row-group">
+    <text>{{ attribute1[1].attrKey}}</text>
+    <input placeholder="请输入属性" placeholder-class='txt' maxlength='255' value="{{attribute3}}" bindinput="attributeId1Input" />
+  </view>
+
+  <view class="row-group">
+    <text>库存</text>
+    <input placeholder="请填写库存" placeholder-class='txt' maxlength='20' value="{{leftNumber}}" bindinput="leftNumberInput" />
+  </view>
+
+  <view class="row-group">
+    <text>数量</text>
+    <input placeholder="请填写数量" placeholder-class='txt' maxlength='20' value="{{number2}}" bindinput="numberInput" />
+  </view>
+
+  <view class="row-group">
+    <text>商品型号图片</text>
+    <input placeholder="请填写图片链接" placeholder-class='txt' maxlength='255' value="{{picture}}" bindinput="pictureInput" />
+  </view>
+
+  <view class="row-group">
+    <text>价格</text>
+    <input placeholder="请填写商品价格" placeholder-class='txt' maxlength='20' value="{{price}}" bindinput="priceInput" />
+  </view>
+
+  <view class="row-group">
+    <text>SKU编号</text>
+    <input placeholder="请填写SKU编号" placeholder-class='txt' maxlength='20' value="{{skuid}}" bindinput="skuidInput" />
+  </view>
+
+  <view class="row-group">
+    <text>VIP折扣</text>
+    <input placeholder="请填写VIP的价格" placeholder-class='txt' maxlength='20' value="{{vipprice}}" bindinput="vippriceInput" />
+  </view>
+
+  <view class="but">
+    <button class="add" open-type="getUserInfo" bindtap="add">增加SKU</button>
+    <button class="submit" open-type="getUserInfo" bindtap="onClickadd">上架</button>
+  </view>
+</view>

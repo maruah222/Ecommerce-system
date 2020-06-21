@@ -16,7 +16,9 @@
     "pages/admin/admin",
     "pages/addgood/addgood",
     "pages/sellermanagement/sellermanagement",
-    "pages/degood/degood"
+    "pages/degood/degood",
+    "pages/adminlogin/adminlogin",
+    "pages/good-add/good-add"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",
@@ -52,7 +54,13 @@
         "text": "商家",
         "iconPath": "images/btn-tabs_06.png",
         "selectedIconPath": "images/btn-tabs_10.png"
-      }
+      },
+        {
+          "pagePath": "pages/adminlogin/adminlogin",
+          "text": "管理员",
+          "iconPath": "images/btn-tabs_06.png",
+          "selectedIconPath": "images/btn-tabs_10.png"
+        }
     ]
   },
   "usingComponents": {

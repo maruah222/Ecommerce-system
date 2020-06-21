@@ -44,6 +44,12 @@ Page({
     console.log(options)
   },
 
+  addgood:function(){
+    wx.navigateTo({
+      url: '/pages/good-add/good-add',
+    })
+  },
+
   deletegood:function(){
     wx.navigateTo({
       url: '/pages/delete-good/delete-good',

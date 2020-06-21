@@ -53,9 +53,10 @@ Page({
     ////////////////////////////////////////////从后台调用this.getgoodData();
     let cart=wx.getStorageSync('goodData')||[];
     //过滤后的购物车数组
-    cart= cart.filter(v=>v.checked);
+    cart= cart.filter(v=>v.checkstate);
     this.setData({goodData:cart});
     this.setCart(cart);
+    console.log(cart);
   },
 
   //设置购物车状态同时重新计算底部工具栏数据
@@ -63,8 +64,8 @@ Page({
     let totalprice=0;
     let totalnumber=0;
     this.data.goodData.forEach(v=>{
-        totalprice+=v.SaleAmount*v.price;
-        totalnumber+=v.SaleAmount;
+        totalprice+=v.number*v.price;
+        totalnumber+=v.number;
     })
     this.setData({totalprice:totalprice});
     this.setData({totalnumber:totalnumber});

@@ -16,7 +16,7 @@
   <!--幻灯片-->
 
   <view class="good-info">
-    <view class="price">${{detailInfo.SaleAmount}}</view>
+    <view class="price">${{price}}</view>
     <view class="choose">
       <view class="title">{{detailInfo.Title}}</view>
     </view>

@@ -4,15 +4,41 @@ Page({
    * 页面的初始数据
    */
   data: {
-    sellernum:123
+    sellernum:123,
+    skutemp:{
+      "usename":1,
+      "password":1
+    },
+    sku:[],
+    attrValueList: [
+      {
+        "attrKey": "型号",
+        "attrValue": "2"
+      },
+      {
+        "attrKey": "颜色",
+        "attrValue": "白色"
+      },
+    ]
   },
 
+  AccountInput: function (e) {
+    this.setData({ ['skutemp.usename']: e.detail.value })
+  },
+  PasswordInput: function (e) {
+    this.setData({ ['skutemp.password']: e.detail.value })
+  },
 
   login:function(){
-    let sellerno=this.data.sellernum;
-    wx.navigateTo({
-      url: '/pages/seller/seller?goodno=' + sellerno,
-    })
+    console.log(this.data.attrValueList[1].attrValue);
+    console.log(this.data.skutemp)
+    let x = JSON.parse(JSON.stringify(this.data.skutemp));
+    this.data.sku.push(x);
+    console.log(this.data.sku);
+    var citystr = JSON.stringify(this.data.sku);
+    console.log(citystr);
+    var weatherObj = JSON.parse(citystr);
+    console.log(weatherObj);
   },
 
   /**

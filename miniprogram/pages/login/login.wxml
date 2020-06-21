@@ -12,7 +12,7 @@
 
    <view class="row-group">
     <text>密码</text>
-    <input placeholder="请填写密码" placeholder-class='txt' maxlength='20' value="{{password}}" bindinput="PasswordInput" />
+    <input password="true" placeholder="请填写密码" placeholder-class='txt' maxlength='20' value="{{password}}" bindinput="PasswordInput" />
     <view class="code" bindtap="onClickCheckCode">忘记密码</view>
   </view>
   

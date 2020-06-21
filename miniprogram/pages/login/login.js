@@ -30,6 +30,10 @@ Page({
       },
       success(res) {
         if (res.data.code==200){
+          wx.setStorage({
+            data: res.data.data.token,
+            key: 'token',
+          })
           wx.showToast({
             title: '登陆成功',
             icon: 'success',
@@ -41,7 +45,7 @@ Page({
         else
           wx.showToast({
             title: '账号密码错误',
-            icon: 'success',
+            icon: 'none',
           });
         console.log(res.data)
       }

@@ -1,10 +1,10 @@
-<!--pages/sellerlogin/sellerlogin.wxml-->
+<!--pages/adminlogin/adminlogin.wxml-->
 <view class="nothing"></view>
 
 <view class="form">
   <view class="row-group">
     <text>账号</text>
-    <input placeholder="请填写商家账号" placeholder-class='txt' maxlength='20' value="{{account}}" bindinput="AccountInput" />
+    <input placeholder="请填写管理员账号" placeholder-class='txt' maxlength='20' value="{{account}}" bindinput="AccountInput" />
   </view>
 
   <view class="row-group">
@@ -15,8 +15,4 @@
 
 <view class="login">
   <button class="loginbutton" type="primary" bindtap="login">登陆</button>
-</view>
-
-<view class="zhuce">
-  <button class="zhucebutton" type="primary" bindtap="zhuce">注册</button>
 </view>

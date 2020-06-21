@@ -28,7 +28,11 @@
 	},
 	"compileType": "miniprogram",
 	"libVersion": "2.8.1",
+<<<<<<< HEAD
 	"appid": "touristappid",
+=======
+	"appid": "wx0a29bff979c7132f",
+>>>>>>> master
 	"projectname": "test",
 	"miniprogramRoot": "miniprogram/",
 	"cloudfunctionRoot": "cloudfunctions/",
@@ -68,9 +72,12 @@
 				{
 					"id": -1,
 <<<<<<< HEAD
+<<<<<<< HEAD
 					"name": "cloud",
 					"pathName": "pages/cloud/cloud",
 =======
+=======
+>>>>>>> master
 					"name": "pages/mine/mine",
 					"pathName": "pages/mine/mine",
 					"query": "",
@@ -80,6 +87,9 @@
 					"id": -1,
 					"name": "详情",
 					"pathName": "pages/good-detail/good-detail",
+<<<<<<< HEAD
+>>>>>>> master
+=======
 >>>>>>> master
 					"query": "",
 					"scene": null
@@ -108,18 +118,28 @@
 				{
 					"id": -1,
 <<<<<<< HEAD
+<<<<<<< HEAD
 					"name": "支付",
 					"pathName": "pages/pay/pay",
+=======
+					"name": "商家",
+					"pathName": "pages/sellerlogin/sellerlogin",
+>>>>>>> master
 					"query": "",
 					"scene": null
 				},
 				{
 					"id": -1,
+<<<<<<< HEAD
 					"name": "管理员",
 					"pathName": "pages/admin/admin",
 =======
 					"name": "商家",
 					"pathName": "pages/sellerlogin/sellerlogin",
+>>>>>>> master
+=======
+					"name": "上架",
+					"pathName": "pages/good-add/good-add",
 >>>>>>> master
 					"scene": null
 				}

@@ -80,6 +80,7 @@ Page({
     current: 0,
     goodsNo: "",/*用来接收首页传来的goodno*/
     Address: "这是一个商品地址",
+    price:0,
     detailInfo: {
       "Id": 44,
       "ShopId": 2,
@@ -116,7 +117,6 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
     console.log(options)
     this.data.goodsNo = options.goodno;
     this.getdata();
@@ -139,6 +139,7 @@ Page({
           self.setData({
             detailInfo: result.data
           })
+          self.setData({ price: self.data.detailInfo.SaleAmount });
         }
       },
     })
@@ -415,10 +416,18 @@ Page({
         icon: 'loading',
         duration: 1000
       })
-    } else {
+    } 
+    else {
       console.log(value);
+      for (var i = 0; i < this.data.commodityAttr.length; i++){
+        if (this.data.commodityAttr[i].attrValueList[0].attrValue == value[0] && this.data.commodityAttr[i].attrValueList[1].attrValue == value[1]){
+          this.setData({ price: this.data.commodityAttr[i].price})
+          console.log(this.data.commodityAttr[i].price);
+          break;
+        }
+      }
       wx.showToast({
-        title: '选择的属性：' + value.join('-'),
+        title: '选择成功',
         icon: 'sucess',
         duration: 1000
       })

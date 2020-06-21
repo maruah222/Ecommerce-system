@@ -6,7 +6,6 @@ Page({
   data: {
     username: '',
     password: '',
-    sellerID:''
   },
   AccountInput: function (e) {
     this.setData({ username: e.detail.value })
@@ -19,26 +18,22 @@ Page({
   login: function () {
     let self = this;
     wx.request({
-      url: 'http://47.105.66.104:8080/ecommerce/Shop/Sellerlogin',
+      url: 'http://47.105.66.104:8080/ecommerce/Manager/Managerlogin',
       data: {
         username: this.data.username,
         password: this.data.password
       },
-      method: 'GET',
-      header: { "Content-Type": "application/x-www-form-urlencoded" },
+      method: 'POST',
+      header: { "Content-Type": "application/json" },
       success(res) {
         if (res.data.code == 200) {
           wx.showToast({
             title: '登陆成功',
             icon: 'success',
           });
-          wx.setStorage({
-            key: "sellerID",
-            data: self.data.username
-          })
-          let sellerno = self.data.username;
+          let sellerno = self.data.sellernum;
           wx.navigateTo({
-            url: '/pages/seller/seller?sellerno=' + sellerno,
+            url: '/pages/admin/admin'
           })
         }
         else
@@ -53,7 +48,7 @@ Page({
 
   },
 
-  zhuce:function(){
+  zhuce: function () {
     wx.navigateTo({
       url: '/pages/sellerzhuce/sellerzhuce',
     })

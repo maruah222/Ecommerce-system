@@ -27,7 +27,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function () {
-    //this.getgoods();
+    this.getgoods();
   },
 
   /**
@@ -88,4 +88,25 @@ Page({
       }
     })
   },
+  /*审核商家 */
+  verify:function(e){
+    wx.request({
+      url: 'http://47.105.66.104:8080/ecommerce/Manager/VerifyGoodsOn',
+      data:{
+        username: e.currentTarget.dataset.id,
+        value:e.currentTarget.dataset.val,
+      },
+      method: 'GET',
+      success(res){
+        if(res.data.code===200){
+          wx.showToast({
+            title: res.data.message,
+            icon: "none",
+          });
+        }
+      }
+    })
+    this.getgoods();
+  },
+
 })

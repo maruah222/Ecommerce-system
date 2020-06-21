@@ -6,18 +6,19 @@
     <!--商品为0显示提示-->
     <view class="cart_item" wx:for="{{goodData}}">
       <!-- 商品图片-->
-      <navigator class="cart_img_wrap"  data-goodid="{{item.GoodsNo}}" bindtap="jumptogood">
-        <image style="width:90%" mode='widthFix'  src="{{item.GoodsImage}}">
+      <navigator class="cart_img_wrap"  data-goodid="{{item.goodid}}" bindtap="jumptogood">
+        <image style="width:90%" mode='widthFix'  src="https://photo.babylyf.com/user_files/2904/publish/post/85354389_1573391788.jpeg">
         </image>
       </navigator> 
       <!-- 商品信息-->
       <view class="cart_info_wrap">
-        <view class="goods_name" data-goodid="{{item.GoodsNo}}" bindtap="jumptogood">{{item.Title}}</view>
+        <view class="goods_name" data-goodid="{{item.goodid}}" bindtap="jumptogood">{{item.goodname}}</view>
+        <view class="goods_sku">{{item.att1}} {{item.att2}}</view>
         <view class="goods_price_warp">
           <view class="goods_price">￥{{item.price}}</view>
           <view class="cart_num_tool">
             
-            <view class="good_num">X{{item.SaleAmount}}</view>
+            <view class="good_num">X{{item.number}}</view>
             
           </view>
         </view>
