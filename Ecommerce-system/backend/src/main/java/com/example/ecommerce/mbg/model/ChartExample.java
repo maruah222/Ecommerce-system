@@ -634,6 +634,136 @@ public class ChartExample {
             addCriterion("Goodname not between", value1, value2, "goodname");
             return (Criteria) this;
         }
+
+        public Criteria andFrontpictureIsNull() {
+            addCriterion("frontpicture is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFrontpictureIsNotNull() {
+            addCriterion("frontpicture is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFrontpictureEqualTo(String value) {
+            addCriterion("frontpicture =", value, "frontpicture");
+            return (Criteria) this;
+        }
+
+        public Criteria andFrontpictureNotEqualTo(String value) {
+            addCriterion("frontpicture <>", value, "frontpicture");
+            return (Criteria) this;
+        }
+
+        public Criteria andFrontpictureGreaterThan(String value) {
+            addCriterion("frontpicture >", value, "frontpicture");
+            return (Criteria) this;
+        }
+
+        public Criteria andFrontpictureGreaterThanOrEqualTo(String value) {
+            addCriterion("frontpicture >=", value, "frontpicture");
+            return (Criteria) this;
+        }
+
+        public Criteria andFrontpictureLessThan(String value) {
+            addCriterion("frontpicture <", value, "frontpicture");
+            return (Criteria) this;
+        }
+
+        public Criteria andFrontpictureLessThanOrEqualTo(String value) {
+            addCriterion("frontpicture <=", value, "frontpicture");
+            return (Criteria) this;
+        }
+
+        public Criteria andFrontpictureLike(String value) {
+            addCriterion("frontpicture like", value, "frontpicture");
+            return (Criteria) this;
+        }
+
+        public Criteria andFrontpictureNotLike(String value) {
+            addCriterion("frontpicture not like", value, "frontpicture");
+            return (Criteria) this;
+        }
+
+        public Criteria andFrontpictureIn(List<String> values) {
+            addCriterion("frontpicture in", values, "frontpicture");
+            return (Criteria) this;
+        }
+
+        public Criteria andFrontpictureNotIn(List<String> values) {
+            addCriterion("frontpicture not in", values, "frontpicture");
+            return (Criteria) this;
+        }
+
+        public Criteria andFrontpictureBetween(String value1, String value2) {
+            addCriterion("frontpicture between", value1, value2, "frontpicture");
+            return (Criteria) this;
+        }
+
+        public Criteria andFrontpictureNotBetween(String value1, String value2) {
+            addCriterion("frontpicture not between", value1, value2, "frontpicture");
+            return (Criteria) this;
+        }
+
+        public Criteria andIspackageIsNull() {
+            addCriterion("ispackage is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIspackageIsNotNull() {
+            addCriterion("ispackage is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIspackageEqualTo(Integer value) {
+            addCriterion("ispackage =", value, "ispackage");
+            return (Criteria) this;
+        }
+
+        public Criteria andIspackageNotEqualTo(Integer value) {
+            addCriterion("ispackage <>", value, "ispackage");
+            return (Criteria) this;
+        }
+
+        public Criteria andIspackageGreaterThan(Integer value) {
+            addCriterion("ispackage >", value, "ispackage");
+            return (Criteria) this;
+        }
+
+        public Criteria andIspackageGreaterThanOrEqualTo(Integer value) {
+            addCriterion("ispackage >=", value, "ispackage");
+            return (Criteria) this;
+        }
+
+        public Criteria andIspackageLessThan(Integer value) {
+            addCriterion("ispackage <", value, "ispackage");
+            return (Criteria) this;
+        }
+
+        public Criteria andIspackageLessThanOrEqualTo(Integer value) {
+            addCriterion("ispackage <=", value, "ispackage");
+            return (Criteria) this;
+        }
+
+        public Criteria andIspackageIn(List<Integer> values) {
+            addCriterion("ispackage in", values, "ispackage");
+            return (Criteria) this;
+        }
+
+        public Criteria andIspackageNotIn(List<Integer> values) {
+            addCriterion("ispackage not in", values, "ispackage");
+            return (Criteria) this;
+        }
+
+        public Criteria andIspackageBetween(Integer value1, Integer value2) {
+            addCriterion("ispackage between", value1, value2, "ispackage");
+            return (Criteria) this;
+        }
+
+        public Criteria andIspackageNotBetween(Integer value1, Integer value2) {
+            addCriterion("ispackage not between", value1, value2, "ispackage");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

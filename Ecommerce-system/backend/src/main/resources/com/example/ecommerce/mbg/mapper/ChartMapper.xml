@@ -10,6 +10,8 @@
     <result column="CheckState" jdbcType="INTEGER" property="checkstate" />
     <result column="Attribute" jdbcType="VARCHAR" property="attribute" />
     <result column="Goodname" jdbcType="VARCHAR" property="goodname" />
+    <result column="frontpicture" jdbcType="VARCHAR" property="frontpicture" />
+    <result column="ispackage" jdbcType="INTEGER" property="ispackage" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -70,7 +72,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    chartID, userID, GoodID, number, price, CheckState, Attribute, Goodname
+    chartID, userID, GoodID, number, price, CheckState, Attribute, Goodname, frontpicture, 
+    ispackage
   </sql>
   <select id="selectByExample" parameterType="com.example.ecommerce.mbg.model.ChartExample" resultMap="BaseResultMap">
     select
@@ -105,10 +108,12 @@
   <insert id="insert" parameterType="com.example.ecommerce.mbg.model.Chart">
     insert into chart (chartID, userID, GoodID, 
       number, price, CheckState, 
-      Attribute, Goodname)
+      Attribute, Goodname, frontpicture, 
+      ispackage)
     values (#{chartid,jdbcType=VARCHAR}, #{userid,jdbcType=VARCHAR}, #{goodid,jdbcType=VARCHAR}, 
       #{number,jdbcType=INTEGER}, #{price,jdbcType=DECIMAL}, #{checkstate,jdbcType=INTEGER}, 
-      #{attribute,jdbcType=VARCHAR}, #{goodname,jdbcType=VARCHAR})
+      #{attribute,jdbcType=VARCHAR}, #{goodname,jdbcType=VARCHAR}, #{frontpicture,jdbcType=VARCHAR}, 
+      #{ispackage,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.example.ecommerce.mbg.model.Chart">
     insert into chart
@@ -137,6 +142,12 @@
       <if test="goodname != null">
         Goodname,
       </if>
+      <if test="frontpicture != null">
+        frontpicture,
+      </if>
+      <if test="ispackage != null">
+        ispackage,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="chartid != null">
@@ -162,6 +173,12 @@
       </if>
       <if test="goodname != null">
         #{goodname,jdbcType=VARCHAR},
+      </if>
+      <if test="frontpicture != null">
+        #{frontpicture,jdbcType=VARCHAR},
+      </if>
+      <if test="ispackage != null">
+        #{ispackage,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -198,6 +215,12 @@
       <if test="record.goodname != null">
         Goodname = #{record.goodname,jdbcType=VARCHAR},
       </if>
+      <if test="record.frontpicture != null">
+        frontpicture = #{record.frontpicture,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ispackage != null">
+        ispackage = #{record.ispackage,jdbcType=INTEGER},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -212,7 +235,9 @@
       price = #{record.price,jdbcType=DECIMAL},
       CheckState = #{record.checkstate,jdbcType=INTEGER},
       Attribute = #{record.attribute,jdbcType=VARCHAR},
-      Goodname = #{record.goodname,jdbcType=VARCHAR}
+      Goodname = #{record.goodname,jdbcType=VARCHAR},
+      frontpicture = #{record.frontpicture,jdbcType=VARCHAR},
+      ispackage = #{record.ispackage,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -241,6 +266,12 @@
       <if test="goodname != null">
         Goodname = #{goodname,jdbcType=VARCHAR},
       </if>
+      <if test="frontpicture != null">
+        frontpicture = #{frontpicture,jdbcType=VARCHAR},
+      </if>
+      <if test="ispackage != null">
+        ispackage = #{ispackage,jdbcType=INTEGER},
+      </if>
     </set>
     where chartID = #{chartid,jdbcType=VARCHAR}
   </update>
@@ -252,7 +283,9 @@
       price = #{price,jdbcType=DECIMAL},
       CheckState = #{checkstate,jdbcType=INTEGER},
       Attribute = #{attribute,jdbcType=VARCHAR},
-      Goodname = #{goodname,jdbcType=VARCHAR}
+      Goodname = #{goodname,jdbcType=VARCHAR},
+      frontpicture = #{frontpicture,jdbcType=VARCHAR},
+      ispackage = #{ispackage,jdbcType=INTEGER}
     where chartID = #{chartid,jdbcType=VARCHAR}
   </update>
 </mapper>

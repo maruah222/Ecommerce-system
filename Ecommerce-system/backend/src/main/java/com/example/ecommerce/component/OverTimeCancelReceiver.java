@@ -1,5 +1,6 @@
 package com.example.ecommerce.component;
 
+import com.example.ecommerce.mbg.model.Manager;
 import com.example.ecommerce.service.ManagerService;
 import com.example.ecommerce.service.ShopService;
 import com.example.ecommerce.service.UserrService;
@@ -20,10 +21,15 @@ public class OverTimeCancelReceiver {
     @Autowired
     private ShopService shopService;
 
+    @Autowired
+    private ManagerService managerService;
+
     @RabbitHandler
-    public void handle(String username)
+    public void handle(String ShopId)
     {
-        shopService.CancelRegister(username);
+        //商家注册超过12小时未审核，自动取消
+
+        shopService.CancelRegister(ShopId);
     }
 
 

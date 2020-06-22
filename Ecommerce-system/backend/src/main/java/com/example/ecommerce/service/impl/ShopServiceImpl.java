@@ -15,6 +15,8 @@ import com.example.ecommerce.mbg.model.*;
 import com.example.ecommerce.service.ManagerService;
 import com.example.ecommerce.service.ShopService;
 import io.swagger.annotations.ApiModelProperty;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -36,6 +38,8 @@ import java.util.List;
  */
 @Service
 public class ShopServiceImpl implements ShopService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ShopServiceImpl.class);
 
     @Autowired(required = false)
     private ShopMapper shopMapper;
@@ -98,7 +102,7 @@ public class ShopServiceImpl implements ShopService {
         shopMapper.insert(shop);
 
 
-        shopService.SendDelayMessageOverTime(ShopId);
+        SendDelayMessageOverTime(ShopId);
         return CommonResult.success(Sellername, "注册请求已提交，等待审核");
     }
 
@@ -147,7 +151,7 @@ public class ShopServiceImpl implements ShopService {
 
     @Override
     public void SendDelayMessageOverTime(String ShopId) {
-        long delaytimes = 60 * 60 * 1000 * 12;
+        long delaytimes = 1000 * 12;
         overTimeCancelSender.sendMessage(ShopId, delaytimes);
     }
 
@@ -157,8 +161,9 @@ public class ShopServiceImpl implements ShopService {
             if (shopMapper.selectByPrimaryKey(ShopId).getRegisterstate() != 0) {
                 return CommonResult.success("该商家的注册已被审核，可直接登陆");
             }
-            managerService.sendEmail(ShopId, "超时未审核，请重新注册");
             shopMapper.deleteByPrimaryKey(ShopId);
+            managerService.sendEmail(ShopId,"商家注册超过12小时未审核，自动取消");
+
             return CommonResult.success("成功删除");
         } else {
             return CommonResult.success("该账号不存在");
@@ -202,6 +207,31 @@ public class ShopServiceImpl implements ShopService {
         if (num == 0) {
             return CommonResult.success(userId, "退货退款审核失败，已发邮件通知");
         }
+        return null;
+    }
+
+    @Override
+    public CommonResult AddSkuByGoodId() {
+        return null;
+    }
+
+    @Override
+    public CommonResult DeleteSku() {
+        return null;
+    }
+
+    @Override
+    public CommonResult AddNumberInSku() {
+        return null;
+    }
+
+    @Override
+    public CommonResult ModifySku() {
+        return null;
+    }
+
+    @Override
+    public CommonResult GetGoodsByShopId() {
         return null;
     }
 

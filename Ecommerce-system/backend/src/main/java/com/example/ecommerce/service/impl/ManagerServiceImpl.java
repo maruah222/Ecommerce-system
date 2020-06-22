@@ -2,6 +2,8 @@ package com.example.ecommerce.service.impl;
 
 import com.example.ecommerce.common.api.CommonResult;
 import com.example.ecommerce.common.utils.JwtTokenUtil;
+import com.example.ecommerce.component.VerifyFailedSender;
+import com.example.ecommerce.component.VerifySuccessSender;
 import com.example.ecommerce.dao.AddSkuDao;
 import com.example.ecommerce.dto.AdminUserDetails;
 import com.example.ecommerce.mbg.mapper.*;
@@ -63,6 +65,11 @@ public class ManagerServiceImpl implements ManagerService {
     @Autowired(required = false)
     private GoodSkuMapper goodSkuMapper;
 
+    @Autowired
+    private VerifySuccessSender verifySuccessSender;
+
+    @Autowired
+    private VerifyFailedSender verifyFailedSender;
 
     @Override
     public String login(String username, String password) {
@@ -89,41 +96,41 @@ public class ManagerServiceImpl implements ManagerService {
     }
 
     @Override
-    public CommonResult VerifyShopRegisterSuccess(String Sellername) {
+    public CommonResult VerifyShopRegisterSuccess(String ShopId) {
 
-        Shop shop = shopMapper.selectByPrimaryKey(Sellername);
+        Shop shop = shopMapper.selectByPrimaryKey(ShopId);
         shop.setRegisterstate(1);
         String value="商家";
         Userpermission userpermission = new Userpermission();
         userpermission.setValue(value);
-        userpermission.setName(Sellername);
+        userpermission.setName(ShopId);
         userpermission.setCreatetime(new Date());
         userpermission.setRole(2);
 
         userpermissionMapper.insert(userpermission);
         shopMapper.updateByPrimaryKey(shop);
 
-        VerifyRegisterSendEmail(Sellername,"1");
-        return CommonResult.success(Sellername,"商家注册审核成功");
+        VerifyRegisterSendEmail(shop.getShopid(),"1");
+        return CommonResult.success(ShopId,"商家注册审核成功");
     }
 
     @Override
-    public CommonResult VerifyShopRegisterFailed(String Sellername) {
-        shopMapper.deleteByPrimaryKey(Sellername);
+    public CommonResult VerifyShopRegisterFailed(String ShopId) {
+        shopMapper.deleteByPrimaryKey(ShopId);
 
-        VerifyRegisterSendEmail(Sellername,"0");
-        return CommonResult.success(Sellername,"该用户审核不通过");
+        VerifyRegisterSendEmail(ShopId,"0");
+        return CommonResult.success(ShopId,"该商家审核不通过");
     }
 
     @Override
-    public CommonResult VerifyRegisterSendEmail(String Sellername, String num) {
+    public CommonResult VerifyRegisterSendEmail(String ShopId, String num) {
         if(num.equals("1"))
         {
-            return CommonResult.success(Sellername,"注册审核通过，邮件发送成功");
+            return CommonResult.success(ShopId,"商家注册审核通过，邮件发送成功");
         }
         if(num.equals("0"))
         {
-            return CommonResult.success(Sellername,"注册审核失败，已发邮件通知");
+            return CommonResult.success(ShopId,"商家注册审核失败，已发邮件通知");
         }
         return null;
     }
@@ -132,7 +139,7 @@ public class ManagerServiceImpl implements ManagerService {
     public List<Goods> getNeedVerifyGoods(int pageNum, int pageSize) {
         GoodsExample goodsExample = new GoodsExample();
         goodsExample.createCriteria().andCheckstateEqualTo(0);
-        return goodsMapper.selectByExample(goodsExample);
+        return goodsMapper.selectByExampleWithBLOBs(goodsExample);
     }
 
     @Override
@@ -141,7 +148,7 @@ public class ManagerServiceImpl implements ManagerService {
         goods.setCheckstate(1);
         goods.setUpdownstate(1);
         goodsMapper.updateByPrimaryKey(goods);
-        VerifyRegisterSendEmail(Goodid,"1");
+        VerifyGoodSendEmail(Goodid,"1");
 
         return CommonResult.success(Goodid,"商品上架成功");
     }

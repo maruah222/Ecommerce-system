@@ -29,6 +29,12 @@ public class Chart implements Serializable {
     @ApiModelProperty(value = "商品的名字")
     private String goodname;
 
+    @ApiModelProperty(value = "商品的图片")
+    private String frontpicture;
+
+    @ApiModelProperty(value = "该商品是否包邮")
+    private Integer ispackage;
+
     private static final long serialVersionUID = 1L;
 
     public String getChartid() {
@@ -95,6 +101,22 @@ public class Chart implements Serializable {
         this.goodname = goodname;
     }
 
+    public String getFrontpicture() {
+        return frontpicture;
+    }
+
+    public void setFrontpicture(String frontpicture) {
+        this.frontpicture = frontpicture;
+    }
+
+    public Integer getIspackage() {
+        return ispackage;
+    }
+
+    public void setIspackage(Integer ispackage) {
+        this.ispackage = ispackage;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -109,6 +131,8 @@ public class Chart implements Serializable {
         sb.append(", checkstate=").append(checkstate);
         sb.append(", attribute=").append(attribute);
         sb.append(", goodname=").append(goodname);
+        sb.append(", frontpicture=").append(frontpicture);
+        sb.append(", ispackage=").append(ispackage);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

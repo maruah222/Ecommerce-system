@@ -99,7 +99,7 @@ public class UserServiceImpl implements UserrService {
     public CommonResult register(String userid, String password,String telephone) {
 
 
-        String text = "未评论";
+        String text = "未填写";
         Userr userr = new Userr();
         userr.setUserid(userid);
         userr.setUseraddress(text);
@@ -150,33 +150,41 @@ public class UserServiceImpl implements UserrService {
         GoodSkuExample g = new GoodSkuExample();
         g.createCriteria().andGoodidEqualTo(GoodId).andAttributeEqualTo(Attribute);
         List<GoodSku> list = goodSkuMapper.selectByExample(g);
-        if(list==null) {
-            if (list.get(0).getLeftNumber() == 0) {
-                return CommonResult.failed("该商品的库存已空");
+        int num = list.get(0).getLeftNumber();
+        if(num>0)
+        {
+            int n=num-number;
+            if(n<0)
+            {
+                return CommonResult.failed("库存不够了，重新改数量");
+            }else {
+                String userId = tokenTranslate.GetUsernameByHeader(request);
+                String ChartId = managerService.getRandomCode();
+                Goods good = goodsMapper.selectByPrimaryKey(GoodId);
+
+                Chart chart = new Chart();
+                chart.setChartid(ChartId);
+                chart.setCheckstate(0);
+                chart.setGoodid(GoodId);
+                chart.setNumber(number);
+                chart.setPrice(price);
+                chart.setAttribute(Attribute);
+                chart.setUserid(userId);
+                chart.setGoodname(good.getGoodname());
+                chart.setFrontpicture(good.getFrontpicture());
+                chart.setIspackage(good.getIspackage());
+
+                chartMapper.insert(chart);
+
+                list.get(0).setLeftNumber(n);
+                goodSkuMapper.updateByPrimaryKey(list.get(0));
+                return CommonResult.success("添加成功");
             }
-            return CommonResult.failed("这个商品不存在");
+        }else
+        {
+            return CommonResult.failed("库存不足,操作失败");
         }
 
-        String userId = tokenTranslate.GetUsernameByHeader(request);
-        String ChartId = managerService.getRandomCode();
-        Goods good =goodsMapper.selectByPrimaryKey(GoodId);
-
-        Chart chart = new Chart();
-        chart.setChartid(ChartId);
-        chart.setCheckstate(0);
-        chart.setGoodid(GoodId);
-        chart.setNumber(number);
-        chart.setPrice(price);
-        chart.setAttribute(Attribute);
-        chart.setUserid(userId);
-        chart.setGoodname(good.getGoodname());
-
-        chartMapper.insert(chart);
-
-        list.get(0).setLeftNumber(list.get(0).getLeftNumber()-1);
-        goodSkuMapper.updateByPrimaryKey(list.get(0));
-
-        return CommonResult.success("添加成功");
     }
 
     @Override
@@ -203,17 +211,40 @@ public class UserServiceImpl implements UserrService {
         }
 
         Chart chart =chartMapper.selectByPrimaryKey(chartId);
+        int oldnumber = chart.getNumber();
         chart.setNumber(num);
-
         chartMapper.updateByPrimaryKeySelective(chart);
 
-        return CommonResult.success("购物车数量修改成功");
+        int difference=num-oldnumber;
+        GoodSkuExample go =new GoodSkuExample();
+        go.createCriteria().andGoodidEqualTo(GoodId).andAttributeEqualTo(Attribute);
+        List<GoodSku> goodSku = goodSkuMapper.selectByExample(go);
+        int leftnumber = goodSku.get(0).getLeftNumber()-difference;
+        if(leftnumber>0) {
+            goodSku.get(0).setLeftNumber(leftnumber);
+            goodSkuMapper.updateByPrimaryKeySelective(goodSku.get(0));
+            return CommonResult.success("购物车数量修改成功");
+        }else
+        {
+            return CommonResult.failed("商品的库存不够了");
+        }
+
     }
 
     @Override
     public CommonResult deleteChartByGoodId(String chartId) {
-            chartMapper.deleteByPrimaryKey(chartId);
-            return CommonResult.success("删除成功");
+        Chart chart = chartMapper.selectByPrimaryKey(chartId);
+        int num = chart.getNumber();
+        GoodSkuExample g = new GoodSkuExample();
+        g.createCriteria().andGoodidEqualTo(chart.getGoodid()).andAttributeEqualTo(chart.getAttribute());
+        List<GoodSku> goodSkus = goodSkuMapper.selectByExample(g);
+        goodSkus.get(0).setNumber(goodSkus.get(0).getNumber() + num);
+        goodSkus.get(0).setLeftNumber(goodSkus.get(0).getLeftNumber() + num);
+
+        chartMapper.deleteByPrimaryKey(chartId);
+        goodSkuMapper.updateByPrimaryKeySelective(goodSkus.get(0));
+
+        return CommonResult.success("删除成功");
     }
 
     @Override
@@ -257,7 +288,7 @@ public class UserServiceImpl implements UserrService {
 
     @Override
     public Shop getShopByShopId(String ShopId) {
-        return null;
+        return shopMapper.selectByPrimaryKey(ShopId);
     }
 
     @Override
@@ -322,6 +353,10 @@ public class UserServiceImpl implements UserrService {
             order.setGoodid(chart.getGoodid());
             order.setPrice(chart.getPrice());
             order.setMoney(money);
+
+            Goods good = goodsMapper.selectByPrimaryKey(chart.getGoodid());
+            good.setAllsellnumber(good.getAllsellnumber()+chart.getNumber());
+            goodsMapper.updateByPrimaryKey(good);
 
             orders.add(order);
         }
@@ -410,13 +445,34 @@ public class UserServiceImpl implements UserrService {
     }
 
     @Override
-    public Userr getUserInformationByUserId(String UserId) {
-        return null;
+    public Userr getUserInformationByUserId(String UserId, HttpServletRequest request) {
+        String userId = tokenTranslate.GetUsernameByHeader(request);
+
+        return userrMapper.selectByPrimaryKey(userId);
     }
 
     @Override
-    public CommonResult modifyUserInformation(String UserId) {
-        return null;
+    public CommonResult modifyUserInformation(String UserId, String password,String UserAddress,String telephone) {
+        Userr userr = userrMapper.selectByPrimaryKey(UserId);
+
+        String p = passwordEncoder.encode(password);
+        userr.setUserpassword(p);
+        userr.setUsertelephone(telephone);
+        userr.setUseraddress(UserAddress);
+
+        userrMapper.updateByPrimaryKey(userr);
+
+        return CommonResult.success("修改成功");
+    }
+
+    @Override
+    public CommonResult deleteComment(String orderId, HttpServletRequest request) {
+        Order order = orderMapper.selectByPrimaryKey(orderId);
+
+        order.setComment("评论被用户删除");
+
+        orderMapper.updateByPrimaryKeyWithBLOBs(order);
+        return CommonResult.success("评论删除成功");
     }
 
 

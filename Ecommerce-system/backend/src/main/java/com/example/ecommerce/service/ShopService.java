@@ -37,4 +37,11 @@ public interface ShopService {
     @Transactional
     CommonResult VerifyReturnFailed(String OrderId);
     CommonResult VerifyReturnSendEmail(String userId, int num);
+
+    CommonResult AddSkuByGoodId();
+    CommonResult DeleteSku();
+    CommonResult AddNumberInSku();
+    CommonResult ModifySku();//修改商品sku的价格和进货量
+    CommonResult GetGoodsByShopId();/*要sku，和销售量*/
+
 }

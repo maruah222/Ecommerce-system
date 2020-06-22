@@ -12,6 +12,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
@@ -73,14 +74,14 @@ public class UserrController {
     @ApiOperation("用户添加购物车")
     @RequestMapping(value = "/AddChart",method = RequestMethod.GET)
     @ResponseBody
-    public CommonResult login(@RequestParam String GoodId,
+    public CommonResult AddChart(@RequestParam String GoodId,
                               @RequestParam int number,
                               @RequestParam BigDecimal price,
                               @RequestParam String Attribute,
                               HttpServletRequest request)
     {
-        userrService.AddChart(GoodId, number, price, Attribute, request);
-        return CommonResult.success(GoodId,"添加成功");
+
+        return userrService.AddChart(GoodId, number, price, Attribute, request);
     }
 
     @ApiOperation("根据用户名获取购物车")
@@ -102,8 +103,8 @@ public class UserrController {
                                          @RequestParam String Attribute,
                                          @RequestParam int num)
     {
-        userrService.updateNumInChart(chartId,GoodId,Attribute,num);
-        return CommonResult.success("购物车商品数量增加成功");
+
+        return userrService.updateNumInChart(chartId,GoodId,Attribute,num);
     }
 
     @ApiOperation("删除购物车的商品")
@@ -111,8 +112,8 @@ public class UserrController {
     @ResponseBody
     public CommonResult DeleteChartByGoodId(@RequestParam String chartId)
     {
-        userrService.deleteChartByGoodId(chartId);
-        return CommonResult.success("购物车商品删除成功");
+
+        return userrService.deleteChartByGoodId(chartId);
     }
 
     @ApiOperation("清空购物车的商品")
@@ -120,8 +121,8 @@ public class UserrController {
     @ResponseBody
     public CommonResult ClearChart(@RequestParam String userId)
     {
-        userrService.clearChart(userId);
-        return CommonResult.success("购物车清空成功");
+
+        return userrService.clearChart(userId);
     }
 
     @ApiOperation("查看所有商家")
@@ -235,6 +236,54 @@ public class UserrController {
     {
         userrService.AddComment(GoodId, message, request);
         return CommonResult.success("评论成功");
+    }
+
+    @ApiOperation("根据用户Id获取用户信息")
+    @RequestMapping(value = "/GetUserInformationByUserId",method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult GetUserInformationByUserId(@RequestParam String UserId,
+                                                   HttpServletRequest request)
+    {
+        Userr user =userrService.getUserInformationByUserId(UserId,request);
+        return CommonResult.success(user,"用户信息");
+    }
+
+    @ApiOperation("修改用户信息")
+    @RequestMapping(value = "/ModifyUserInformation",method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult ModifyUserInformation(@RequestParam String UserId,
+                                              @RequestParam String password,
+                                              @RequestParam String UserAddress,
+                                              @RequestParam String telephone)
+    {
+        return userrService.modifyUserInformation(UserId, password,UserAddress,telephone);
+    }
+
+    @ApiOperation("用户删除评论")
+    @RequestMapping(value = "/DeleteComment",method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult DeleteComment(@RequestParam String OrderId,
+                                      @RequestParam HttpServletRequest request)
+    {
+        return userrService.deleteComment(OrderId,request);
+    }
+
+    @ApiOperation("根据商家Id获取商家")
+    @RequestMapping(value = "/GetShopByShopId",method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult GetShopByShopId(@RequestParam String ShopId)
+    {
+        Shop shop=userrService.getShopByShopId(ShopId);
+        return CommonResult.success(shop);
+    }
+
+    @ApiOperation("确认订单")
+    @RequestMapping(value = "/ConfirmOrderByChart",method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult ConfirmOrderByChart(@RequestParam List<Chart> charts,
+                                            HttpServletRequest request)
+    {
+        return userrService.ConfirmOrderByChart(charts, request);
     }
 
 }
