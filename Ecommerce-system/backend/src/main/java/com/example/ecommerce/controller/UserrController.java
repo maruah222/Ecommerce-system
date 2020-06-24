@@ -2,6 +2,8 @@ package com.example.ecommerce.controller;
 
 import com.example.ecommerce.common.api.CommonPage;
 import com.example.ecommerce.common.api.CommonResult;
+import com.example.ecommerce.dto.ChartsParam;
+import com.example.ecommerce.dto.CommentParam;
 import com.example.ecommerce.dto.GoodDetailParam;
 import com.example.ecommerce.dto.LoginParam;
 import com.example.ecommerce.mbg.mapper.ChartMapper;
@@ -64,6 +66,7 @@ public class UserrController {
         {
             return CommonResult.validateFailed("用户名或密码错误");
         }
+
         Map<String,String> map = new HashMap<>();
         map.put("token",token);
         map.put("tokenhead",tokenHead);
@@ -263,7 +266,7 @@ public class UserrController {
     @RequestMapping(value = "/DeleteComment",method = RequestMethod.GET)
     @ResponseBody
     public CommonResult DeleteComment(@RequestParam String OrderId,
-                                      @RequestParam HttpServletRequest request)
+                                      HttpServletRequest request)
     {
         return userrService.deleteComment(OrderId,request);
     }
@@ -278,12 +281,23 @@ public class UserrController {
     }
 
     @ApiOperation("确认订单")
-    @RequestMapping(value = "/ConfirmOrderByChart",method = RequestMethod.GET)
+    @RequestMapping(value = "/ConfirmOrderByChart",method = RequestMethod.POST)
     @ResponseBody
-    public CommonResult ConfirmOrderByChart(@RequestParam List<Chart> charts,
-                                            HttpServletRequest request)
+    public CommonResult ConfirmOrderByChart(@RequestBody List<ChartsParam> chartsParam,
+                                            BindingResult bindingResult)
     {
-        return userrService.ConfirmOrderByChart(charts, request);
+        return userrService.ConfirmOrderByChart(chartsParam);
+    }
+
+    @ApiOperation("获取商品的评论")
+    @RequestMapping(value = "/GetCommentByGoodId",method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult GetCommentByGoodId(@RequestParam String GoodId,
+                                           @RequestParam int pageNum,
+                                           @RequestParam int pageSize)
+    {
+        List<CommentParam> list= userrService.getCommentByGoodId (GoodId, pageNum, pageSize);
+        return CommonResult.success(CommonPage.restPage(list));
     }
 
 }

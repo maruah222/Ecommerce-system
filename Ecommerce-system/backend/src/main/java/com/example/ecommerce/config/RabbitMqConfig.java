@@ -300,7 +300,7 @@ public class RabbitMqConfig {
     @Bean
     DirectExchange CancelOrderDirect(){
         return (DirectExchange) ExchangeBuilder
-                .directExchange(QueueEnum.QUEUE_ORDERCANCEL.getExchange())
+                .directExchange(QueueEnum.QUEUE_ORDER_CANCEL.getExchange())
                 .durable(true)
                 .build();
     }
@@ -309,20 +309,20 @@ public class RabbitMqConfig {
     @Bean
     DirectExchange CancelOrderTtlDirect(){
         return (DirectExchange) ExchangeBuilder
-                .directExchange(QueueEnum.QUEUE_ORDERCANCEL_TTL.getExchange())
+                .directExchange(QueueEnum.QUEUE_ORDER_CANCEL_TTL.getExchange())
                 .durable(true)
                 .build();
     }
     //超时触发取消订单队列
     @Bean
-    public Queue CancelOrderQueue(){return new Queue(QueueEnum.QUEUE_ORDERCANCEL.getName());}
+    public Queue CancelOrderQueue(){return new Queue(QueueEnum.QUEUE_ORDER_CANCEL.getName());}
     @Bean
     public Queue CancelOrderTtlQueue()
     {
         return QueueBuilder
-                .durable(QueueEnum.QUEUE_ORDERCANCEL_TTL.getName())
-                .withArgument("x-dead-letter-exchange",QueueEnum.QUEUE_ORDERCANCEL.getExchange())
-                .withArgument("x-dead-letter-routing-key",QueueEnum.QUEUE_ORDERCANCEL.getRouteKey())
+                .durable(QueueEnum.QUEUE_ORDER_CANCEL_TTL.getName())
+                .withArgument("x-dead-letter-exchange",QueueEnum.QUEUE_ORDER_CANCEL.getExchange())
+                .withArgument("x-dead-letter-routing-key",QueueEnum.QUEUE_ORDER_CANCEL.getRouteKey())
                 .build();
         //到期后转发到的交换机和路由器
     }
@@ -333,7 +333,7 @@ public class RabbitMqConfig {
         return BindingBuilder
                 .bind(CancelOrderTtlQueue)
                 .to(CancelOrderTtlDirect)
-                .with(QueueEnum.QUEUE_ORDERCANCEL_TTL.getRouteKey());
+                .with(QueueEnum.QUEUE_ORDER_CANCEL_TTL.getRouteKey());
     }
 
     //超时触发取消订单队列绑定到交换机
@@ -343,7 +343,7 @@ public class RabbitMqConfig {
         return BindingBuilder
                 .bind(CancelOrderQueue)
                 .to(CancelOrderDirect)
-                .with(QueueEnum.QUEUE_ORDERCANCEL.getRouteKey());
+                .with(QueueEnum.QUEUE_ORDER_CANCEL.getRouteKey());
     }
 
 

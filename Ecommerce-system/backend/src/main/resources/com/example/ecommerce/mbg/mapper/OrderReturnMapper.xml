@@ -8,6 +8,7 @@
     <result column="UserId" jdbcType="VARCHAR" property="userid" />
     <result column="OrderStatus" jdbcType="INTEGER" property="orderstatus" />
     <result column="GoodId" jdbcType="VARCHAR" property="goodid" />
+    <result column="ShopId" jdbcType="VARCHAR" property="shopid" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.example.ecommerce.mbg.model.OrderReturn">
     <result column="ReturnReason" jdbcType="LONGVARCHAR" property="returnreason" />
@@ -71,7 +72,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, OrderId, Money, UserId, OrderStatus, GoodId
+    id, OrderId, Money, UserId, OrderStatus, GoodId, ShopId
   </sql>
   <sql id="Blob_Column_List">
     ReturnReason
@@ -129,11 +130,11 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into order_return (OrderId, Money, UserId, 
-      OrderStatus, GoodId, ReturnReason
-      )
+      OrderStatus, GoodId, ShopId, 
+      ReturnReason)
     values (#{orderid,jdbcType=VARCHAR}, #{money,jdbcType=DECIMAL}, #{userid,jdbcType=VARCHAR}, 
-      #{orderstatus,jdbcType=INTEGER}, #{goodid,jdbcType=VARCHAR}, #{returnreason,jdbcType=LONGVARCHAR}
-      )
+      #{orderstatus,jdbcType=INTEGER}, #{goodid,jdbcType=VARCHAR}, #{shopid,jdbcType=VARCHAR}, 
+      #{returnreason,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.example.ecommerce.mbg.model.OrderReturn">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -156,6 +157,9 @@
       <if test="goodid != null">
         GoodId,
       </if>
+      <if test="shopid != null">
+        ShopId,
+      </if>
       <if test="returnreason != null">
         ReturnReason,
       </if>
@@ -175,6 +179,9 @@
       </if>
       <if test="goodid != null">
         #{goodid,jdbcType=VARCHAR},
+      </if>
+      <if test="shopid != null">
+        #{shopid,jdbcType=VARCHAR},
       </if>
       <if test="returnreason != null">
         #{returnreason,jdbcType=LONGVARCHAR},
@@ -208,6 +215,9 @@
       <if test="record.goodid != null">
         GoodId = #{record.goodid,jdbcType=VARCHAR},
       </if>
+      <if test="record.shopid != null">
+        ShopId = #{record.shopid,jdbcType=VARCHAR},
+      </if>
       <if test="record.returnreason != null">
         ReturnReason = #{record.returnreason,jdbcType=LONGVARCHAR},
       </if>
@@ -224,6 +234,7 @@
       UserId = #{record.userid,jdbcType=VARCHAR},
       OrderStatus = #{record.orderstatus,jdbcType=INTEGER},
       GoodId = #{record.goodid,jdbcType=VARCHAR},
+      ShopId = #{record.shopid,jdbcType=VARCHAR},
       ReturnReason = #{record.returnreason,jdbcType=LONGVARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -236,7 +247,8 @@
       Money = #{record.money,jdbcType=DECIMAL},
       UserId = #{record.userid,jdbcType=VARCHAR},
       OrderStatus = #{record.orderstatus,jdbcType=INTEGER},
-      GoodId = #{record.goodid,jdbcType=VARCHAR}
+      GoodId = #{record.goodid,jdbcType=VARCHAR},
+      ShopId = #{record.shopid,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -259,6 +271,9 @@
       <if test="goodid != null">
         GoodId = #{goodid,jdbcType=VARCHAR},
       </if>
+      <if test="shopid != null">
+        ShopId = #{shopid,jdbcType=VARCHAR},
+      </if>
       <if test="returnreason != null">
         ReturnReason = #{returnreason,jdbcType=LONGVARCHAR},
       </if>
@@ -272,6 +287,7 @@
       UserId = #{userid,jdbcType=VARCHAR},
       OrderStatus = #{orderstatus,jdbcType=INTEGER},
       GoodId = #{goodid,jdbcType=VARCHAR},
+      ShopId = #{shopid,jdbcType=VARCHAR},
       ReturnReason = #{returnreason,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -281,7 +297,8 @@
       Money = #{money,jdbcType=DECIMAL},
       UserId = #{userid,jdbcType=VARCHAR},
       OrderStatus = #{orderstatus,jdbcType=INTEGER},
-      GoodId = #{goodid,jdbcType=VARCHAR}
+      GoodId = #{goodid,jdbcType=VARCHAR},
+      ShopId = #{shopid,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

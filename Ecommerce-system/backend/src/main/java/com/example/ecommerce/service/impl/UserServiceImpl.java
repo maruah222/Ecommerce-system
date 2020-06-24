@@ -6,6 +6,8 @@ import com.example.ecommerce.common.utils.JwtTokenUtil;
 import com.example.ecommerce.common.utils.TokenTranslate;
 import com.example.ecommerce.component.CancelOrderSender;
 import com.example.ecommerce.dao.UserDao;
+import com.example.ecommerce.dto.ChartsParam;
+import com.example.ecommerce.dto.CommentParam;
 import com.example.ecommerce.dto.GoodDetailParam;
 import com.example.ecommerce.mbg.mapper.*;
 import com.example.ecommerce.mbg.model.*;
@@ -16,6 +18,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.MailSender;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -95,6 +100,9 @@ public class UserServiceImpl implements UserrService {
     @Autowired
     private CancelOrderSender cancelOrderSender;
 
+    @Autowired
+    private JavaMailSender javaMailSender;
+
     @Override
     public CommonResult register(String userid, String password,String telephone) {
 
@@ -133,12 +141,23 @@ public class UserServiceImpl implements UserrService {
         String token = null;
         try {
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+
+            if(userrMapper.selectByPrimaryKey(username)!=null) {
+                Userr userr = userrMapper.selectByPrimaryKey(username);
+                if (!passwordEncoder.matches(password, userr.getUserpassword())) {
+                    throw new BadCredentialsException("密码不正确");
+                }
+            }else
+            {
+                throw new BadCredentialsException("用户名不存在");
+            }
             if (!passwordEncoder.matches(password, userDetails.getPassword())) {
                 throw new BadCredentialsException("密码不正确");
             }
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authentication);
             token = jwtTokenUtil.generateToken(userDetails);
+
         } catch (AuthenticationException e) {
         }
         return token;
@@ -150,42 +169,27 @@ public class UserServiceImpl implements UserrService {
         GoodSkuExample g = new GoodSkuExample();
         g.createCriteria().andGoodidEqualTo(GoodId).andAttributeEqualTo(Attribute);
         List<GoodSku> list = goodSkuMapper.selectByExample(g);
-        int num = list.get(0).getLeftNumber();
-        if(num>0)
-        {
-            int n=num-number;
-            if(n<0)
-            {
-                return CommonResult.failed("库存不够了，重新改数量");
-            }else {
-                String userId = tokenTranslate.GetUsernameByHeader(request);
-                String ChartId = managerService.getRandomCode();
-                Goods good = goodsMapper.selectByPrimaryKey(GoodId);
+        String userId = tokenTranslate.GetUsernameByHeader(request);
+        String ChartId = managerService.getRandomCode();
+        Goods good = goodsMapper.selectByPrimaryKey(GoodId);
 
-                Chart chart = new Chart();
-                chart.setChartid(ChartId);
-                chart.setCheckstate(0);
-                chart.setGoodid(GoodId);
-                chart.setNumber(number);
-                chart.setPrice(price);
-                chart.setAttribute(Attribute);
-                chart.setUserid(userId);
-                chart.setGoodname(good.getGoodname());
-                chart.setFrontpicture(good.getFrontpicture());
-                chart.setIspackage(good.getIspackage());
+        Chart chart = new Chart();
+        chart.setChartid(ChartId);
+        chart.setCheckstate(0);
+        chart.setGoodid(GoodId);
+        chart.setNumber(number);
+        chart.setPrice(price);
+        chart.setAttribute(Attribute);
+        chart.setUserid(userId);
+        chart.setGoodname(good.getGoodname());
+        chart.setFrontpicture(good.getFrontpicture());
+        chart.setIspackage(good.getIspackage());
+        chart.setSkuid(list.get(0).getSkuid());
+        chartMapper.insert(chart);
 
-                chartMapper.insert(chart);
-
-                list.get(0).setLeftNumber(n);
-                goodSkuMapper.updateByPrimaryKey(list.get(0));
-                return CommonResult.success("添加成功");
-            }
-        }else
-        {
-            return CommonResult.failed("库存不足,操作失败");
-        }
-
+        return CommonResult.success("购物车添加成功");
     }
+
 
     @Override
     public List<Chart> getAllChartByUserId(int pageNum,int pageSize,HttpServletRequest request) {
@@ -202,47 +206,19 @@ public class UserServiceImpl implements UserrService {
 
     @Override
     public CommonResult updateNumInChart(String chartId,String GoodId, String Attribute,int num) {
-        GoodSkuExample g = new GoodSkuExample();
-        g.createCriteria().andGoodidEqualTo(GoodId).andAttributeEqualTo(Attribute);
-        List<GoodSku> list = goodSkuMapper.selectByExample(g);
-        if(list.get(0).getLeftNumber()==0)
-        {
-            return CommonResult.failed("该商品的库存已空");
-        }
 
-        Chart chart =chartMapper.selectByPrimaryKey(chartId);
-        int oldnumber = chart.getNumber();
+        Chart chart = chartMapper.selectByPrimaryKey(chartId);
         chart.setNumber(num);
         chartMapper.updateByPrimaryKeySelective(chart);
 
-        int difference=num-oldnumber;
-        GoodSkuExample go =new GoodSkuExample();
-        go.createCriteria().andGoodidEqualTo(GoodId).andAttributeEqualTo(Attribute);
-        List<GoodSku> goodSku = goodSkuMapper.selectByExample(go);
-        int leftnumber = goodSku.get(0).getLeftNumber()-difference;
-        if(leftnumber>0) {
-            goodSku.get(0).setLeftNumber(leftnumber);
-            goodSkuMapper.updateByPrimaryKeySelective(goodSku.get(0));
-            return CommonResult.success("购物车数量修改成功");
-        }else
-        {
-            return CommonResult.failed("商品的库存不够了");
-        }
+        return CommonResult.success("购物车数量修改成功");
 
     }
 
     @Override
     public CommonResult deleteChartByGoodId(String chartId) {
-        Chart chart = chartMapper.selectByPrimaryKey(chartId);
-        int num = chart.getNumber();
-        GoodSkuExample g = new GoodSkuExample();
-        g.createCriteria().andGoodidEqualTo(chart.getGoodid()).andAttributeEqualTo(chart.getAttribute());
-        List<GoodSku> goodSkus = goodSkuMapper.selectByExample(g);
-        goodSkus.get(0).setNumber(goodSkus.get(0).getNumber() + num);
-        goodSkus.get(0).setLeftNumber(goodSkus.get(0).getLeftNumber() + num);
 
         chartMapper.deleteByPrimaryKey(chartId);
-        goodSkuMapper.updateByPrimaryKeySelective(goodSkus.get(0));
 
         return CommonResult.success("删除成功");
     }
@@ -259,8 +235,11 @@ public class UserServiceImpl implements UserrService {
 
     @Override
     public List<Goods> getAllGoods(int pageNum, int pageSize) {
+        GoodsExample goodsExample = new GoodsExample();
+        goodsExample.createCriteria().andUpdownstateEqualTo(1);
+        List<Goods> goods=goodsMapper.selectByExampleWithBLOBs(goodsExample);
         PageHelper.startPage(pageNum, pageSize);
-        return goodsMapper.selectByExample(new GoodsExample());
+        return goods;
     }
 
     @Override
@@ -268,7 +247,7 @@ public class UserServiceImpl implements UserrService {
 
         PageHelper.startPage(pageNum, pageSize);
         GoodsExample goodsExample = new GoodsExample();
-        goodsExample.createCriteria().andShopidEqualTo(shopid);
+        goodsExample.createCriteria().andShopidEqualTo(shopid).andUpdownstateEqualTo(1);
         return goodsMapper.selectByExample(goodsExample);
     }
 
@@ -337,39 +316,57 @@ public class UserServiceImpl implements UserrService {
     }
 
     @Override
-    public CommonResult ConfirmOrderByChart(List<Chart> charts, HttpServletRequest request) {
-        String userId = tokenTranslate.GetUsernameByHeader(request);
-        List<Order> orders = new ArrayList<>();
-        for(Chart chart:charts)
+    public CommonResult ConfirmOrderByChart(List<ChartsParam> chartsParam) {
+
+        for(ChartsParam chart : chartsParam)
         {
+            GoodSku g=goodSkuMapper.selectByPrimaryKey(chart.getSkuid());
+            int num=g.getLeftNumber()-chart.getNumber();;
+            if(num<0)
+            {
+                return CommonResult.failed("商品："+chart.getGoodname()+" 库存不足了，重新选数量吧");
+            }
+        }
+
+        List<Order> orders = new ArrayList<>();
+        for (ChartsParam chart : chartsParam) {
             BigDecimal number = new BigDecimal(chart.getNumber().toString());
             BigDecimal money = chart.getPrice().multiply(number);
             Order order = new Order();
+            order.setOrderid(managerService.getRandomCode());
             order.setState(1);
             order.setComment("未评论");
             order.setPaytime(new Date());
-            order.setUserid(userId);
+            order.setUserid(chart.getUserid());
             order.setNumber(chart.getNumber());
             order.setGoodid(chart.getGoodid());
             order.setPrice(chart.getPrice());
             order.setMoney(money);
+            order.setAttribute(chart.getAttribute());
+            order.setAddress(chart.getAddress());
+
+            GoodSku goodSku = goodSkuMapper.selectByPrimaryKey(chart.getSkuid());
+
+            goodSku.setLeftNumber(goodSku.getLeftNumber()- chart.getNumber());
+            goodSku.setNumber(goodSku.getNumber()-chart.getNumber());
 
             Goods good = goodsMapper.selectByPrimaryKey(chart.getGoodid());
-            good.setAllsellnumber(good.getAllsellnumber()+chart.getNumber());
-            goodsMapper.updateByPrimaryKey(good);
+            good.setAllsellnumber(good.getAllsellnumber() + chart.getNumber());
 
+            goodsMapper.updateByPrimaryKeySelective(good);
+            chartMapper.deleteByPrimaryKey(chart.getChartid());
+            goodSkuMapper.updateByPrimaryKeySelective(goodSku);
             orders.add(order);
+           /* senDelayMessageCancelOrder(new String[]{order.getOrderid(), order.getUserid()});*/
         }
+        userDao.InsertOrderFromChart(orders);
 
-        userDao.InsertOrder(orders);
-        for(Order o:orders) {
-            senDelayMessageCancelOrder(new String[]{o.getOrderid(),userId});
-        }
         return CommonResult.success("提交订单成功，请30min内付款");
+
     }
 
-    private void senDelayMessageCancelOrder(String[] orderId_userId) {
-        long delayTimes = 60 * 30 * 1000;
+    public void senDelayMessageCancelOrder(String[] orderId_userId) {
+        long delayTimes = 1000*60*30;
         cancelOrderSender.sendMessage(orderId_userId,delayTimes);
     }
     @Override
@@ -378,7 +375,11 @@ public class UserServiceImpl implements UserrService {
             if (orderMapper.selectByPrimaryKey(orderId_userId[0]).getState() == 5) {
                 return CommonResult.success("该订单已经被取消");
             }
-            orderMapper.deleteByPrimaryKey(orderId_userId[0]);
+
+            Order order = orderMapper.selectByPrimaryKey(orderId_userId[0]);
+            order.setState(5);
+
+            orderMapper.updateByPrimaryKey(order);
             sendOrderCancelEmail(orderId_userId[0], orderId_userId[1]);
             return CommonResult.success("删除成功");
         }else {
@@ -388,6 +389,14 @@ public class UserServiceImpl implements UserrService {
 
     @Override
     public CommonResult sendOrderCancelEmail(String orderId, String userId) {
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+        mailMessage.setFrom("1005131042@qq.com");
+        mailMessage.setTo(userId);
+        mailMessage.setSubject("订单超时取消通知");
+        mailMessage.setSentDate(new Date());
+        mailMessage.setText("订单因为超时未支付而取消  订单号："+userId);
+        javaMailSender.send(mailMessage);
+
         return CommonResult.success("邮件发送成功");
     }
 
@@ -473,6 +482,26 @@ public class UserServiceImpl implements UserrService {
 
         orderMapper.updateByPrimaryKeyWithBLOBs(order);
         return CommonResult.success("评论删除成功");
+    }
+
+    @Override
+    public List<CommentParam> getCommentByGoodId(String GoodId,int pageNum, int pageSize) {
+        OrderExample orderExample = new OrderExample();
+        orderExample.createCriteria().andGoodidEqualTo(GoodId);
+
+        List<Order> orders=orderMapper.selectByExampleWithBLOBs(orderExample);
+
+        List<CommentParam> list= new ArrayList<>();
+        for(Order o:orders)
+        {
+            CommentParam commentParam = new CommentParam();
+            commentParam.setAttribute(o.getAttribute());
+            commentParam.setComment(o.getComment());
+            commentParam.setNum(o.getNumber());
+            commentParam.setUsername(o.getUserid());
+        }
+
+        return list;
     }
 
 

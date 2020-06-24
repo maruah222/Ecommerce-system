@@ -30,7 +30,6 @@ public class AdminUserDetails implements UserDetails {
         this.userpermission=userper;
         this.userpermissionList=userpermissionList;
         this.password=password;
-        System.out.println("2"+this.password);
     }
 
     @Override

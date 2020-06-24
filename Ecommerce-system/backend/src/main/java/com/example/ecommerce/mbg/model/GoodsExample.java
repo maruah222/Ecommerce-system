@@ -765,66 +765,6 @@ public class GoodsExample {
             return (Criteria) this;
         }
 
-        public Criteria andDeletestateIsNull() {
-            addCriterion("DeleteState is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andDeletestateIsNotNull() {
-            addCriterion("DeleteState is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andDeletestateEqualTo(Integer value) {
-            addCriterion("DeleteState =", value, "deletestate");
-            return (Criteria) this;
-        }
-
-        public Criteria andDeletestateNotEqualTo(Integer value) {
-            addCriterion("DeleteState <>", value, "deletestate");
-            return (Criteria) this;
-        }
-
-        public Criteria andDeletestateGreaterThan(Integer value) {
-            addCriterion("DeleteState >", value, "deletestate");
-            return (Criteria) this;
-        }
-
-        public Criteria andDeletestateGreaterThanOrEqualTo(Integer value) {
-            addCriterion("DeleteState >=", value, "deletestate");
-            return (Criteria) this;
-        }
-
-        public Criteria andDeletestateLessThan(Integer value) {
-            addCriterion("DeleteState <", value, "deletestate");
-            return (Criteria) this;
-        }
-
-        public Criteria andDeletestateLessThanOrEqualTo(Integer value) {
-            addCriterion("DeleteState <=", value, "deletestate");
-            return (Criteria) this;
-        }
-
-        public Criteria andDeletestateIn(List<Integer> values) {
-            addCriterion("DeleteState in", values, "deletestate");
-            return (Criteria) this;
-        }
-
-        public Criteria andDeletestateNotIn(List<Integer> values) {
-            addCriterion("DeleteState not in", values, "deletestate");
-            return (Criteria) this;
-        }
-
-        public Criteria andDeletestateBetween(Integer value1, Integer value2) {
-            addCriterion("DeleteState between", value1, value2, "deletestate");
-            return (Criteria) this;
-        }
-
-        public Criteria andDeletestateNotBetween(Integer value1, Integer value2) {
-            addCriterion("DeleteState not between", value1, value2, "deletestate");
-            return (Criteria) this;
-        }
-
         public Criteria andUpdownstateIsNull() {
             addCriterion("UpdownState is null");
             return (Criteria) this;

@@ -4,6 +4,7 @@ import com.example.ecommerce.common.api.CommonPage;
 import com.example.ecommerce.common.api.CommonResult;
 import com.example.ecommerce.dto.LoginParam;
 import com.example.ecommerce.mbg.model.Goods;
+import com.example.ecommerce.mbg.model.Order;
 import com.example.ecommerce.mbg.model.Shop;
 import com.example.ecommerce.service.ManagerService;
 import io.swagger.annotations.Api;
@@ -110,5 +111,24 @@ public class ManageController {
             return CommonResult.failed("审核啊，你在干嘛？？");
         }
     }
+
+    @ApiOperation("h获取所有订单")
+    @RequestMapping(value = "/getAllOrder",method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult getAllOrder(@RequestParam(value = "pageNum") @ApiParam("页码") int pageNum,
+                                    @RequestParam(value = "pageSize") @ApiParam("页面大小") int pageSize)
+    {
+        List<Order> list=managerService.getAllOrder(pageNum, pageSize);
+        return CommonResult.success(CommonPage.restPage(list));
+    }
+
+    @ApiOperation("下架商品")
+    @RequestMapping(value = "/WithdrawGoodsByGoodId",method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult WithdrawGoodsByGoodId(@RequestParam String GoodId)
+    {
+        return managerService.WithdrawGoodsByGoodId(GoodId);
+    }
+
 
 }

@@ -38,4 +38,6 @@ public interface ManagerService {
     String getRandomCode();
 
     List<Order> getAllOrder(int pageNum,int pageSize);
+
+    CommonResult WithdrawGoodsByGoodId(String GoodId);
 }

@@ -1,51 +1,73 @@
 package com.example.ecommerce;
 
 import com.example.ecommerce.dao.AddSkuDao;
+import com.example.ecommerce.dao.UserDao;
 import com.example.ecommerce.mbg.mapper.UserrMapper;
 import com.example.ecommerce.mbg.model.GoodSku;
+import com.example.ecommerce.mbg.model.Order;
 import com.example.ecommerce.mbg.model.Userr;
 import com.example.ecommerce.service.ManagerService;
 import com.example.ecommerce.service.UserrService;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
+
 @SpringBootTest
-class EcommerceApplicationTests {
+public class EcommerceApplicationTests {
 
     @Autowired(required = false)
-    private AddSkuDao addSkuDao;
+    public UserDao userDao;
 
+    @Autowired
+    private JavaMailSender javaMailSender;
 
-
-    @Test
+   /* @Test
     public void contextLoads() {
 
-      /*  List<GoodSku> list = new ArrayList<>();
-        GoodSku goodSku = new GoodSku();
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom("1005131042@qq.com");
+        message.setTo("1005131042@qq.com");
+        message.setSubject("这是标题");
+        message.setText("这是内容");
+        javaMailSender.send(message);
+    }*/
+/*
+    @Test
+    void contextLoads() {
+
+        List<Order> list = new ArrayList<>();
+        Order order = new Order();
 
         BigDecimal a =new BigDecimal("123.33");
 
-        goodSku.setAttribute("123");
-        goodSku.setGoodid("766");
-        goodSku.setLeftNumber(123);
-        goodSku.setNumber(123);
-        goodSku.setPicture("123");
-        goodSku.setPrice(a);
-        goodSku.setSoldNumber(123);
-        goodSku.setVipprice(a);
+        order.setOrderid("796825");
+        order.setComment("未评论");
+        order.setMoney(a);
+        order.setPrice(a);
+        order.setNumber(10);
+        order.setGoodid("1592550242");
+        order.setPaytime(new Date());
+        order.setState(1);
+        order.setUserid("999");
 
-        list.add(goodSku);
+
+        list.add(order);
 
         System.out.println(list.get(0));
 
-        addSkuDao.InsertList(list);*/
-    }
+        userDao.InsertOrderFromChart(list);
+    }*/
 
 }

@@ -36,6 +36,12 @@ public class Order implements Serializable {
     @ApiModelProperty(value = "商品的Id")
     private String goodid;
 
+    @ApiModelProperty(value = "属性")
+    private String attribute;
+
+    @ApiModelProperty(value = "用户的地址")
+    private String address;
+
     @ApiModelProperty(value = "评论")
     private String comment;
 
@@ -121,6 +127,22 @@ public class Order implements Serializable {
         this.goodid = goodid;
     }
 
+    public String getAttribute() {
+        return attribute;
+    }
+
+    public void setAttribute(String attribute) {
+        this.attribute = attribute;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
     public String getComment() {
         return comment;
     }
@@ -145,6 +167,8 @@ public class Order implements Serializable {
         sb.append(", price=").append(price);
         sb.append(", money=").append(money);
         sb.append(", goodid=").append(goodid);
+        sb.append(", attribute=").append(attribute);
+        sb.append(", address=").append(address);
         sb.append(", comment=").append(comment);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");

@@ -17,10 +17,13 @@ public class OrderReturn implements Serializable {
     @ApiModelProperty(value = "用户ID")
     private String userid;
 
-    @ApiModelProperty(value = "订单状态，0是待审核，1是审核通过，0是拒绝退款")
+    @ApiModelProperty(value = "订单状态，0是待审核，1是审核通过，2是拒绝退款")
     private Integer orderstatus;
 
     private String goodid;
+
+    @ApiModelProperty(value = "商家Id")
+    private String shopid;
 
     @ApiModelProperty(value = "退换原因")
     private String returnreason;
@@ -75,6 +78,14 @@ public class OrderReturn implements Serializable {
         this.goodid = goodid;
     }
 
+    public String getShopid() {
+        return shopid;
+    }
+
+    public void setShopid(String shopid) {
+        this.shopid = shopid;
+    }
+
     public String getReturnreason() {
         return returnreason;
     }
@@ -95,6 +106,7 @@ public class OrderReturn implements Serializable {
         sb.append(", userid=").append(userid);
         sb.append(", orderstatus=").append(orderstatus);
         sb.append(", goodid=").append(goodid);
+        sb.append(", shopid=").append(shopid);
         sb.append(", returnreason=").append(returnreason);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");

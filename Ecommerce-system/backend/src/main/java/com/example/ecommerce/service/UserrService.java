@@ -1,6 +1,8 @@
 package com.example.ecommerce.service;
 
 import com.example.ecommerce.common.api.CommonResult;
+import com.example.ecommerce.dto.ChartsParam;
+import com.example.ecommerce.dto.CommentParam;
 import com.example.ecommerce.dto.GoodDetailParam;
 import com.example.ecommerce.mbg.model.*;
 import org.springframework.stereotype.Service;
@@ -45,7 +47,8 @@ public interface UserrService {
     //订单，提交订单，评论，购买
     List<Order> getAllOrderByUserId(int pageNum, int pageSize, HttpServletRequest request);
     Order getOrderDetail(String orderId);
-    CommonResult ConfirmOrderByChart(List<Chart> charts, HttpServletRequest request);
+    @Transactional
+    CommonResult ConfirmOrderByChart(List<ChartsParam> chartsParam);
     CommonResult cancelOverTimeOrder(String[] orderId_userId);
     CommonResult sendOrderCancelEmail(String userId,String orderId);
 
@@ -60,6 +63,6 @@ public interface UserrService {
     CommonResult AddComment(String orderId,String message, HttpServletRequest request);
     List<Order> getNeedCommentByUserId(int pageNum, int pageSize, HttpServletRequest request);
     CommonResult deleteComment(String orderId,HttpServletRequest request);
-
+    List<CommentParam> getCommentByGoodId(String GoodId,int pageNum, int pageSize);
 }
 

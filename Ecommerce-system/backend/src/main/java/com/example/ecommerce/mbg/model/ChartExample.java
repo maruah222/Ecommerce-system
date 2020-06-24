@@ -764,6 +764,66 @@ public class ChartExample {
             addCriterion("ispackage not between", value1, value2, "ispackage");
             return (Criteria) this;
         }
+
+        public Criteria andSkuidIsNull() {
+            addCriterion("skuid is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSkuidIsNotNull() {
+            addCriterion("skuid is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSkuidEqualTo(Integer value) {
+            addCriterion("skuid =", value, "skuid");
+            return (Criteria) this;
+        }
+
+        public Criteria andSkuidNotEqualTo(Integer value) {
+            addCriterion("skuid <>", value, "skuid");
+            return (Criteria) this;
+        }
+
+        public Criteria andSkuidGreaterThan(Integer value) {
+            addCriterion("skuid >", value, "skuid");
+            return (Criteria) this;
+        }
+
+        public Criteria andSkuidGreaterThanOrEqualTo(Integer value) {
+            addCriterion("skuid >=", value, "skuid");
+            return (Criteria) this;
+        }
+
+        public Criteria andSkuidLessThan(Integer value) {
+            addCriterion("skuid <", value, "skuid");
+            return (Criteria) this;
+        }
+
+        public Criteria andSkuidLessThanOrEqualTo(Integer value) {
+            addCriterion("skuid <=", value, "skuid");
+            return (Criteria) this;
+        }
+
+        public Criteria andSkuidIn(List<Integer> values) {
+            addCriterion("skuid in", values, "skuid");
+            return (Criteria) this;
+        }
+
+        public Criteria andSkuidNotIn(List<Integer> values) {
+            addCriterion("skuid not in", values, "skuid");
+            return (Criteria) this;
+        }
+
+        public Criteria andSkuidBetween(Integer value1, Integer value2) {
+            addCriterion("skuid between", value1, value2, "skuid");
+            return (Criteria) this;
+        }
+
+        public Criteria andSkuidNotBetween(Integer value1, Integer value2) {
+            addCriterion("skuid not between", value1, value2, "skuid");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

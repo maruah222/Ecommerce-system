@@ -5,7 +5,8 @@ server:
       charset: UTF-8
       force: true
       enabled: true
-
+  tomcat:
+    max-http-form-post-size: 0
 
 spring:
   datasource:
@@ -24,8 +25,24 @@ spring:
     password: 123456
     publisher-returns: on
     virtual-host: /ecommerce
+  http:
+    multipart:
+      max-file-size: 32MB #注意单位
+      max-request-size: 32MB #注意单位
 
-
+  mail:
+    host: smtp.qq.com
+    username: 1005131042@qq.com
+    password: fwgbgkuvmmzrbfgi
+    default-encoding: UTF-8
+    port: 465
+    properties:
+      mail:
+        debug: true
+        smtp:
+          socketFactory: javax.net.ssl.SSLSoccketFactory
+          ssl:
+            enable: true
 mybatis:
   mapper-locations:
     - classpath:mapper/*.xml

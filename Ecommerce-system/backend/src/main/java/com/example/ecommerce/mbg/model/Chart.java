@@ -35,6 +35,9 @@ public class Chart implements Serializable {
     @ApiModelProperty(value = "该商品是否包邮")
     private Integer ispackage;
 
+    @ApiModelProperty(value = "sku的Id")
+    private Integer skuid;
+
     private static final long serialVersionUID = 1L;
 
     public String getChartid() {
@@ -117,6 +120,14 @@ public class Chart implements Serializable {
         this.ispackage = ispackage;
     }
 
+    public Integer getSkuid() {
+        return skuid;
+    }
+
+    public void setSkuid(Integer skuid) {
+        this.skuid = skuid;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -133,6 +144,7 @@ public class Chart implements Serializable {
         sb.append(", goodname=").append(goodname);
         sb.append(", frontpicture=").append(frontpicture);
         sb.append(", ispackage=").append(ispackage);
+        sb.append(", skuid=").append(skuid);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

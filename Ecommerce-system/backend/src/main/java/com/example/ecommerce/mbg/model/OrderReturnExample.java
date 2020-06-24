@@ -494,6 +494,76 @@ public class OrderReturnExample {
             addCriterion("GoodId not between", value1, value2, "goodid");
             return (Criteria) this;
         }
+
+        public Criteria andShopidIsNull() {
+            addCriterion("ShopId is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andShopidIsNotNull() {
+            addCriterion("ShopId is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andShopidEqualTo(String value) {
+            addCriterion("ShopId =", value, "shopid");
+            return (Criteria) this;
+        }
+
+        public Criteria andShopidNotEqualTo(String value) {
+            addCriterion("ShopId <>", value, "shopid");
+            return (Criteria) this;
+        }
+
+        public Criteria andShopidGreaterThan(String value) {
+            addCriterion("ShopId >", value, "shopid");
+            return (Criteria) this;
+        }
+
+        public Criteria andShopidGreaterThanOrEqualTo(String value) {
+            addCriterion("ShopId >=", value, "shopid");
+            return (Criteria) this;
+        }
+
+        public Criteria andShopidLessThan(String value) {
+            addCriterion("ShopId <", value, "shopid");
+            return (Criteria) this;
+        }
+
+        public Criteria andShopidLessThanOrEqualTo(String value) {
+            addCriterion("ShopId <=", value, "shopid");
+            return (Criteria) this;
+        }
+
+        public Criteria andShopidLike(String value) {
+            addCriterion("ShopId like", value, "shopid");
+            return (Criteria) this;
+        }
+
+        public Criteria andShopidNotLike(String value) {
+            addCriterion("ShopId not like", value, "shopid");
+            return (Criteria) this;
+        }
+
+        public Criteria andShopidIn(List<String> values) {
+            addCriterion("ShopId in", values, "shopid");
+            return (Criteria) this;
+        }
+
+        public Criteria andShopidNotIn(List<String> values) {
+            addCriterion("ShopId not in", values, "shopid");
+            return (Criteria) this;
+        }
+
+        public Criteria andShopidBetween(String value1, String value2) {
+            addCriterion("ShopId between", value1, value2, "shopid");
+            return (Criteria) this;
+        }
+
+        public Criteria andShopidNotBetween(String value1, String value2) {
+            addCriterion("ShopId not between", value1, value2, "shopid");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

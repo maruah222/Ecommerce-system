@@ -12,6 +12,8 @@
     <result column="price" jdbcType="DECIMAL" property="price" />
     <result column="money" jdbcType="DECIMAL" property="money" />
     <result column="GoodId" jdbcType="VARCHAR" property="goodid" />
+    <result column="attribute" jdbcType="VARCHAR" property="attribute" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.example.ecommerce.mbg.model.Order">
     <result column="Comment" jdbcType="LONGVARCHAR" property="comment" />
@@ -75,7 +77,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    OrderID, UserID, State, PayTime, GetTIme, CommentTime, number, price, money, GoodId
+    OrderID, UserID, State, PayTime, GetTIme, CommentTime, `number`, price, money, GoodId,
+    attribute, address
   </sql>
   <sql id="Blob_Column_List">
     Comment
@@ -88,7 +91,7 @@
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
-    from order
+    from `order`
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -102,7 +105,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from order
+    from `order`
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -115,31 +118,33 @@
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
-    from order
+    from `order`
     where OrderID = #{orderid,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-    delete from order
+    delete from `order`
     where OrderID = #{orderid,jdbcType=VARCHAR}
   </delete>
   <delete id="deleteByExample" parameterType="com.example.ecommerce.mbg.model.OrderExample">
-    delete from order
+    delete from `order`
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
   <insert id="insert" parameterType="com.example.ecommerce.mbg.model.Order">
-    insert into order (OrderID, UserID, State, 
+    insert into `order `(OrderID, UserID, State,
       PayTime, GetTIme, CommentTime, 
-      number, price, money, 
-      GoodId, Comment)
+      `number`, price, money,
+      GoodId, attribute, address, 
+      Comment)
     values (#{orderid,jdbcType=VARCHAR}, #{userid,jdbcType=VARCHAR}, #{state,jdbcType=INTEGER}, 
       #{paytime,jdbcType=TIMESTAMP}, #{gettime,jdbcType=TIMESTAMP}, #{commenttime,jdbcType=TIMESTAMP}, 
       #{number,jdbcType=INTEGER}, #{price,jdbcType=DECIMAL}, #{money,jdbcType=DECIMAL}, 
-      #{goodid,jdbcType=VARCHAR}, #{comment,jdbcType=LONGVARCHAR})
+      #{goodid,jdbcType=VARCHAR}, #{attribute,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{comment,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.example.ecommerce.mbg.model.Order">
-    insert into order
+    insert into `order`
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="orderid != null">
         OrderID,
@@ -160,7 +165,7 @@
         CommentTime,
       </if>
       <if test="number != null">
-        number,
+        `number`,
       </if>
       <if test="price != null">
         price,
@@ -170,6 +175,12 @@
       </if>
       <if test="goodid != null">
         GoodId,
+      </if>
+      <if test="attribute != null">
+        attribute,
+      </if>
+      <if test="address != null">
+        address,
       </if>
       <if test="comment != null">
         Comment,
@@ -206,19 +217,25 @@
       <if test="goodid != null">
         #{goodid,jdbcType=VARCHAR},
       </if>
+      <if test="attribute != null">
+        #{attribute,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
       <if test="comment != null">
         #{comment,jdbcType=LONGVARCHAR},
       </if>
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.example.ecommerce.mbg.model.OrderExample" resultType="java.lang.Long">
-    select count(*) from order
+    select count(*) from `order`
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update order
+    update `order`
     <set>
       <if test="record.orderid != null">
         OrderID = #{record.orderid,jdbcType=VARCHAR},
@@ -239,7 +256,7 @@
         CommentTime = #{record.commenttime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.number != null">
-        number = #{record.number,jdbcType=INTEGER},
+        `number` = #{record.number,jdbcType=INTEGER},
       </if>
       <if test="record.price != null">
         price = #{record.price,jdbcType=DECIMAL},
@@ -250,6 +267,12 @@
       <if test="record.goodid != null">
         GoodId = #{record.goodid,jdbcType=VARCHAR},
       </if>
+      <if test="record.attribute != null">
+        attribute = #{record.attribute,jdbcType=VARCHAR},
+      </if>
+      <if test="record.address != null">
+        address = #{record.address,jdbcType=VARCHAR},
+      </if>
       <if test="record.comment != null">
         Comment = #{record.comment,jdbcType=LONGVARCHAR},
       </if>
@@ -259,40 +282,44 @@
     </if>
   </update>
   <update id="updateByExampleWithBLOBs" parameterType="map">
-    update order
+    update `order`
     set OrderID = #{record.orderid,jdbcType=VARCHAR},
       UserID = #{record.userid,jdbcType=VARCHAR},
       State = #{record.state,jdbcType=INTEGER},
       PayTime = #{record.paytime,jdbcType=TIMESTAMP},
       GetTIme = #{record.gettime,jdbcType=TIMESTAMP},
       CommentTime = #{record.commenttime,jdbcType=TIMESTAMP},
-      number = #{record.number,jdbcType=INTEGER},
+      `number` = #{record.number,jdbcType=INTEGER},
       price = #{record.price,jdbcType=DECIMAL},
       money = #{record.money,jdbcType=DECIMAL},
       GoodId = #{record.goodid,jdbcType=VARCHAR},
+      attribute = #{record.attribute,jdbcType=VARCHAR},
+      address = #{record.address,jdbcType=VARCHAR},
       Comment = #{record.comment,jdbcType=LONGVARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update order
+    update `order`
     set OrderID = #{record.orderid,jdbcType=VARCHAR},
       UserID = #{record.userid,jdbcType=VARCHAR},
       State = #{record.state,jdbcType=INTEGER},
       PayTime = #{record.paytime,jdbcType=TIMESTAMP},
       GetTIme = #{record.gettime,jdbcType=TIMESTAMP},
       CommentTime = #{record.commenttime,jdbcType=TIMESTAMP},
-      number = #{record.number,jdbcType=INTEGER},
+      `number` = #{record.number,jdbcType=INTEGER},
       price = #{record.price,jdbcType=DECIMAL},
       money = #{record.money,jdbcType=DECIMAL},
-      GoodId = #{record.goodid,jdbcType=VARCHAR}
+      GoodId = #{record.goodid,jdbcType=VARCHAR},
+      attribute = #{record.attribute,jdbcType=VARCHAR},
+      address = #{record.address,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
   <update id="updateByPrimaryKeySelective" parameterType="com.example.ecommerce.mbg.model.Order">
-    update order
+    update `order`
     <set>
       <if test="userid != null">
         UserID = #{userid,jdbcType=VARCHAR},
@@ -310,7 +337,7 @@
         CommentTime = #{commenttime,jdbcType=TIMESTAMP},
       </if>
       <if test="number != null">
-        number = #{number,jdbcType=INTEGER},
+       `number` = #{number,jdbcType=INTEGER},
       </if>
       <if test="price != null">
         price = #{price,jdbcType=DECIMAL},
@@ -321,6 +348,12 @@
       <if test="goodid != null">
         GoodId = #{goodid,jdbcType=VARCHAR},
       </if>
+      <if test="attribute != null">
+        attribute = #{attribute,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
       <if test="comment != null">
         Comment = #{comment,jdbcType=LONGVARCHAR},
       </if>
@@ -328,30 +361,34 @@
     where OrderID = #{orderid,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.example.ecommerce.mbg.model.Order">
-    update order
+    update `order`
     set UserID = #{userid,jdbcType=VARCHAR},
       State = #{state,jdbcType=INTEGER},
       PayTime = #{paytime,jdbcType=TIMESTAMP},
       GetTIme = #{gettime,jdbcType=TIMESTAMP},
       CommentTime = #{commenttime,jdbcType=TIMESTAMP},
-      number = #{number,jdbcType=INTEGER},
+      `number` = #{number,jdbcType=INTEGER},
       price = #{price,jdbcType=DECIMAL},
       money = #{money,jdbcType=DECIMAL},
       GoodId = #{goodid,jdbcType=VARCHAR},
+      attribute = #{attribute,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
       Comment = #{comment,jdbcType=LONGVARCHAR}
     where OrderID = #{orderid,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.example.ecommerce.mbg.model.Order">
-    update order
+    update `order`
     set UserID = #{userid,jdbcType=VARCHAR},
       State = #{state,jdbcType=INTEGER},
       PayTime = #{paytime,jdbcType=TIMESTAMP},
       GetTIme = #{gettime,jdbcType=TIMESTAMP},
       CommentTime = #{commenttime,jdbcType=TIMESTAMP},
-      number = #{number,jdbcType=INTEGER},
+      `number` = #{number,jdbcType=INTEGER},
       price = #{price,jdbcType=DECIMAL},
       money = #{money,jdbcType=DECIMAL},
-      GoodId = #{goodid,jdbcType=VARCHAR}
+      GoodId = #{goodid,jdbcType=VARCHAR},
+      attribute = #{attribute,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR}
     where OrderID = #{orderid,jdbcType=VARCHAR}
   </update>
 </mapper>

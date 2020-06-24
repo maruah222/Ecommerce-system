@@ -28,7 +28,6 @@ public class OverTimeCancelReceiver {
     public void handle(String ShopId)
     {
         //商家注册超过12小时未审核，自动取消
-
         shopService.CancelRegister(ShopId);
     }
 

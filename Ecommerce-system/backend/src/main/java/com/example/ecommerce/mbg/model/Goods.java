@@ -35,9 +35,6 @@ public class Goods implements Serializable {
     @ApiModelProperty(value = "总销售量")
     private Integer allsellnumber;
 
-    @ApiModelProperty(value = "是否在删除状态，0为正常，1为已删除")
-    private Integer deletestate;
-
     @ApiModelProperty(value = "上下架状态，0是待上架，1是已上架，2是已下架")
     private Integer updownstate;
 
@@ -126,14 +123,6 @@ public class Goods implements Serializable {
         this.allsellnumber = allsellnumber;
     }
 
-    public Integer getDeletestate() {
-        return deletestate;
-    }
-
-    public void setDeletestate(Integer deletestate) {
-        this.deletestate = deletestate;
-    }
-
     public Integer getUpdownstate() {
         return updownstate;
     }
@@ -166,7 +155,6 @@ public class Goods implements Serializable {
         sb.append(", shangtime=").append(shangtime);
         sb.append(", categoryid=").append(categoryid);
         sb.append(", allsellnumber=").append(allsellnumber);
-        sb.append(", deletestate=").append(deletestate);
         sb.append(", updownstate=").append(updownstate);
         sb.append(", introduction=").append(introduction);
         sb.append(", serialVersionUID=").append(serialVersionUID);

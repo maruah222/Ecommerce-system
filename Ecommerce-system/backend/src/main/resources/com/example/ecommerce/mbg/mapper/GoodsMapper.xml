@@ -12,7 +12,6 @@
     <result column="ShangTime" jdbcType="TIMESTAMP" property="shangtime" />
     <result column="categoryId" jdbcType="VARCHAR" property="categoryid" />
     <result column="AllsellNumber" jdbcType="INTEGER" property="allsellnumber" />
-    <result column="DeleteState" jdbcType="INTEGER" property="deletestate" />
     <result column="UpdownState" jdbcType="INTEGER" property="updownstate" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.example.ecommerce.mbg.model.Goods">
@@ -78,7 +77,7 @@
   </sql>
   <sql id="Base_Column_List">
     goodID, ShopID, Goodname, Goodpicture, CheckState, ispackage, Frontpicture, ShangTime, 
-    categoryId, AllsellNumber, DeleteState, UpdownState
+    categoryId, AllsellNumber, UpdownState
   </sql>
   <sql id="Blob_Column_List">
     introduction
@@ -135,13 +134,13 @@
     insert into goods (goodID, ShopID, Goodname, 
       Goodpicture, CheckState, ispackage, 
       Frontpicture, ShangTime, categoryId, 
-      AllsellNumber, DeleteState, UpdownState, 
-      introduction)
+      AllsellNumber, UpdownState, introduction
+      )
     values (#{goodid,jdbcType=VARCHAR}, #{shopid,jdbcType=VARCHAR}, #{goodname,jdbcType=VARCHAR}, 
       #{goodpicture,jdbcType=VARCHAR}, #{checkstate,jdbcType=INTEGER}, #{ispackage,jdbcType=INTEGER}, 
       #{frontpicture,jdbcType=VARCHAR}, #{shangtime,jdbcType=TIMESTAMP}, #{categoryid,jdbcType=VARCHAR}, 
-      #{allsellnumber,jdbcType=INTEGER}, #{deletestate,jdbcType=INTEGER}, #{updownstate,jdbcType=INTEGER}, 
-      #{introduction,jdbcType=LONGVARCHAR})
+      #{allsellnumber,jdbcType=INTEGER}, #{updownstate,jdbcType=INTEGER}, #{introduction,jdbcType=LONGVARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.example.ecommerce.mbg.model.Goods">
     insert into goods
@@ -175,9 +174,6 @@
       </if>
       <if test="allsellnumber != null">
         AllsellNumber,
-      </if>
-      <if test="deletestate != null">
-        DeleteState,
       </if>
       <if test="updownstate != null">
         UpdownState,
@@ -216,9 +212,6 @@
       </if>
       <if test="allsellnumber != null">
         #{allsellnumber,jdbcType=INTEGER},
-      </if>
-      <if test="deletestate != null">
-        #{deletestate,jdbcType=INTEGER},
       </if>
       <if test="updownstate != null">
         #{updownstate,jdbcType=INTEGER},
@@ -267,9 +260,6 @@
       <if test="record.allsellnumber != null">
         AllsellNumber = #{record.allsellnumber,jdbcType=INTEGER},
       </if>
-      <if test="record.deletestate != null">
-        DeleteState = #{record.deletestate,jdbcType=INTEGER},
-      </if>
       <if test="record.updownstate != null">
         UpdownState = #{record.updownstate,jdbcType=INTEGER},
       </if>
@@ -293,7 +283,6 @@
       ShangTime = #{record.shangtime,jdbcType=TIMESTAMP},
       categoryId = #{record.categoryid,jdbcType=VARCHAR},
       AllsellNumber = #{record.allsellnumber,jdbcType=INTEGER},
-      DeleteState = #{record.deletestate,jdbcType=INTEGER},
       UpdownState = #{record.updownstate,jdbcType=INTEGER},
       introduction = #{record.introduction,jdbcType=LONGVARCHAR}
     <if test="_parameter != null">
@@ -312,7 +301,6 @@
       ShangTime = #{record.shangtime,jdbcType=TIMESTAMP},
       categoryId = #{record.categoryid,jdbcType=VARCHAR},
       AllsellNumber = #{record.allsellnumber,jdbcType=INTEGER},
-      DeleteState = #{record.deletestate,jdbcType=INTEGER},
       UpdownState = #{record.updownstate,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -348,9 +336,6 @@
       <if test="allsellnumber != null">
         AllsellNumber = #{allsellnumber,jdbcType=INTEGER},
       </if>
-      <if test="deletestate != null">
-        DeleteState = #{deletestate,jdbcType=INTEGER},
-      </if>
       <if test="updownstate != null">
         UpdownState = #{updownstate,jdbcType=INTEGER},
       </if>
@@ -371,7 +356,6 @@
       ShangTime = #{shangtime,jdbcType=TIMESTAMP},
       categoryId = #{categoryid,jdbcType=VARCHAR},
       AllsellNumber = #{allsellnumber,jdbcType=INTEGER},
-      DeleteState = #{deletestate,jdbcType=INTEGER},
       UpdownState = #{updownstate,jdbcType=INTEGER},
       introduction = #{introduction,jdbcType=LONGVARCHAR}
     where goodID = #{goodid,jdbcType=VARCHAR}
@@ -387,7 +371,6 @@
       ShangTime = #{shangtime,jdbcType=TIMESTAMP},
       categoryId = #{categoryid,jdbcType=VARCHAR},
       AllsellNumber = #{allsellnumber,jdbcType=INTEGER},
-      DeleteState = #{deletestate,jdbcType=INTEGER},
       UpdownState = #{updownstate,jdbcType=INTEGER}
     where goodID = #{goodid,jdbcType=VARCHAR}
   </update>
