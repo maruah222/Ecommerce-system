@@ -4,13 +4,13 @@
 
   <view class="swiper-box">
     <swiper bindchange="swiperchange" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}">
-      <swiper-item wx:for="{{detailInfo.SwiperImgList}}" wx:key="*this">
+      <swiper-item wx:for="{{SwiperImgList}}" wx:key="*this">
         <image src="{{item}}"></image>
       </swiper-item>
     </swiper>
     <!--结构-->
     <view class="tips">
-      <text>{{current+1}}/3</text>
+      <text>{{current+1}}/{{SwiperImgList.length}}</text>
     </view>
   </view>
   <!--幻灯片-->
@@ -18,7 +18,7 @@
   <view class="good-info">
     <view class="price">${{price}}</view>
     <view class="choose">
-      <view class="title">{{detailInfo.Title}}</view>
+      <view class="title">{{title}}</view>
     </view>
   </view>
   <!--商品信息-->
@@ -26,7 +26,7 @@
 
   <view class="address">
     <view class="iconfont iconmap"></view>
-    <view>{{detailInfo.Address}}</view>
+    <view>{{Address}}</view>
   </view>
   <!--商家地址-->
 
@@ -34,14 +34,14 @@
   <block class="choose-line">
     <view class="commodity_attr_list">
       <!--每组属性-->
-      <view class="attr_box" wx:for="{{attrValueList}}" wx:for-item="attrValueObj" wx:for-index="attrIndex">
+      <view class="attr_box" wx:for="{{Attribute}}" wx:key="*this" wx:for-item="attrValueObj" wx:for-index="attrIndex">
         <!--属性名-->
         <view class="attr_name">{{attrValueObj.attrKey}}</view>
         <!--属性值-->
         <view class="attr_value_box">
           <!--每个属性值-->
           <view class="attr_value {{attrIndex==firstIndex || attrValueObj.attrValueStatus[valueIndex]?(value==attrValueObj.selectedValue?'attr_value_active':''):'attr_value_disabled'}}" bindtap="selectAttrValue" data-status="{{attrValueObj.attrValueStatus[valueIndex]}}"
-            data-value="{{value}}" data-key="{{attrValueObj.attrKey}}" data-index="{{attrIndex}}" data-selectedvalue="{{attrValueObj.selectedValue}}" wx:for="{{attrValueObj.attrValues}}" wx:for-item="value" wx:for-index="valueIndex">{{value}}</view>
+            data-value="{{value}}" data-key="{{attrValueObj.attrKey}}" data-index="{{attrIndex}}" data-selectedvalue="{{attrValueObj.selectedValue}}" wx:for="{{attrValueObj.attrValues}}" wx:for-item="value" wx:key="*this" wx:for-index="valueIndex">{{value}}</view>
         </view>
       </view>
     </view>
@@ -50,7 +50,7 @@
 
 
   <view class="detail-box">
-    <block wx:for="{{detailInfo.DetailImgList}}" wx:key="*this">
+    <block wx:for="{{DetailImgList}}" wx:key="*this">
       <image mode="widthFix" src="{{item}}"></image>
     </block>
   </view>

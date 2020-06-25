@@ -13,65 +13,21 @@ Page({
         priceId: 1,
         price: 35.0,
         "stock": 8,
-        "attrValueList": [
-          {
-            "attrKey": "型号",
-            "attrValue": "2"
-          },
+        "Attribute": [
           {
             "attrKey": "颜色",
             "attrValue": "白色"
           },
-        ]
-      },
-      {
-        priceId: 2,
-        price: 35.1,
-        "stock": 9,
-        "attrValueList": [
           {
-            "attrKey": "型号",
-            "attrValue": "1"
-          },
-          {
-            "attrKey": "颜色",
-            "attrValue": "黑色"
+            "attrKey": "内存",
+            "attrValue": "128G"
           },
         ]
       },
-      {
-        priceId: 3,
-        price: 35.2,
-        "stock": 10,
-        "attrValueList": [
-          {
-            "attrKey": "型号",
-            "attrValue": "1"
-          },
-          {
-            "attrKey": "颜色",
-            "attrValue": "绿色"
-          },
-        ]
-      },
-      {
-        priceId: 4,
-        price: 35.2,
-        "stock": 10,
-        "attrValueList": [
-          {
-            "attrKey": "型号",
-            "attrValue": "1"
-          },
-          {
-            "attrKey": "颜色",
-            "attrValue": "绿色"
-          },
-        ]
-      }
     ],
-    attrValueList: [],
-
+    Attribute: [],
+    attribute1: [],
+    title:"",
     indicatorDots: false,
     vertical: false,
     autoplay: true,
@@ -79,69 +35,99 @@ Page({
     duration: 500,
     current: 0,
     goodsNo: "",/*用来接收首页传来的goodno*/
+    token: "",/*用来传输文件头*/
+    number: 1,
+    attributetemp: "",
     Address: "这是一个商品地址",
-    price:0,
-    detailInfo: {
-      "Id": 44,
-      "ShopId": 2,
-      "GoodsNo": "8872123",
-      "DataStatus": 2,
-      "Title": "进口|日本michinoku|北海道红鲑鱼干80g",
-      "Classify": 500,
-      "Address": "这是一个商品地址",
-      "ClassifyName": "零食",
-      "GoodsImage":
-        "https://www.maohz.com/mhzapi/api/Common/ImageFile/goodsimgderek20181105023005889114.jpg",
-      "Stock": 10,
-      "SaleAmount": 88,
-      "CreateDate": "2018-11-04T18:30:07.000Z",
-      "UpdateDate": "2018-11-19T08:21:01.000Z",
-      "Brand": "日本michinoku",
-      "OrderNum": 0,
-      "SwiperImgList": [
-        "https://www.maohz.com/mhzapi/api/Common/ImageFile/goodsimgderek20181105023005889114.jpg",
-        "https://www.maohz.com/mhzapi/api/Common/ImageFile/goodsimgderek20181119174911711201.jpg",
-        "https://www.maohz.com/mhzapi/api/Common/ImageFile/goodsimgderek20181114120643144118.jpg"
-      ],
-      "DetailImgList": [
-        "https://www.maohz.com/mhzapi/api/Common/ImageFile/goodsimgderek20181105023609436883.jpg",
-        "https://www.maohz.com/mhzapi/api/Common/ImageFile/goodsimgderek20181105023609077672.jpg",
-        "https://www.maohz.com/mhzapi/api/Common/ImageFile/goodsimgderek20181105023609780116.jpg",
-        "https://www.maohz.com/mhzapi/api/Common/ImageFile/goodsimgderek20181105023610467126.jpg",
-        "https://www.maohz.com/mhzapi/api/Common/ImageFile/goodsimgderek20181105023610170702.jpg"
-      ]
-    }
+    price: 0,
+    "SwiperImgList":[
+    ],
+    "DetailImgList": [
+    ],
+    sku: {
+      "skuid": 0,
+      "goodid": "",
+      "number": 0,
+      "price": 0,
+      "vipprice": 0,
+      "leftNumber": 0,
+      "picture": "0",
+      "Attribute": []
+    },
+    skuss: [],
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    console.log(options)
+    /*console.log(options)*/
     this.data.goodsNo = options.goodno;
+    /*console.log(this.data.goodsNo);*/
     this.getdata();
+    let self = this;
+    wx.getStorage({
+      key: 'token',
+      success: function (res) {
+        self.setData({ token: res.data })
+      }
+    });
   },
+
   //获取数据接口
   getdata: function () {
     let self = this;
     wx.request({
-      url: 'https://ys.lumingx.com/api/miniapps/getWXGoodsInfo', //仅为示例，并非真实的接口地址
-      data: {
-        goodsNo: self.data.goodsNo || "0"
+      url: 'http://47.105.66.104:8080/ecommerce/User/GetGoodsDetailsByGoodId',
+      data:{
+        GoodId: self.data.goodsNo,
       },
-      header: {
-        'content-type': 'application/json' // 默认值
-      },
+      method: 'GET',
       success(res) {
-        console.log(res.data)
-        let result = res.data;
-        if (result && result.data) {
-          self.setData({
-            detailInfo: result.data
-          })
-          self.setData({ price: self.data.detailInfo.SaleAmount });
+        for (var i = 0; i < res.data.data.skus.length; i++) {
+          self.setData({ ['sku.skuid']: res.data.data.skus[i].skuid });
+          self.setData({ ['sku.goodid']: res.data.data.skus[i].goodid });
+          self.setData({ ['sku.number']: res.data.data.skus[i].number });
+          self.setData({ ['sku.price']: res.data.data.skus[i].price });
+          self.setData({ ['sku.vipprice']: res.data.data.skus[i].vipprice });
+          self.setData({ ['sku.leftNumber']: res.data.data.skus[i].leftNumber });
+          self.setData({ ['sku.picture']: res.data.data.skus[i].picture });
+          self.setData({ ['sku.Attribute']: JSON.parse(res.data.data.skus[i].attribute) });
+          var y = JSON.parse(JSON.stringify(self.data.sku));
+          var z = self.data.skuss;
+          z.push(y);
+          /*console.log(self.data.skuss);*/
+          self.setData({ skuss: z });
         }
-      },
+        self.setData({commodityAttr:self.data.skuss})
+        /*console.log(self.data.commodityAttr);*/
+        self.setData({
+          includeGroup: self.data.commodityAttr
+        });
+        self.distachAttrValue(self.data.commodityAttr);
+        // 只有一个属性组合的时候默认选中 
+        // console.log(this.data.Attribute); 
+        if (self.data.commodityAttr.length == 1) {
+          for (var i = 0; i < self.data.commodityAttr[0].Attribute.length; i++) {
+            this.data.Attribute[i].selectedValue = self.data.commodityAttr[0].Attribute[i].attrValue;
+          }
+          self.setData({
+            Attribute: self.data.Attribute
+          });
+          console.log(self.data.Attribute);
+        }
+        var a = res.data.data.goodpicture;
+        var b = res.data.data.skus[0].picture;
+        var x = res.data.data.frontpicture;
+        var y = self.data.SwiperImgList;
+        y.push(x);
+        y.push(a);
+        y.push(b);
+        self.setData({ SwiperImgList: y });
+        self.setData({ DetailImgList:y  });
+        self.setData({Address:res.data.data.shopAddress});
+        self.setData({title:res.data.data.goodname})
+      }
     })
   },
 
@@ -170,21 +156,18 @@ Page({
 
   //加入购物车
   addtocart: function () {
-    wx.getStorage({
-      key: 'userid',
-      success(res) {
-        console.log(res.data)
-      }
-    })
     let self = this;
     wx.request({
-      url: 'https://ys.lumingx.com/api/miniapps/addCart',
-      data: {
-        useid: '1234567',//用户id
-        goodsid: self.data.goodsNo//商品id
+      url: 'http://47.105.66.104:8080/ecommerce/User/AddChart',
+      header: {
+        'Authorization': 'Bearer ' + self.data.token
       },
-      method: 'POST',
-      dataType: 'json',
+      data: {
+        GoodId: this.data.goodsNo,
+        number: this.data.number,
+        price: this.data.price,
+        Attribute: this.data.attributetemp
+      },
       success: function (res) {
         console.log(res);
       },
@@ -202,20 +185,20 @@ Page({
 
 
   onShow: function () {
-    this.setData({
+   /* this.setData({
       includeGroup: this.data.commodityAttr
     });
     this.distachAttrValue(this.data.commodityAttr);
     // 只有一个属性组合的时候默认选中 
-    // console.log(this.data.attrValueList); 
+    // console.log(this.data.Attribute); 
     if (this.data.commodityAttr.length == 1) {
-      for (var i = 0; i < this.data.commodityAttr[0].attrValueList.length; i++) {
-        this.data.attrValueList[i].selectedValue = this.data.commodityAttr[0].attrValueList[i].attrValue;
+      for (var i = 0; i < this.data.commodityAttr[0].Attribute.length; i++) {
+        this.data.Attribute[i].selectedValue = this.data.commodityAttr[0].Attribute[i].attrValue;
       }
       this.setData({
-        attrValueList: this.data.attrValueList
+        Attribute: this.data.Attribute
       });
-    }
+    }*/
   },
   /* 获取数据 */
   distachAttrValue: function (commodityAttr) {
@@ -223,53 +206,53 @@ Page({
     将后台返回的数据组合成类似 
     { 
     attrKey:'型号', 
-    attrValueList:['1','2','3'] 
+    Attribute:['1','2','3'] 
     } 
     */
     // 把数据对象的数据（视图使用），写到局部内 
-    var attrValueList = this.data.attrValueList;
+    var Attribute = this.data.Attribute;
     // 遍历获取的数据 
     for (var i = 0; i < commodityAttr.length; i++) {
-      for (var j = 0; j < commodityAttr[i].attrValueList.length; j++) {
-        var attrIndex = this.getAttrIndex(commodityAttr[i].attrValueList[j].attrKey, attrValueList);
+      for (var j = 0; j < commodityAttr[i].Attribute.length; j++) {
+        var attrIndex = this.getAttrIndex(commodityAttr[i].Attribute[j].attrKey, Attribute);
         // console.log('属性索引', attrIndex); 
         // 如果还没有属性索引为-1，此时新增属性并设置属性值数组的第一个值；索引大于等于0，表示已存在的属性名的位置 
         if (attrIndex >= 0) {
           // 如果属性值数组中没有该值，push新值；否则不处理 
-          if (!this.isValueExist(commodityAttr[i].attrValueList[j].attrValue, attrValueList[attrIndex].attrValues)) {
-            attrValueList[attrIndex].attrValues.push(commodityAttr[i].attrValueList[j].attrValue);
+          if (!this.isValueExist(commodityAttr[i].Attribute[j].attrValue, Attribute[attrIndex].attrValues)) {
+            Attribute[attrIndex].attrValues.push(commodityAttr[i].Attribute[j].attrValue);
           }
         } else {
-          attrValueList.push({
-            attrKey: commodityAttr[i].attrValueList[j].attrKey,
-            attrValues: [commodityAttr[i].attrValueList[j].attrValue]
+          Attribute.push({
+            attrKey: commodityAttr[i].Attribute[j].attrKey,
+            attrValues: [commodityAttr[i].Attribute[j].attrValue]
           });
         }
       }
     }
-    // console.log('result', attrValueList) 
-    for (var i = 0; i < attrValueList.length; i++) {
-      for (var j = 0; j < attrValueList[i].attrValues.length; j++) {
-        if (attrValueList[i].attrValueStatus) {
-          attrValueList[i].attrValueStatus[j] = true;
+    // console.log('result', Attribute) 
+    for (var i = 0; i < Attribute.length; i++) {
+      for (var j = 0; j < Attribute[i].attrValues.length; j++) {
+        if (Attribute[i].attrValueStatus) {
+          Attribute[i].attrValueStatus[j] = true;
         } else {
-          attrValueList[i].attrValueStatus = [];
-          attrValueList[i].attrValueStatus[j] = true;
+          Attribute[i].attrValueStatus = [];
+          Attribute[i].attrValueStatus[j] = true;
         }
       }
     }
     this.setData({
-      attrValueList: attrValueList
+      Attribute: Attribute
     });
   },
-  getAttrIndex: function (attrName, attrValueList) {
+  getAttrIndex: function (attrName, Attribute) {
     // 判断数组中的attrKey是否有该属性值 
-    for (var i = 0; i < attrValueList.length; i++) {
-      if (attrName == attrValueList[i].attrKey) {
+    for (var i = 0; i < Attribute.length; i++) {
+      if (attrName == Attribute[i].attrKey) {
         break;
       }
     }
-    return i < attrValueList.length ? i : -1;
+    return i < Attribute.length ? i : -1;
   },
   isValueExist: function (value, valueArr) {
     // 判断是否已有属性值 
@@ -286,39 +269,39 @@ Page({
     点选属性值，联动判断其他属性值是否可选 
     { 
     attrKey:'型号', 
-    attrValueList:['1','2','3'], 
+    Attribute:['1','2','3'], 
     selectedValue:'1', 
     attrValueStatus:[true,true,true] 
     } */
     //console.log(e.currentTarget.dataset); 
     //console.log(e);
 
-    var attrValueList = this.data.attrValueList;
+    var Attribute = this.data.Attribute;
     var index = e.currentTarget.dataset.index;//属性索引 
     var key = e.currentTarget.dataset.key;
     var value = e.currentTarget.dataset.value;
     if (e.currentTarget.dataset.status || index == this.data.firstIndex) {
       if (e.currentTarget.dataset.selectedvalue == e.currentTarget.dataset.value) {
         // 取消选中 
-        this.disSelectValue(attrValueList, index, key, value);
+        this.disSelectValue(Attribute, index, key, value);
       } else {
         // 选中 
-        this.selectValue(attrValueList, index, key, value);
+        this.selectValue(Attribute, index, key, value);
       }
 
     }
   },
   /* 选中 */
-  selectValue: function (attrValueList, index, key, value, unselectStatus) {
+  selectValue: function (Attribute, index, key, value, unselectStatus) {
     //console.log('firstIndex', this.data.firstIndex); 
     var includeGroup = [];
     if (index == this.data.firstIndex && !unselectStatus) { // 如果是第一个选中的属性值，则该属性所有值可选 
       var commodityAttr = this.data.commodityAttr;
       // 其他选中的属性值全都置空 
       // console.log('其他选中的属性值全都置空', index, this.data.firstIndex, !unselectStatus); 
-      for (var i = 0; i < attrValueList.length; i++) {
-        for (var j = 0; j < attrValueList[i].attrValues.length; j++) {
-          attrValueList[i].selectedValue = '';
+      for (var i = 0; i < Attribute.length; i++) {
+        for (var j = 0; j < Attribute[i].attrValues.length; j++) {
+          Attribute[i].selectedValue = '';
         }
       }
     } else {
@@ -327,43 +310,43 @@ Page({
 
     // console.log('选中', commodityAttr, index, key, value); 
     for (var i = 0; i < commodityAttr.length; i++) {
-      for (var j = 0; j < commodityAttr[i].attrValueList.length; j++) {
-        if (commodityAttr[i].attrValueList[j].attrKey == key && commodityAttr[i].attrValueList[j].attrValue == value) {
+      for (var j = 0; j < commodityAttr[i].Attribute.length; j++) {
+        if (commodityAttr[i].Attribute[j].attrKey == key && commodityAttr[i].Attribute[j].attrValue == value) {
           includeGroup.push(commodityAttr[i]);
         }
       }
     }
-    attrValueList[index].selectedValue = value;
+    Attribute[index].selectedValue = value;
 
     // 判断属性是否可选 
-    for (var i = 0; i < attrValueList.length; i++) {
-      for (var j = 0; j < attrValueList[i].attrValues.length; j++) {
-        attrValueList[i].attrValueStatus[j] = false;
+    for (var i = 0; i < Attribute.length; i++) {
+      for (var j = 0; j < Attribute[i].attrValues.length; j++) {
+        Attribute[i].attrValueStatus[j] = false;
       }
     }
-    for (var k = 0; k < attrValueList.length; k++) {
+    for (var k = 0; k < Attribute.length; k++) {
       for (var i = 0; i < includeGroup.length; i++) {
-        for (var j = 0; j < includeGroup[i].attrValueList.length; j++) {
-          if (attrValueList[k].attrKey == includeGroup[i].attrValueList[j].attrKey) {
-            for (var m = 0; m < attrValueList[k].attrValues.length; m++) {
-              if (attrValueList[k].attrValues[m] == includeGroup[i].attrValueList[j].attrValue) {
-                attrValueList[k].attrValueStatus[m] = true;
+        for (var j = 0; j < includeGroup[i].Attribute.length; j++) {
+          if (Attribute[k].attrKey == includeGroup[i].Attribute[j].attrKey) {
+            for (var m = 0; m < Attribute[k].attrValues.length; m++) {
+              if (Attribute[k].attrValues[m] == includeGroup[i].Attribute[j].attrValue) {
+                Attribute[k].attrValueStatus[m] = true;
               }
             }
           }
         }
       }
     }
-    //console.log('结果', attrValueList); 
+    //console.log('结果', Attribute); 
     this.setData({
-      attrValueList: attrValueList,
+      Attribute: Attribute,
       includeGroup: includeGroup
     });
 
     var count = 0;
-    for (var i = 0; i < attrValueList.length; i++) {
-      for (var j = 0; j < attrValueList[i].attrValues.length; j++) {
-        if (attrValueList[i].selectedValue) {
+    for (var i = 0; i < Attribute.length; i++) {
+      for (var j = 0; j < Attribute[i].attrValues.length; j++) {
+        if (Attribute[i].selectedValue) {
           count++;
           break;
         }
@@ -380,48 +363,53 @@ Page({
     }
   },
   /* 取消选中 */
-  disSelectValue: function (attrValueList, index, key, value) {
+  disSelectValue: function (Attribute, index, key, value) {
     var commodityAttr = this.data.commodityAttr;
-    attrValueList[index].selectedValue = '';
+    Attribute[index].selectedValue = '';
 
     // 判断属性是否可选 
-    for (var i = 0; i < attrValueList.length; i++) {
-      for (var j = 0; j < attrValueList[i].attrValues.length; j++) {
-        attrValueList[i].attrValueStatus[j] = true;
+    for (var i = 0; i < Attribute.length; i++) {
+      for (var j = 0; j < Attribute[i].attrValues.length; j++) {
+        Attribute[i].attrValueStatus[j] = true;
       }
     }
     this.setData({
       includeGroup: commodityAttr,
-      attrValueList: attrValueList
+      Attribute: Attribute
     });
 
-    for (var i = 0; i < attrValueList.length; i++) {
-      if (attrValueList[i].selectedValue) {
-        this.selectValue(attrValueList, i, attrValueList[i].attrKey, attrValueList[i].selectedValue, true);
+    for (var i = 0; i < Attribute.length; i++) {
+      if (Attribute[i].selectedValue) {
+        this.selectValue(Attribute, i, Attribute[i].attrKey, Attribute[i].selectedValue, true);
       }
     }
   },
   /* 点击确定 */
   choose: function () {
     var value = [];
-    for (var i = 0; i < this.data.attrValueList.length; i++) {
-      if (!this.data.attrValueList[i].selectedValue) {
+    for (var i = 0; i < this.data.Attribute.length; i++) {
+      if (!this.data.Attribute[i].selectedValue) {
         break;
       }
-      value.push(this.data.attrValueList[i].selectedValue);
+      value.push(this.data.Attribute[i].selectedValue);
     }
-    if (i < this.data.attrValueList.length) {
+    if (i < this.data.Attribute.length) {
       wx.showToast({
         title: '请完善属性',
         icon: 'loading',
         duration: 1000
       })
-    } 
+    }
     else {
       console.log(value);
-      for (var i = 0; i < this.data.commodityAttr.length; i++){
-        if (this.data.commodityAttr[i].attrValueList[0].attrValue == value[0] && this.data.commodityAttr[i].attrValueList[1].attrValue == value[1]){
-          this.setData({ price: this.data.commodityAttr[i].price})
+      for (var i = 0; i < this.data.commodityAttr.length; i++) {
+        if (this.data.commodityAttr[i].Attribute[0].attrValue == value[0] && this.data.commodityAttr[i].Attribute[1].attrValue == value[1]) {
+          this.setData({ attribute1: this.data.commodityAttr[i].Attribute })
+          console.log(this.data.attribute1);
+          var citystr = JSON.stringify(this.data.attribute1);
+          this.setData({ attributetemp: citystr });
+          console.log(this.data.attributetemp)
+          this.setData({ price: this.data.commodityAttr[i].price })
           console.log(this.data.commodityAttr[i].price);
           break;
         }

@@ -1,4 +1,9 @@
-
+<view class="form">
+  <view class="row-group">
+    <text>请输入地址</text>
+    <input placeholder="请填写收货地址" placeholder-class='txt' maxlength='30' value="{{account}}" bindinput="AddressInput" />
+  </view>
+</view>
 <!-- 购物车内容-->
 <view class="cart_content">
   <view class="cart_title">购物车</view>
@@ -7,7 +12,7 @@
     <view class="cart_item" wx:for="{{goodData}}">
       <!-- 商品图片-->
       <navigator class="cart_img_wrap"  data-goodid="{{item.goodid}}" bindtap="jumptogood">
-        <image style="width:90%" mode='widthFix'  src="https://photo.babylyf.com/user_files/2904/publish/post/85354389_1573391788.jpeg">
+        <image style="width:50%" mode='widthFix'  src="{{item.frontpicture}}">
         </image>
       </navigator> 
       <!-- 商品信息-->

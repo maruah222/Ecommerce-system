@@ -14,15 +14,16 @@ Page({
     this.setData({password:e.detail.value})
   },
   onClickSubmit:function(){
+    let self = this;
     wx.setStorage({
       key: "userid",
-      data: this.data.username
+      data: self.data.username
     })
     wx.request({
       url: 'http://47.105.66.104:8080/ecommerce/User/Userlogin',
       data: {
-        username: this.data.username,
-        password: this.data.password
+        username: self.data.username,
+        password: self.data.password
       },
       method: 'POST',
       header: {
@@ -31,21 +32,21 @@ Page({
       success(res) {
         if (res.data.code==200){
           wx.setStorage({
-            data: res.data.data.token,
-            key: 'token',
-          })
+            key: "token",
+            data: res.data.data.token
+          });
           wx.showToast({
             title: '登陆成功',
             icon: 'success',
           });
-          wx.navigateBack({
-            delta:1
+          wx.switchTab({
+            url: '/pages/mine/mine',
           })
         }
         else
           wx.showToast({
             title: '账号密码错误',
-            icon: 'none',
+            icon: 'success',
           });
         console.log(res.data)
       }

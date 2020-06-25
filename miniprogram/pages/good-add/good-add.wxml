@@ -15,12 +15,7 @@
     <text>商品介绍</text>
     <input placeholder="请填写商品介绍" placeholder-class='txt' maxlength='100' value="{{introduction}}" bindinput="introductionInput" />
   </view>
-
-  <view class="row-group">
-    <text>数量</text>
-    <input placeholder="请填写商品数量" placeholder-class='txt' maxlength='20' value="{{number1}}" bindinput="numberInput" />
-  </view>
-
+  
   <view class="row-group">
     <text>是否包邮(1包邮0不包邮)</text>
     <input placeholder="1包邮0不包邮" placeholder-class='txt' maxlength='20' value="{{isPackage1}}" bindinput="isPackageInput" />
@@ -44,11 +39,6 @@
     <view class="row-group">
     <text>商品类型的值：（比如内存）</text>
     <input placeholder="请填写商品类型" placeholder-class='txt' maxlength='20' value="{{key2}}" bindinput="key2Input" />
-  </view>
-
-    <view class="row-group">
-    <text>商品编号</text>
-    <input placeholder="请填写商品品牌" placeholder-class='txt' maxlength='20' value="{{GoodId}}" bindinput="GoodIdInput" />
   </view>
 
   <view class="row-group">

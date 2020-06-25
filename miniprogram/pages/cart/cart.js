@@ -7,6 +7,7 @@ Page({
   data: {
     address: {},
     goodData: [],
+    srcgoodData:[],
     allChecked: false,
     totalprice: 0,
     totalnumber: 0,
@@ -30,14 +31,24 @@ Page({
       },
       success:(res)=> {
         wx.hideLoading();
-        console.log(res)
+        let a=JSON.parse(JSON.stringify(res.data.data.list));
         res.data.data.list.forEach(v => {
           var tempatt=JSON.parse(v.attribute);
           v.att1=tempatt[0].attrValue;
           v.att2=tempatt[1].attrValue;
         })
+        a.forEach(v=>{
+          var temp=JSON.parse(v.attribute);
+          let key1=temp[0].attrKey;
+          let key2=temp[1].attrKey;
+          let val1=temp[0].attrValue;
+          let val2=temp[1].attrValue;
+          v.attribute=key1+":"+val1+" "+key2+":"+val2;
+        })
+        this.setData({srcgoodData:a});
         this.setData({goodData:res.data.data.list});
         this.setCart(this.data.goodData);
+        console.log(this.data.goodData);
       }
       
     }
@@ -80,11 +91,16 @@ Page({
     const goodsno = e.currentTarget.dataset.id;
     //获取购物车数组
     let gooddata = this.data.goodData;
+    let srcgooddata=this.data.srcgoodData;
     //找到被修改的商品对象
-    let index = gooddata.findIndex(v => v.chartid === goodsno);
+    let index1 = gooddata.findIndex(v => v.chartid === goodsno);
+    let index2 = srcgooddata.findIndex(a => a.chartid === goodsno);
     //选中状态取反
-    gooddata[index].checkstate = !gooddata[index].checkstate;
+    gooddata[index1].checkstate = !gooddata[index1].checkstate;
+    srcgooddata[index2].checkstate = !srcgooddata[index2].checkstate;
     //设置数据回data
+    this.setData({srcgoodData:srcgooddata});
+    console.log(this.data.srcgoodData);
     this.setCart(gooddata);
     ////////////////////////////////////////////////////////////这里要有写回去后台的操作！
   },
@@ -92,11 +108,14 @@ Page({
   //商品全选功能
   handleItemAllcheck: function () {
     let gooddata = this.data.goodData;
+    let srcgooddata=this.data.srcgoodData;
     let allchecked = this.data.allChecked;
     //反选
     allchecked = !allchecked;
     gooddata.forEach(v => v.checkstate = allchecked);
+    srcgooddata.forEach(v => v.checkstate = allchecked);
     //保存
+    this.setData({srcgoodData:srcgooddata});
     this.setCart(gooddata);
   },
 
@@ -146,7 +165,14 @@ Page({
           'Authorization': 'Bearer '+this.data.token
         },
         success:(res)=> {
-          this.setCart(gooddata);
+          console.log(res);
+          wx.showToast({
+            title: res.data.message,
+            icon: "none",
+          });
+          if(res.data.code===200){
+            this.setCart(gooddata);
+          }
         }
       })
     }
@@ -155,6 +181,12 @@ Page({
     //验证收货地址？
     //判断有没有选购商品
     const total = this.data.totalnumber;
+    let cart=this.data.srcgoodData;
+    cart= cart.filter(v=>v.checkstate);
+    cart.forEach(v=>{
+      v.checkstate=1;
+    })
+    console.log(cart);
     if (total === 0) {
       wx.showToast({
         title: '您还没有选购商品',
@@ -162,9 +194,10 @@ Page({
       });
       return;
     } else {//跳转到支付，或者是直接数据库操作？预计跳转到一个界面展示是否成功？
+      wx.setStorageSync('srcgooddata',cart);
       wx.navigateTo({
         url: '../pay/pay',
-      })
+      });
     }
   },
 
@@ -175,7 +208,7 @@ Page({
     let totalnumber = 0;
     this.data.goodData.forEach(v => {
       if (v.checkstate) {
-        totalprice += v.number * v.price;
+        totalprice += (v.number * v.price+ !v.ispackage*10);
         totalnumber += v.number;
         ++i;
       } else {

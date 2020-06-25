@@ -14,12 +14,12 @@
       </view>
       <!-- 商品图片-->
       <navigator class="cart_img_wrap"  data-goodid="{{item.goodid}}" bindtap="jumptogood">
-        <image style="width:90%" mode='widthFix'  src="http://pic42.photophoto.cn/20170213/0005018358833690_b.jpg">
+        <image style="width:50%" mode='widthFix'  src="{{item.frontpicture}}">
         </image>
       </navigator> 
       <!-- 商品信息-->
       <view class="cart_info_wrap">
-        <view class="goods_name" data-goodid="{{item.goodid}}" bindtap="jumptogood">{{item.goodid}}</view>
+        <view class="goods_name" data-goodid="{{item.goodid}}" bindtap="jumptogood">{{item.goodname}}</view>
         <view class="goods_sku">{{item.att1}} {{item.att2}}</view>
         <view class="goods_price_warp">
           <view class="goods_price">￥{{item.price}}</view>

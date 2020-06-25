@@ -15,11 +15,11 @@ Page({
         "attrValue": ""
       },
     ],
+    goodid:'',
     ShopId:'',
     goodname: '',
     goodpicture: '',
     introduction:'',
-    number:0,
     isPackage:0,
     frontpicture:'',
     categoryId:'',
@@ -31,13 +31,9 @@ Page({
       "picture": "string",
       "price": 0,
       "skuid": 0,
-      "soldNumber": 0,
       "vipprice": 0
     },
     skutemp:[],
-  },
-  GoodIdInput: function (e) {
-    this.setData({ ['sku.goodid']: e.detail.value })
   },
   GoodnameInput: function (e) {
     this.setData({ goodname: e.detail.value })
@@ -115,11 +111,11 @@ Page({
       data: {
         categoryId: self.data.categoryId,
         frontpicture: self.data.frontpicture,
+        goodId:self.data.goodid,
         goodname: self.data.goodname,
         goodpicture: self.data.goodpicture,
         introduction: self.data.introduction,
         isPackage: self.data.isPackage,
-        number: self.data.number,
         shopId: self.data.ShopId,
         skus:self.data.skutemp,
       },
@@ -145,6 +141,10 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    var time = parseInt(new Date().getTime() / 1000) + '';
+    this.setData({ goodid: time});
+    this.setData({ ['sku.goodid']: time });
+    console.log(this.data.goodid)
     self=this;
     wx.getStorage({
       key: 'sellerID',

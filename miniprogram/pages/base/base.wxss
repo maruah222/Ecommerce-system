@@ -76,6 +76,6 @@ margin-left: 20rpx;
 }
 
 .good-list .item .content .price{
-  color:red;
+  color:seagreen;
   margin-top: 10rpx;
 }

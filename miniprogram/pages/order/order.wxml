@@ -1,17 +1,33 @@
 <!--miniprogram/pages/order/order.wxml-->
 <view class="order_main">
-  <view wx:for="{{orders}}" wx:key="order_id" class="order_item" data-id="{{item.order_id}}" bindtap="detailorder">
+  <view wx:for="{{orders}}" wx:key="order_id" class="order_item" data-id="{{item.orderid}}" bindtap="detailorder">
     <view class="order_no_row">
       <view class="order_no_text">订单编号</view>
-      <view class="order_no_value">{{item.order_number}}</view>
+      <view class="order_no_value">{{item.orderid}}</view>
     </view>
     <view class="order_price_row">
-    <view class="order_price_text">订单价格</view>
-      <view class="order_price_value">￥{{item.order_price}}</view>
+      <view class="order_price_text">订单价格</view>
+      <view class="order_price_value">￥{{item.money}}</view>
     </view>
     <view class="order_time_row">
-    <view class="order_time_text">订单时间</view>
-      <view class="order_time_value">{{item.order_date}}</view>
+      <view class="order_time_text">订单时间</view>
+      <view class="order_time_value">{{item.paytime}}</view>
+    </view>
+    <view class="order_time_row">
+      <view class="order_time_text">订单状态</view>
+      <view class="order_time_value">{{item.state}}</view>
+    </view>
+    <view wx:if="{{item.state===1}}">
+      <button style="width:80%" class="ybtn" data-id="{{item.orderid}}"  bindtap="getgoods">确认收货</button>
+    </view>
+    <view wx:if="{{item.state===2}}">
+      <button style="width:80%" class="rbtn" data-id="{{item.orderid}}"  bindtap="modalinput">退货申请</button>
+      <modal hidden="{{hiddenmodalput}}" title="请输入退款原因" 
+   			confirm-text="提交" cancel-text="取消" bindcancel="cancel" 
+   			bindconfirm="confirm">
+      <!-- 这里可以自由选择你的输入框类型<input type='text' placeholder="请输入内容" auto-focus/> -->
+      <textarea placeholder="请输入内容" bindinput="reason"></textarea>
+      </modal>
     </view>
   </view>
 </view>

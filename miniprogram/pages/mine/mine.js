@@ -4,18 +4,24 @@ Page({
    * 页面的初始数据
    */
   data: {
-    
+    state:"未登录",
+    name:""
   },
   handle_waiting_pay:function(){
     wx.navigateTo({
       url: '../order/order',
     })
   },
+
+  changemine:function(){
+    wx.navigateTo({
+      url: '/pages/changemine/changemine',
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    
   },
 
   /**
@@ -29,7 +35,19 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    
+    let self = this;
+    wx.getStorage({
+      key: 'token',
+      success: function (res) {
+        self.setData({ state: "已登陆" });
+      },
+    })
+    wx.getStorage({
+      key: 'userid',
+      success: function (res) {
+        self.setData({ name:res.data });
+      },
+    })
   },
 
   /**

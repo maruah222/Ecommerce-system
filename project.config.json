@@ -29,8 +29,11 @@
 	"compileType": "miniprogram",
 	"libVersion": "2.8.1",
 <<<<<<< HEAD
+<<<<<<< HEAD
 	"appid": "touristappid",
 =======
+=======
+>>>>>>> master
 	"appid": "wx0a29bff979c7132f",
 >>>>>>> master
 	"projectname": "test",
@@ -73,9 +76,12 @@
 					"id": -1,
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 					"name": "cloud",
 					"pathName": "pages/cloud/cloud",
 =======
+=======
+>>>>>>> master
 =======
 >>>>>>> master
 					"name": "pages/mine/mine",
@@ -88,6 +94,9 @@
 					"name": "详情",
 					"pathName": "pages/good-detail/good-detail",
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> master
+=======
 >>>>>>> master
 =======
 >>>>>>> master
@@ -119,8 +128,13 @@
 					"id": -1,
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 					"name": "支付",
 					"pathName": "pages/pay/pay",
+=======
+					"name": "商家",
+					"pathName": "pages/sellerlogin/sellerlogin",
+>>>>>>> master
 =======
 					"name": "商家",
 					"pathName": "pages/sellerlogin/sellerlogin",
@@ -131,11 +145,16 @@
 				{
 					"id": -1,
 <<<<<<< HEAD
+<<<<<<< HEAD
 					"name": "管理员",
 					"pathName": "pages/admin/admin",
 =======
 					"name": "商家",
 					"pathName": "pages/sellerlogin/sellerlogin",
+>>>>>>> master
+=======
+					"name": "上架",
+					"pathName": "pages/good-add/good-add",
 >>>>>>> master
 =======
 					"name": "上架",

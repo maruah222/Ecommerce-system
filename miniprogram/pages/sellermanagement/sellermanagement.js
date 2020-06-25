@@ -19,7 +19,6 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-
   },
 
   /**
@@ -83,15 +82,15 @@ Page({
         value:e.currentTarget.dataset.val,
       },
       method: 'GET',
-      success(res){
+      success:(res)=>{
         if(res.data.code===200){
           wx.showToast({
             title: res.data.message,
             icon: "none",
           });
+          this.getsellers();
         }
       }
     })
-    this.getsellers();
   }
 })

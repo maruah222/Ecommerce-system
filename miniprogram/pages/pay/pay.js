@@ -7,8 +7,18 @@ Page({
   data: {
     address:{},
     goodData:[],
-      totalprice:0,
-      totalnumber:0,
+    srcgoodData:[],
+    totalprice:0,
+    totalnumber:0,
+    token:null,
+    address:"aaa",
+  },
+  AddressInput:function(e){
+    this.setData({ address:e.detail.value})
+    this.data.srcgoodData.forEach(v=>{
+      v.address=e.detail.value;
+    })
+    console.log(this.data.srcgoodData);
   },
   getgoodData:function()
   {
@@ -21,7 +31,7 @@ Page({
       url: 'https://ys.lumingx.com/api/manage/GoodsList?pageNo=1&pageSize=10', //仅为示例，并非真实的接口地址
       data: {
         pageNo:1,
-        pageSize:6
+        pageSize:10
       },
       header: {
         'content-type': 'application/json' // 默认值
@@ -50,13 +60,20 @@ Page({
     })
   },
   onShow(){
+    wx.getStorage({
+      key: 'token',
+      success:(res)=>{
+        this.setData({token:res.data});
+        let cart=wx.getStorageSync('goodData')||[];
+        let cart1=wx.getStorageSync('srcgooddata');
+        //过滤后的购物车数组
+        cart= cart.filter(v=>v.checkstate);
+        this.setData({srcgoodData:cart1});
+        this.setData({goodData:cart});
+        this.setCart(cart);
+      }
+    })
     ////////////////////////////////////////////从后台调用this.getgoodData();
-    let cart=wx.getStorageSync('goodData')||[];
-    //过滤后的购物车数组
-    cart= cart.filter(v=>v.checkstate);
-    this.setData({goodData:cart});
-    this.setCart(cart);
-    console.log(cart);
   },
 
   //设置购物车状态同时重新计算底部工具栏数据
@@ -72,9 +89,48 @@ Page({
     this.setData({goodData:gooddata});
   },
   handlepay:function(){
-    let newcart=wx.getStorageSync('goodData');
-    newcart=newcart.filter(v=>!v.checked);
-    wx.setStorageSync('goodData', newcart);
-    wx.navigateBack({})
+    if(this.data.address===""){
+      wx.showToast({
+        title: "请填写您的收货地址",
+        icon: "none",
+        duration: 2000,
+      });
+    }else{
+      wx.request({
+        url: 'http://47.105.66.104:8080/ecommerce/User/ConfirmOrderByChart',
+        data: this.data.srcgoodData,
+        method: 'POST',
+        header: {
+          'Authorization': 'Bearer '+this.data.token
+        },
+        success:(res)=> {
+          console.log(res);
+          if(res.data.code===200){
+            wx.showToast({
+              title: "支付成功",
+              icon: "none",
+              duration: 2000,
+            });
+            setTimeout(() => {
+              wx.navigateBack({
+                
+              })
+            }, 2000);
+          }else{
+            wx.showToast({
+              title: res.data.message+"库存不足",
+              icon: "none",
+              duration: 2000,
+            });
+            setTimeout(() => {
+              wx.navigateBack({
+                
+              })
+            }, 2000);
+          }
+        }
+      })
+      //wx.navigateBack({})
+    }
   }
 })

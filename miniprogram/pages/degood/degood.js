@@ -5,24 +5,23 @@ Page({
    * 页面的初始数据
    */
   data: {
-    up_goods:[{
-      goodID:1,
-      goodname:"狗粮",
-      describe:"很好吃的",
-    },
-    {
-      goodID:1,
-      goodname:"狗粮",
-      describe:"很好吃的",
-    },
-    {
-      goodID:1,
-      goodname:"狗粮",
-      describe:"很好吃的",
-    }
-  ]
+    token:null,
+    up_goods:[]
   },
+  degood:function(e){
+    wx.request({
+      url: 'http://47.105.66.104:8080/ecommerce/Manager/WithdrawGoodsByGoodId',
+      data:{
+        GoodId:e.currentTarget.dataset.id,
+      },
+      method: 'GET',
+      success:(res)=>{
+        console.log(res);
+        
+      }
+    })
 
+  },
   /**
    * 生命周期函数--监听页面加载
    */
@@ -41,7 +40,18 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    wx.request({
+      url: 'http://47.105.66.104:8080/ecommerce/User/GetAllGoods',
+      data:{
+        pageNum:1,
+        pageSize:111,
+      },
+      method: 'GET',
+      success:(res1)=>{
+        this.setData({up_goods:res1.data.data.list});
+        console.log(this.data.up_goods);
+      }
+    })
   },
 
   /**

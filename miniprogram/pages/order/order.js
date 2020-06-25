@@ -5,21 +5,52 @@ Page({
    * 页面的初始数据
    */
   data: {
-    orders:[{
-      order_id:1,
-      order_number:1919191,
-      order_price:100,
-      order_date:"2020.6.7",
-    },
-    {
-      order_id:2,
-      order_number:199999,
-      order_price:22200,
-      order_date:"2020.6.5",
-    }]
+    token:null,
+    orders:[],
+    hiddenmodalput:true,
+    reas:"",
+    id:null,
   },
   detailorder:function(e){
     console.log(e.currentTarget.dataset.id);
+  },
+  reason:function(e){
+    this.setData({ reas: e.detail.value });
+    console.log(this.data.reas);
+  },
+  cancel:function(){
+    this.setData({reas:""});
+    this.setData({id:null});
+    this.setData({hiddenmodalput:true});
+  },
+  confirm:function(){
+    wx.request({
+      url: 'http://47.105.66.104:8080/ecommerce/User/GoodsReturnApply',
+      data:{
+        orderId:this.data.id,
+        message:this.data.reas,
+      },
+      method:'GET',
+      header: {
+        'Authorization': 'Bearer '+ this.data.token
+      },
+      success:(res)=>{
+        wx.request({
+          url: 'http://47.105.66.104:8080/ecommerce/User/GetAllOrderByUserId',
+          data:{
+            pageNum:1,
+            pageSize:11,
+          },
+          method:'GET',
+          header: {
+            'Authorization': 'Bearer '+ this.data.token
+          },
+          success:(res1)=>{
+           this.setData({orders:res1.data.data.list});
+          }
+        })
+      }
+    })
   },
   /**
    * 生命周期函数--监听页面加载
@@ -39,9 +70,63 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    wx.getStorage({
+      key: 'token',
+      success:(res)=>{
+        this.setData({token:res.data});
+        wx.request({
+          url: 'http://47.105.66.104:8080/ecommerce/User/GetAllOrderByUserId',
+          data:{
+            pageNum:1,
+            pageSize:11,
+          },
+          method:'GET',
+          header: {
+            'Authorization': 'Bearer '+ res.data
+          },
+          success:(res1)=>{
+           this.setData({orders:res1.data.data.list});
+           console.log(this.data.orders);
+          }
+        })
+      }
+    })
   },
-
+  modalinput: function (e) {
+    this.setData({
+      hiddenmodalput: !this.data.hiddenmodalput
+    })
+    this.setData({id:e.currentTarget.dataset.id});
+  },
+  getgoods:function(e){
+    wx.request({
+      url: 'http://47.105.66.104:8080/ecommerce/User/GetGoodsSuccess',
+      data:{
+        orderId:e.currentTarget.dataset.id
+      },
+      method:'GET',
+      header: {
+        'Authorization': 'Bearer '+this.data.token
+      },
+      success:(res)=>{
+        console.log(res);
+        wx.request({
+          url: 'http://47.105.66.104:8080/ecommerce/User/GetAllOrderByUserId',
+          data:{
+            pageNum:1,
+            pageSize:11,
+          },
+          method:'GET',
+          header: {
+            'Authorization': 'Bearer '+ this.data.token
+          },
+          success:(res1)=>{
+           this.setData({orders:res1.data.data.list});
+          }
+        })
+      }
+    })
+  },
   /**
    * 生命周期函数--监听页面隐藏
    */

@@ -30,3 +30,24 @@
   padding: 10rpx 0;
   justify-content: space-between;
 }
+
+.order_main .ybtn{
+  width: 20rpx;
+  background-color:rgb(19, 169, 19);
+  color:white;
+  margin-top: 25rpx;
+}
+
+.order_main .nbtn{
+  width: 20rpx;
+  background-color:rgb(198, 0, 0);
+  color:white;
+  margin-top: 25rpx;
+}
+
+.order_main .rbtn{
+  width: 20rpx;
+  background-color:rgb(206, 228, 108);
+  color:white;
+  margin-top: 25rpx;
+}
