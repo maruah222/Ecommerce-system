@@ -8,6 +8,7 @@ import com.example.ecommerce.component.OverTimeCancelSender;
 import com.example.ecommerce.component.ShopRegisterSender;
 import com.example.ecommerce.dao.AddSkuDao;
 import com.example.ecommerce.dao.ShopDao;
+import com.example.ecommerce.dto.AddSkuParam;
 import com.example.ecommerce.dto.GoodsParam;
 import com.example.ecommerce.mbg.mapper.*;
 import com.example.ecommerce.mbg.model.*;
@@ -15,6 +16,8 @@ import com.example.ecommerce.service.ManagerService;
 import com.example.ecommerce.service.ShopService;
 import com.github.pagehelper.PageHelper;
 import io.swagger.annotations.ApiModelProperty;
+import org.apache.poi.hssf.usermodel.*;
+import org.apache.poi.ss.usermodel.RichTextString;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -33,6 +36,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
@@ -253,9 +258,11 @@ public class ShopServiceImpl implements ShopService {
     @Override
     public CommonResult VerifyReturnSendEmail(String userId, int num) {
         if (num == 1) {
+            managerService.sendEmail(userId,"退货退款申请通过");
             return CommonResult.success(userId, "退货退款审核通过，邮件发送成功");
         }
         if (num == 0) {
+            managerService.sendEmail(userId,"拒绝退货退款");
             return CommonResult.success(userId, "退货退款审核失败，已发邮件通知");
         }
         return null;
@@ -288,40 +295,77 @@ public class ShopServiceImpl implements ShopService {
         return CommonResult.success("sku删除成功");
     }
 
+    @Override
+    public CommonResult AddSkuByGoodId(AddSkuParam addSkuParam) {
+        GoodSku goodSku = new GoodSku();
+        goodSku.setNumber(addSkuParam.getNumber());
+        goodSku.setLeftNumber(addSkuParam.getLeftNumber());
+        goodSku.setVipprice(addSkuParam.getVipprice());
+        goodSku.setPrice(addSkuParam.getPrice());
+        goodSku.setGoodid(addSkuParam.getGoodid());
+        goodSku.setAttribute(addSkuParam.getAttribute());
+        goodSku.setPicture(addSkuParam.getPicture());
 
+        goodSkuMapper.insert(goodSku);
+        return CommonResult.success("添加SKu成功");
+    }
 
     @Override
-    public XSSFWorkbook showOrderExcelByShopId(String ShopId) {
-/*
-        GoodsExample goodsExample = new GoodsExample();
-        goodsExample.createCriteria().andShopidEqualTo(ShopId);
+    public CommonResult AddNumberInSku(int skuId,int number) {
+        GoodSku goodSku = goodSkuMapper.selectByPrimaryKey(skuId);
 
-        List<Goods> list = goodsMapper.selectByExample(goodsExample);
-
-        List<Order> orders = shopDao.selectOrderByGoodId(list);
-
-        XSSFWorkbook x = new XSSFWorkbook();
-        Sheet sheet = x.createSheet("该商品的订单记录");
-        Row row = sheet.createRow(0);
-
-        row.createCell(0).setCellValue("订单ID");
-        row.createCell(1).setCellValue("用户ID");
-        row.createCell(2).setCellValue("商品ID");
-        row.createCell(3).setCellValue("订单状态");
-        row.createCell(4).setCellValue("付款时间");
-        row.createCell(5).setCellValue("评论内容");
-        row.createCell(6).setCellValue("评论时间");
-        row.createCell(7).setCellValue("数量");
-        row.createCell(8).setCellValue("单价");
-        row.createCell(9).setCellValue("属性");
-        row.createCell(10).setCellValue("总价");
-
-        int i=1;
-        for(Order order:orders)
-        {
-        }*/
-        return null;
+        int num=number-goodSku.getNumber();
+        goodSku.setNumber(number);
+        goodSku.setLeftNumber(goodSku.getLeftNumber()+num);
+        goodSkuMapper.updateByPrimaryKeySelective(goodSku);
+        return CommonResult.success(skuId,"修改成功");
     }
+
+    @Override
+    public CommonResult ModifySku(int skuId,BigDecimal price, BigDecimal vipprice,String picture) {
+        GoodSku goodSku = goodSkuMapper.selectByPrimaryKey(skuId);
+
+        goodSku.setSkuid(skuId);
+        goodSku.setPicture(picture);
+        goodSku.setPrice(price);
+        goodSku.setVipprice(vipprice);
+
+        goodSkuMapper.updateByPrimaryKeySelective(goodSku);
+
+        return CommonResult.success(skuId,"修改成功");
+    }
+
+    @Override
+    public List<Goods> getDownGoodsByShopId(String ShopId, int pageNum, int pageSize) {
+        GoodsExample g= new GoodsExample();
+        g.createCriteria().andShopidEqualTo(ShopId).andUpdownstateEqualTo(2).andCheckstateEqualTo(1).andUpdownstateEqualTo(3);
+
+        List<Goods> list = goodsMapper.selectByExample(g);
+
+        return list;
+    }
+
+    @Override
+    public CommonResult downGoodsByGoodId(String GoodId,String ShopId) {
+        GoodsExample goodsExample= new GoodsExample();
+        goodsExample.createCriteria().andShopidEqualTo(ShopId).andShopidEqualTo(ShopId);
+        Goods goods = goodsMapper.selectByPrimaryKey(GoodId);
+
+        goods.setUpdownstate(2);
+
+        goodsMapper.updateByPrimaryKeySelective(goods);
+
+        return CommonResult.success("下架成功");
+    }
+
+    @Override
+    public CommonResult ApplyDownGoodsUp(String GoodId) {
+        Goods goods=goodsMapper.selectByPrimaryKey(GoodId);
+        goods.setUpdownstate(0);
+
+        return CommonResult.success("二次上架的申请已提交，请等待审核");
+    }
+
 
     @Override
     public List<GoodSku> getSkuByGoodId(String GoodId,int pageNum,int pageSize)
@@ -334,80 +378,88 @@ public class ShopServiceImpl implements ShopService {
         return goodSkuMapper.selectByExample(goodSkuExample);
     }
 
+
     @Override
-    public CommonResult AddSkuByGoodId(String GoodId,int SkuId,int num,BigDecimal price, BigDecimal vipprice,int Left_number,String picture,String Attribute){
+    public void exportExcel(HttpServletResponse response,
+                            List<List<String>> excelData,
+                            String sheetName,
+                            String fileName,
+                            int columnWidth) throws IOException {
 
-        GoodSkuExample g = new GoodSkuExample();
-        g.createCriteria().andGoodidEqualTo(GoodId);
-        List<GoodSku> list = goodSkuMapper.selectByExample(g);
-        if(list==null) {
+        //声明一个工作簿
+        HSSFWorkbook workbook = new HSSFWorkbook();
 
-            return CommonResult.failed("这个商品不存在");
+        //生成一个表格，设置表格名称
+        HSSFSheet sheet = workbook.createSheet(sheetName);
+
+        //设置表格列宽度
+        sheet.setDefaultColumnWidth(columnWidth);
+
+        //写入List<List<String>>中的数据
+        int rowIndex = 0;
+        for(List<String> data : excelData){
+            //创建一个row行，然后自增1
+            HSSFRow row = sheet.createRow(rowIndex++);
+
+            //遍历添加本行数据
+            for (int i = 0; i < data.size(); i++) {
+                //创建一个单元格
+                HSSFCell cell = row.createCell(i);
+
+                //创建一个内容对象
+                HSSFRichTextString text = new HSSFRichTextString(data.get(i));
+
+                //将内容对象的文字内容写入到单元格中
+                cell.setCellValue(text);
+            }
         }
 
-        list.get(0).setGoodid(GoodId);
-        list.get(0).setSkuid(SkuId);
-        list.get(0).setPrice(price);
-        list.get(0).setGoodid(GoodId);
-        list.get(0).setVipprice(vipprice);
-        list.get(0).setLeftNumber(Left_number);
-        list.get(0).setPicture(picture);
-        list.get(0).setAttribute(Attribute);
-        goodSkuMapper.insert(list.get(0));
+        //准备将Excel的输出流通过response输出到页面下载
+        //八进制输出流
+        response.setContentType("application/octet-stream");
 
-        return CommonResult.success("添加成功");
+        //设置导出Excel的名称
+        response.setHeader("Content-disposition", "attachment;filename=" + fileName);
 
+        //刷新缓冲
+        response.flushBuffer();
+
+        //workbook将Excel写入到response的输出流中，供页面下载该Excel文件
+        workbook.write(response.getOutputStream());
+
+        //关闭workbook
+        workbook.close();
 
 
     }
-    @Override
-    public CommonResult AddNumberInSku(int skuid,int num)
-    {
-        GoodSkuExample g = new GoodSkuExample();
-        g.createCriteria().andSkuidEqualTo(skuid);
-        List<GoodSku> list = goodSkuMapper.selectByExample(g);
-        int Left_Number = list.get(0).getLeftNumber();
-        if(Left_Number<num)
-        {
-            return CommonResult.failed("库存数量必须增加");
-        }
-
-        GoodSku goodSku =goodSkuMapper.selectByPrimaryKey(skuid);
-        goodSku.setNumber(num);
-        goodSkuMapper.updateByPrimaryKeySelective(goodSku);
-        return CommonResult.success("库存数量增加成功");
-
-    }
 
     @Override
-    public CommonResult ModifySku(int SKUId,String GoodId, BigDecimal price, BigDecimal vipprice){
-        GoodSkuExample g = new GoodSkuExample();
-        g.createCriteria().andGoodidEqualTo(GoodId).andSkuidEqualTo(SKUId);
-        List<GoodSku> list = goodSkuMapper.selectByExample(g);
-        if(list==null) {
+    public XSSFWorkbook showOrderExcelByShopId(String ShopId) {
+         GoodsExample goodsExample = new GoodsExample();
+         goodsExample.createCriteria().andShopidEqualTo(ShopId);
 
-            return CommonResult.failed("这个商品不存在");
-        }
+         List<Goods> list = goodsMapper.selectByExample(goodsExample);
 
-//        String userId = tokenTranslate.GetUsernameByHeader(request);
-//        String ChartId = managerService.getRandomCode();
-//        Goods good =goodsMapper.selectByPrimaryKey(GoodId);
-        GoodSku goodSku =goodSkuMapper.selectByPrimaryKey(SKUId);
-        goodSku.setGoodid(GoodId);
-        goodSku.setPrice(price);
-        goodSku.setVipprice(vipprice);
+         List<Order> orders = shopDao.selectOrderByGoodId(list);
 
-        return CommonResult.success("添加成功");
-    }
+         XSSFWorkbook x = new XSSFWorkbook();
+         Sheet sheet = x.createSheet("该商品的订单记录");
+         Row row = sheet.createRow(0);
 
+         row.createCell(0).setCellValue("订单ID");
+         row.createCell(1).setCellValue("用户ID");
+         row.createCell(2).setCellValue("商品ID");
+         row.createCell(3).setCellValue("订单状态");
+         row.createCell(4).setCellValue("付款时间");
+         row.createCell(5).setCellValue("评论内容");
+         row.createCell(6).setCellValue("评论时间");
+         row.createCell(7).setCellValue("数量");
+         row.createCell(8).setCellValue("单价");
+         row.createCell(9).setCellValue("属性");
+         row.createCell(10).setCellValue("总价");
 
-    @Override
-    public List<Goods> GetGoodByShopId(String ShopId,int pageNum, int pageSize ){
-
-        PageHelper.startPage(pageNum, pageSize);
-        GoodsExample goodsExample = new GoodsExample();
-        goodsExample.createCriteria().andShopidEqualTo(ShopId);
-        return goodsMapper.selectByExample(goodsExample);
+         int i=1;
+        return x;
     }
 }
 

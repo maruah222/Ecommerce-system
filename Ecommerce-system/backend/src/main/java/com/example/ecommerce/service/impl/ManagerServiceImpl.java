@@ -150,10 +150,12 @@ public class ManagerServiceImpl implements ManagerService {
     public CommonResult VerifyRegisterSendEmail(String ShopId, String num) {
         if(num.equals("1"))
         {
+            managerService.sendEmail(ShopId,"商家注册审核通过");
             return CommonResult.success(ShopId,"商家注册审核通过，邮件发送成功");
         }
         if(num.equals("0"))
         {
+            managerService.sendEmail(ShopId,"商家注册审核失败");
             return CommonResult.success(ShopId,"商家注册审核失败，已发邮件通知");
         }
         return null;
@@ -239,6 +241,36 @@ public class ManagerServiceImpl implements ManagerService {
     @Override
     public CommonResult WithdrawGoodsByGoodId(String GoodId) {
         return shopService.WithdrawGoodsByGoodId(GoodId);
+    }
+
+    @Override
+    public List<Goods> getAllDownGoods(int pageNum, int pageSize) {
+
+        GoodsExample g= new GoodsExample();
+        g.createCriteria().andCheckstateEqualTo(1).andUpdownstateEqualTo(2);
+
+        PageHelper.startPage(pageNum, pageSize);
+
+        return goodsMapper.selectByExampleWithBLOBs(g);
+    }
+
+    @Override
+    public CommonResult UptheDownGoods(String GoodId, int num) {
+        if(num==1)
+        {
+            Goods goods=goodsMapper.selectByPrimaryKey(GoodId);
+            goods.setUpdownstate(1);
+
+            goodsMapper.updateByPrimaryKeySelective(goods);
+
+            return CommonResult.success("审核通过，商品二次上架");
+        }
+        if(num==2)
+        {
+            return CommonResult.failed("拒绝商品上架");
+        }
+
+        return CommonResult.failed("只能输入1或2哦");
     }
 
 }

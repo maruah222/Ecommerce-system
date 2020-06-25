@@ -32,7 +32,6 @@ public interface ManagerService {
     CommonResult VerifyGoodFailed(String Goodid);
     CommonResult VerifyGoodSendEmail(String Goodid,String num);
 
-
     CommonResult sendEmail(String emailAddress,String message);
 
     String getRandomCode();
@@ -40,4 +39,7 @@ public interface ManagerService {
     List<Order> getAllOrder(int pageNum,int pageSize);
 
     CommonResult WithdrawGoodsByGoodId(String GoodId);
+
+    List<Goods> getAllDownGoods(int pageNum,int pageSize);
+    CommonResult UptheDownGoods(String GoodId,int num);
 }

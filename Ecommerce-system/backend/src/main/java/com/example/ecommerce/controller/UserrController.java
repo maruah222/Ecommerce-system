@@ -165,10 +165,14 @@ public class UserrController {
     @ResponseBody
     public CommonResult GetGoodsByShopId(@RequestParam String shopId,
                                          @RequestParam int pageNum,
-                                         @RequestParam int pageSize)
-    {
-        List<Goods> goods=userrService.getGoodsByShopId(shopId,pageNum,pageSize);
-        return CommonResult.success(CommonPage.restPage(goods));
+                                         @RequestParam int pageSize) {
+        List<Goods> goods = userrService.getGoodsByShopId(shopId, pageNum, pageSize);
+        if (goods.size() > 0) {
+            return CommonResult.success(CommonPage.restPage(goods));
+        }else
+        {
+            return CommonResult.failed("无商品");
+        }
     }
 
     @ApiOperation("根据用户名获取订单")
@@ -219,7 +223,7 @@ public class UserrController {
         return CommonResult.success(goodDetailParam);
     }
 
-    @ApiOperation("根据GoodId获取商品详情")
+    @ApiOperation("根据GoodId获取需要的评论")
     @RequestMapping(value = "/GetNeedCommentByUserId",method = RequestMethod.GET)
     @ResponseBody
     public CommonResult getNeedCommentByUserId(@RequestParam int pageNum,
@@ -230,7 +234,7 @@ public class UserrController {
         return CommonResult.success(CommonPage.restPage(list));
     }
 
-    @ApiOperation("根据GoodId获取商品详情")
+    @ApiOperation("添加评论")
     @RequestMapping(value = "/AddComment",method = RequestMethod.GET)
     @ResponseBody
     public CommonResult AddComment(@RequestParam String GoodId,
@@ -299,5 +303,37 @@ public class UserrController {
         List<CommentParam> list= userrService.getCommentByGoodId (GoodId, pageNum, pageSize);
         return CommonResult.success(CommonPage.restPage(list));
     }
+
+
+    @ApiOperation("按销量查看所有商品")
+    @RequestMapping(value = "/GetGoodsOrderByNumber",method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult GetGoodsOrderByNumber( @RequestParam int pageNum,
+                                               @RequestParam int pageSize)
+    {
+        List<Goods> goods = userrService.GetGoodsOrderByNumber(pageNum, pageSize);
+        return CommonResult.success(CommonPage.restPage(goods));
+    }
+
+    @ApiOperation("价格从高到低查看所有商品")
+    @RequestMapping(value = "/GetGoodsOrderByPriceDesc",method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult GetGoodsOrderByPriceDesc( @RequestParam int pageNum,
+                                               @RequestParam int pageSize)
+    {
+        List<Goods> goods = userrService.GetGoodsOrderByPriceDesc(pageNum, pageSize);
+        return CommonResult.success(CommonPage.restPage(goods));
+    }
+
+    @ApiOperation("价格从低到高查看所有商品")
+    @RequestMapping(value = "/GetGoodsOrderByPriceAsc",method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult GetGoodsOrderByPriceAsc( @RequestParam int pageNum,
+                                                  @RequestParam int pageSize)
+    {
+        List<Goods> goods = userrService.GetGoodsOrderByPriceAsc(pageNum, pageSize);
+        return CommonResult.success(CommonPage.restPage(goods));
+    }
+
 
 }

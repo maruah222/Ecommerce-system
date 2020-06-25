@@ -57,12 +57,17 @@ public interface UserrService {
     CommonResult GetGoodsSuccess(String OrderId);
 
     //退货退款
-    CommonResult GoodsReturnApply(String OrderId,String reason, HttpServletRequest request);
+    CommonResult GoodsReturnApply(String OrderId,String reason,HttpServletRequest request);
 
     //评论
     CommonResult AddComment(String orderId,String message, HttpServletRequest request);
     List<Order> getNeedCommentByUserId(int pageNum, int pageSize, HttpServletRequest request);
     CommonResult deleteComment(String orderId,HttpServletRequest request);
     List<CommentParam> getCommentByGoodId(String GoodId,int pageNum, int pageSize);
+
+
+    List<Goods> GetGoodsOrderByNumber(int pageNum, int pageSize);
+    List<Goods> GetGoodsOrderByPriceDesc(int pageNum, int pageSize);
+    List<Goods> GetGoodsOrderByPriceAsc(int pageNum, int pageSize);
 }
 

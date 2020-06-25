@@ -236,8 +236,15 @@ public class UserServiceImpl implements UserrService {
     @Override
     public List<Goods> getAllGoods(int pageNum, int pageSize) {
         GoodsExample goodsExample = new GoodsExample();
-        goodsExample.createCriteria().andUpdownstateEqualTo(1);
+        goodsExample.createCriteria().andUpdownstateEqualTo(1).andCheckstateEqualTo(1);
         List<Goods> goods=goodsMapper.selectByExampleWithBLOBs(goodsExample);
+
+
+        for(Goods g:goods)
+        {
+            Shop shop = shopMapper.selectByPrimaryKey(g.getShopid());
+            g.setShopid(shop.getShopname());
+        }
         PageHelper.startPage(pageNum, pageSize);
         return goods;
     }
@@ -247,7 +254,7 @@ public class UserServiceImpl implements UserrService {
 
         PageHelper.startPage(pageNum, pageSize);
         GoodsExample goodsExample = new GoodsExample();
-        goodsExample.createCriteria().andShopidEqualTo(shopid).andUpdownstateEqualTo(1);
+        goodsExample.createCriteria().andShopidEqualTo(shopid).andUpdownstateEqualTo(1).andCheckstateEqualTo(1);
         return goodsMapper.selectByExample(goodsExample);
     }
 
@@ -302,6 +309,8 @@ public class UserServiceImpl implements UserrService {
         Order order = orderMapper.selectByPrimaryKey(OrderId);
         order.setState(3);
 
+        Goods goods = goodsMapper.selectByPrimaryKey(order.getGoodid());
+
         OrderReturn orderReturn = new OrderReturn();
         orderReturn.setMoney(order.getMoney());
         orderReturn.setOrderid(order.getOrderid());
@@ -309,6 +318,8 @@ public class UserServiceImpl implements UserrService {
         orderReturn.setReturnreason(reason);
         orderReturn.setGoodid(order.getGoodid());
         orderReturn.setMoney(order.getMoney());
+        orderReturn.setShopid(goods.getShopid());
+        orderReturn.setUserid(userId);
 
         orderMapper.updateByPrimaryKey(order);
         orderReturnMapper.insert(orderReturn);
@@ -342,13 +353,12 @@ public class UserServiceImpl implements UserrService {
             order.setGoodid(chart.getGoodid());
             order.setPrice(chart.getPrice());
             order.setMoney(money);
+
             order.setAttribute(chart.getAttribute());
             order.setAddress(chart.getAddress());
-
             GoodSku goodSku = goodSkuMapper.selectByPrimaryKey(chart.getSkuid());
 
             goodSku.setLeftNumber(goodSku.getLeftNumber()- chart.getNumber());
-            goodSku.setNumber(goodSku.getNumber()-chart.getNumber());
 
             Goods good = goodsMapper.selectByPrimaryKey(chart.getGoodid());
             good.setAllsellnumber(good.getAllsellnumber() + chart.getNumber());
@@ -423,6 +433,7 @@ public class UserServiceImpl implements UserrService {
         goodDetailParam.setIntroduction(goods.getIntroduction());
         goodDetailParam.setShopAddress(shop.getShopaddress());
         goodDetailParam.setSkus(goodSkus);
+        goodDetailParam.setShopId(shop.getShopname());
 
         return goodDetailParam;
     }
@@ -502,6 +513,33 @@ public class UserServiceImpl implements UserrService {
         }
 
         return list;
+    }
+
+    @Override
+    public List<Goods> GetGoodsOrderByNumber(int pageNum, int pageSize) {
+        GoodsExample goodsExample = new GoodsExample();
+        goodsExample.createCriteria().andUpdownstateEqualTo(1).andCheckstateEqualTo(1);
+        List<Goods> goods=userDao.GetGoodsOrderByNumber();
+        PageHelper.startPage(pageNum, pageSize);
+        return goods;
+    }
+
+    @Override
+    public List<Goods> GetGoodsOrderByPriceDesc(int pageNum, int pageSize) {
+        GoodsExample goodsExample = new GoodsExample();
+        goodsExample.createCriteria().andUpdownstateEqualTo(1).andCheckstateEqualTo(1);
+        List<Goods> goods=userDao.GetGoodsOrderByPriceDesc();
+        PageHelper.startPage(pageNum, pageSize);
+        return goods;
+    }
+
+    @Override
+    public List<Goods> GetGoodsOrderByPriceAsc(int pageNum, int pageSize) {
+        GoodsExample goodsExample = new GoodsExample();
+        goodsExample.createCriteria().andUpdownstateEqualTo(1).andCheckstateEqualTo(1);
+        List<Goods> goods=userDao.GetGoodsOrderByPriceAsc();
+        PageHelper.startPage(pageNum, pageSize);
+        return goods;
     }
 
 

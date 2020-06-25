@@ -131,4 +131,24 @@ public class ManageController {
     }
 
 
+    @ApiOperation("获取所有被下架商品")
+    @RequestMapping(value = "/GetAllDownGoods",method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult GetAllDownGoods(@RequestParam(value = "pageNum") @ApiParam("页码") int pageNum,
+                                        @RequestParam(value = "pageSize") @ApiParam("页面大小") int pageSize)
+    {
+        List<Goods> list=managerService.getAllDownGoods(pageNum,pageSize);
+        return CommonResult.success(CommonPage.restPage(list));
+    }
+
+    @ApiOperation("审核二次上架的申请")
+    @RequestMapping(value = "/UptheDownGoods",method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult UptheDownGoods(@RequestParam String GoodId,
+                                       @RequestParam int num)
+    {
+        return managerService.UptheDownGoods(GoodId,num);
+    }
+
+
 }
