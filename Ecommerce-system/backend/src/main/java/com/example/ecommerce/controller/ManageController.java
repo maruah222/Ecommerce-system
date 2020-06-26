@@ -6,6 +6,7 @@ import com.example.ecommerce.dto.LoginParam;
 import com.example.ecommerce.mbg.model.Goods;
 import com.example.ecommerce.mbg.model.Order;
 import com.example.ecommerce.mbg.model.Shop;
+import com.example.ecommerce.mbg.model.Userr;
 import com.example.ecommerce.service.ManagerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -148,6 +149,26 @@ public class ManageController {
                                        @RequestParam int num)
     {
         return managerService.UptheDownGoods(GoodId,num);
+    }
+
+    @ApiOperation("获取消费3000以上的用户，可升级为vip")
+    @RequestMapping(value = "/GetUserbeVIP",method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult GetUserbeVIP(@RequestParam(value = "pageNum") @ApiParam("页码") int pageNum,
+                                        @RequestParam(value = "pageSize") @ApiParam("页面大小") int pageSize)
+    {
+        List<Userr> list=managerService.getUserbeVIP(pageNum,pageSize);
+        return CommonResult.success(CommonPage.restPage(list));
+    }
+
+
+    @ApiOperation("审核用户成为VIP，1是通过，0是拒绝")
+    @RequestMapping(value = "/VerifyUserBeVIP",method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult VerifyUserBeVIP(@RequestParam String UserId,
+                                       @RequestParam int num)
+    {
+        return managerService.VerifyUserBeVIP(UserId,num);
     }
 
 

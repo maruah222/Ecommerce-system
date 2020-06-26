@@ -5,6 +5,7 @@ import com.example.ecommerce.common.utils.JwtTokenUtil;
 import com.example.ecommerce.component.VerifyFailedSender;
 import com.example.ecommerce.component.VerifySuccessSender;
 import com.example.ecommerce.dao.AddSkuDao;
+import com.example.ecommerce.dao.ManagerDao;
 import com.example.ecommerce.dto.AdminUserDetails;
 import com.example.ecommerce.mbg.mapper.*;
 import com.example.ecommerce.mbg.model.*;
@@ -15,10 +16,12 @@ import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.access.method.P;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -63,6 +66,15 @@ public class ManagerServiceImpl implements ManagerService {
     private ManagerMapper managerMapper;
 
     @Autowired(required = false)
+    private ManagerDao managerDao;
+
+    @Autowired(required = false)
+    private LoginrecordMapper loginrecordMapper;
+
+    @Autowired(required = false)
+    private UserrMapper userrMapper;
+
+    @Autowired(required = false)
     private UserDetailsService userDetailsService;
 
     @Autowired
@@ -99,10 +111,16 @@ public class ManagerServiceImpl implements ManagerService {
                 throw new BadCredentialsException("用户名不存在");
             }
 
-
             if(!passwordEncoder.matches(password,userDetails.getPassword())) {
                 throw new BadCredentialsException("密码不正确");
             }
+
+            Loginrecord loginrecord = new Loginrecord();
+            loginrecord.setLogintime(new Date());
+            loginrecord.setRole(1);
+            loginrecord.setUserid(username);
+            loginrecordMapper.insert(loginrecord);
+
             UsernamePasswordAuthenticationToken token1 = new UsernamePasswordAuthenticationToken(userDetails,null,userDetails.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(token1);
             token=jwtTokenUtil.generateToken(userDetails);
@@ -247,7 +265,7 @@ public class ManagerServiceImpl implements ManagerService {
     public List<Goods> getAllDownGoods(int pageNum, int pageSize) {
 
         GoodsExample g= new GoodsExample();
-        g.createCriteria().andCheckstateEqualTo(1).andUpdownstateEqualTo(2);
+        g.createCriteria().andCheckstateEqualTo(1).andUpdownstateGreaterThanOrEqualTo(2);
 
         PageHelper.startPage(pageNum, pageSize);
 
@@ -267,10 +285,41 @@ public class ManagerServiceImpl implements ManagerService {
         }
         if(num==2)
         {
+            Goods goods=goodsMapper.selectByPrimaryKey(GoodId);
+            goods.setUpdownstate(3);
+
+            goodsMapper.updateByPrimaryKeySelective(goods);
             return CommonResult.failed("拒绝商品上架");
         }
 
         return CommonResult.failed("只能输入1或2哦");
+    }
+
+    @Override
+    public List<Userr> getUserbeVIP(int pageNum, int pageSize) {
+        List<Userr> list=managerDao.SelectUserBeVIP();
+        PageHelper.startPage(pageNum, pageSize);
+
+        return list;
+    }
+
+    @Override
+    public CommonResult VerifyUserBeVIP(String UserId, int num) {
+       if(num==1)
+       {
+           Userr userr = userrMapper.selectByPrimaryKey(UserId);
+           userr.setUserpower(1);
+
+           userrMapper.updateByPrimaryKey(userr);
+
+           return CommonResult.success(userr.getUserid(),"用户升级为VIP");
+       }
+       if(num==0)
+       {
+           return CommonResult.failed("拒绝升级哦");
+       }
+
+       return CommonResult.failed("只能输入0或1哦");
     }
 
 }

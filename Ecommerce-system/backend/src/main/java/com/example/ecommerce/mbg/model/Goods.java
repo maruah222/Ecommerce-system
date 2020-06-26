@@ -35,7 +35,7 @@ public class Goods implements Serializable {
     @ApiModelProperty(value = "总销售量")
     private Integer allsellnumber;
 
-    @ApiModelProperty(value = "上下架状态，0是待上架，1是已上架，2是已下架")
+    @ApiModelProperty(value = "上下架状态，0是待上架，1是已上架，2是已下架，3是拒绝上架")
     private Integer updownstate;
 
     @ApiModelProperty(value = "商品介绍")

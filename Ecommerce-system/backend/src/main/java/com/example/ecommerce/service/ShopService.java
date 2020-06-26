@@ -57,14 +57,16 @@ public interface ShopService {
 
     CommonResult ApplyDownGoodsUp(String GoodId);
 
-    //查看自家商品的购买记录
+    //查看自家商品的
     XSSFWorkbook showOrderExcelByShopId(String ShopId);
+
+    List<Order> getOrdernotGet(String ShopId,int pageNum,int pageSize);
+
 
    /* CommonResult AddSkuByGoodId(String GoodId,int SkuId,int num,BigDecimal price, BigDecimal vipprice,int Left_number,String picture,String Attribute);
     CommonResult AddNumberInSku(int skuid,int num);
     CommonResult ModifySku(int SKUId, String GoodId, BigDecimal price, BigDecimal vipprice);
     List<Goods> GetGoodByShopId(String ShopId,int pageNum, int pageSize);
 */
-
 
 }

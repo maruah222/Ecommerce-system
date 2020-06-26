@@ -41,5 +41,10 @@ public interface ManagerService {
     CommonResult WithdrawGoodsByGoodId(String GoodId);
 
     List<Goods> getAllDownGoods(int pageNum,int pageSize);
+    //管理员二次上架
     CommonResult UptheDownGoods(String GoodId,int num);
+
+    List<Userr> getUserbeVIP(int pageNum,int pageSize);
+
+    CommonResult VerifyUserBeVIP(String UserId,int num);
 }

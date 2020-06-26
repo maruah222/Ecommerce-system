@@ -68,6 +68,9 @@ public class ShopServiceImpl implements ShopService {
     private OrderReturnMapper orderReturnMapper;
 
     @Autowired(required = false)
+    private LoginrecordMapper loginrecordMapper;
+
+    @Autowired(required = false)
     private GoodSkuMapper goodSkuMapper;
 
     @Autowired
@@ -150,6 +153,13 @@ public class ShopServiceImpl implements ShopService {
             if (!passwordEncoder.matches(Sellerpassword, userDetails.getPassword())) {
                 throw new BadCredentialsException("密码不正确");
             }
+
+            Loginrecord loginrecord = new Loginrecord();
+            loginrecord.setLogintime(new Date());
+            loginrecord.setRole(2);
+            loginrecord.setUserid(Sellername);
+            loginrecordMapper.insert(loginrecord);
+
             UsernamePasswordAuthenticationToken token1 = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(token1);
             token = jwtTokenUtil.generateToken(userDetails);
@@ -338,7 +348,7 @@ public class ShopServiceImpl implements ShopService {
     @Override
     public List<Goods> getDownGoodsByShopId(String ShopId, int pageNum, int pageSize) {
         GoodsExample g= new GoodsExample();
-        g.createCriteria().andShopidEqualTo(ShopId).andUpdownstateEqualTo(2).andCheckstateEqualTo(1).andUpdownstateEqualTo(3);
+        g.createCriteria().andShopidEqualTo(ShopId).andUpdownstateEqualTo(2).andCheckstateEqualTo(1);
 
         List<Goods> list = goodsMapper.selectByExample(g);
 
@@ -380,60 +390,6 @@ public class ShopServiceImpl implements ShopService {
 
 
     @Override
-    public void exportExcel(HttpServletResponse response,
-                            List<List<String>> excelData,
-                            String sheetName,
-                            String fileName,
-                            int columnWidth) throws IOException {
-
-        //声明一个工作簿
-        HSSFWorkbook workbook = new HSSFWorkbook();
-
-        //生成一个表格，设置表格名称
-        HSSFSheet sheet = workbook.createSheet(sheetName);
-
-        //设置表格列宽度
-        sheet.setDefaultColumnWidth(columnWidth);
-
-        //写入List<List<String>>中的数据
-        int rowIndex = 0;
-        for(List<String> data : excelData){
-            //创建一个row行，然后自增1
-            HSSFRow row = sheet.createRow(rowIndex++);
-
-            //遍历添加本行数据
-            for (int i = 0; i < data.size(); i++) {
-                //创建一个单元格
-                HSSFCell cell = row.createCell(i);
-
-                //创建一个内容对象
-                HSSFRichTextString text = new HSSFRichTextString(data.get(i));
-
-                //将内容对象的文字内容写入到单元格中
-                cell.setCellValue(text);
-            }
-        }
-
-        //准备将Excel的输出流通过response输出到页面下载
-        //八进制输出流
-        response.setContentType("application/octet-stream");
-
-        //设置导出Excel的名称
-        response.setHeader("Content-disposition", "attachment;filename=" + fileName);
-
-        //刷新缓冲
-        response.flushBuffer();
-
-        //workbook将Excel写入到response的输出流中，供页面下载该Excel文件
-        workbook.write(response.getOutputStream());
-
-        //关闭workbook
-        workbook.close();
-
-
-    }
-
-    @Override
     public XSSFWorkbook showOrderExcelByShopId(String ShopId) {
          GoodsExample goodsExample = new GoodsExample();
          goodsExample.createCriteria().andShopidEqualTo(ShopId);
@@ -459,7 +415,39 @@ public class ShopServiceImpl implements ShopService {
          row.createCell(10).setCellValue("总价");
 
          int i=1;
+         for(Order o:orders)
+         {
+             Row r= sheet.createRow(i);
+
+             r.createCell(0).setCellValue(o.getOrderid());
+             r.createCell(1).setCellValue(o.getUserid());
+             r.createCell(2).setCellValue(o.getGoodid());
+             r.createCell(3).setCellValue(o.getState());
+             r.createCell(4).setCellValue(o.getPaytime());
+             r.createCell(5).setCellValue(o.getComment());
+             r.createCell(6).setCellValue(o.getCommenttime());
+             r.createCell(7).setCellValue(o.getNumber());
+             r.createCell(8).setCellValue(o.getPrice().toString());
+             r.createCell(9).setCellValue(o.getAttribute());
+             r.createCell(10).setCellValue(o.getMoney().toString());
+         }
+
         return x;
+    }
+
+    @Override
+    public List<Order> getOrdernotGet(String ShopId,int pageNum, int pageSize) {
+
+        GoodsExample goodsExample = new GoodsExample();
+        goodsExample.createCriteria().andShopidEqualTo(ShopId);
+
+        List<Goods> goods = goodsMapper.selectByExampleWithBLOBs(goodsExample);
+
+        List<Order> list = shopDao.selectnotGetOrderByGoodId(goods);
+
+        PageHelper.startPage(pageNum, pageSize);
+
+        return list;
     }
 }
 

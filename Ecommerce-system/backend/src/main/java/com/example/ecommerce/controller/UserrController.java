@@ -2,10 +2,7 @@ package com.example.ecommerce.controller;
 
 import com.example.ecommerce.common.api.CommonPage;
 import com.example.ecommerce.common.api.CommonResult;
-import com.example.ecommerce.dto.ChartsParam;
-import com.example.ecommerce.dto.CommentParam;
-import com.example.ecommerce.dto.GoodDetailParam;
-import com.example.ecommerce.dto.LoginParam;
+import com.example.ecommerce.dto.*;
 import com.example.ecommerce.mbg.mapper.ChartMapper;
 import com.example.ecommerce.mbg.model.*;
 import com.example.ecommerce.service.UserrService;
@@ -311,7 +308,7 @@ public class UserrController {
     public CommonResult GetGoodsOrderByNumber( @RequestParam int pageNum,
                                                @RequestParam int pageSize)
     {
-        List<Goods> goods = userrService.GetGoodsOrderByNumber(pageNum, pageSize);
+        List<GoodsPriceParam> goods = userrService.GetGoodsOrderByNumber(pageNum, pageSize);
         return CommonResult.success(CommonPage.restPage(goods));
     }
 
@@ -321,7 +318,7 @@ public class UserrController {
     public CommonResult GetGoodsOrderByPriceDesc( @RequestParam int pageNum,
                                                @RequestParam int pageSize)
     {
-        List<Goods> goods = userrService.GetGoodsOrderByPriceDesc(pageNum, pageSize);
+        List<GoodsPriceParam> goods = userrService.GetGoodsOrderByPriceDesc(pageNum, pageSize);
         return CommonResult.success(CommonPage.restPage(goods));
     }
 
@@ -331,7 +328,7 @@ public class UserrController {
     public CommonResult GetGoodsOrderByPriceAsc( @RequestParam int pageNum,
                                                   @RequestParam int pageSize)
     {
-        List<Goods> goods = userrService.GetGoodsOrderByPriceAsc(pageNum, pageSize);
+        List<GoodsPriceParam> goods = userrService.GetGoodsOrderByPriceAsc(pageNum, pageSize);
         return CommonResult.success(CommonPage.restPage(goods));
     }
 

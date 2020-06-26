@@ -17,7 +17,7 @@ public class Userpermission implements Serializable {
     @ApiModelProperty(value = "创建时间")
     private Date createtime;
 
-    @ApiModelProperty(value = "角色，0是用户，1是商家")
+    @ApiModelProperty(value = "角色，0是用户，1是管理员，2是商家")
     private Integer role;
 
     private static final long serialVersionUID = 1L;

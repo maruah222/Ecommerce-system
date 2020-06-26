@@ -6,9 +6,7 @@ import com.example.ecommerce.common.utils.JwtTokenUtil;
 import com.example.ecommerce.common.utils.TokenTranslate;
 import com.example.ecommerce.component.CancelOrderSender;
 import com.example.ecommerce.dao.UserDao;
-import com.example.ecommerce.dto.ChartsParam;
-import com.example.ecommerce.dto.CommentParam;
-import com.example.ecommerce.dto.GoodDetailParam;
+import com.example.ecommerce.dto.*;
 import com.example.ecommerce.mbg.mapper.*;
 import com.example.ecommerce.mbg.model.*;
 import com.example.ecommerce.service.ManagerService;
@@ -75,6 +73,9 @@ public class UserServiceImpl implements UserrService {
 
     @Autowired(required = false)
     private OrderReturnMapper orderReturnMapper;
+
+    @Autowired(required = false)
+    private LoginrecordMapper loginrecordMapper;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -154,10 +155,17 @@ public class UserServiceImpl implements UserrService {
             if (!passwordEncoder.matches(password, userDetails.getPassword())) {
                 throw new BadCredentialsException("密码不正确");
             }
+
+            Loginrecord loginrecord = new Loginrecord();
+            loginrecord.setLogintime(new Date());
+            loginrecord.setRole(0);
+            loginrecord.setUserid(username);
+            loginrecordMapper.insert(loginrecord);
+
+
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authentication);
             token = jwtTokenUtil.generateToken(userDetails);
-
         } catch (AuthenticationException e) {
         }
         return token;
@@ -433,7 +441,8 @@ public class UserServiceImpl implements UserrService {
         goodDetailParam.setIntroduction(goods.getIntroduction());
         goodDetailParam.setShopAddress(shop.getShopaddress());
         goodDetailParam.setSkus(goodSkus);
-        goodDetailParam.setShopId(shop.getShopname());
+        goodDetailParam.setShopId(shopId);
+        goodDetailParam.setShopname(shop.getShopname());
 
         return goodDetailParam;
     }
@@ -516,28 +525,50 @@ public class UserServiceImpl implements UserrService {
     }
 
     @Override
-    public List<Goods> GetGoodsOrderByNumber(int pageNum, int pageSize) {
+    public List<GoodsPriceParam> GetGoodsOrderByNumber(int pageNum, int pageSize) {
         GoodsExample goodsExample = new GoodsExample();
         goodsExample.createCriteria().andUpdownstateEqualTo(1).andCheckstateEqualTo(1);
-        List<Goods> goods=userDao.GetGoodsOrderByNumber();
+        List<Goods> goods=userDao.GetGoodsOrderByNumber(goodsExample);
+        List<GoodsPriceParam> list = new ArrayList<>();
+
+        for(Goods g:goods)
+        {
+            BigDecimal price= userDao.getPriceFromGood(g.getGoodid());
+
+            GoodsPriceParam p = new GoodsPriceParam();
+            p.setAllsellnumber(g.getAllsellnumber());
+            p.setCategoryid(g.getCategoryid());
+            p.setCheckstate(g.getCheckstate());
+            p.setFrontpicture(g.getFrontpicture());
+            p.setGoodid(g.getGoodid());
+            p.setGoodname(g.getGoodname());
+            p.setGoodpicture(g.getGoodpicture());
+            p.setIntroduction(g.getIntroduction());
+            p.setIspackage(g.getIspackage());
+            p.setPrice(price);
+            p.setShangtime(g.getShangtime());
+            p.setShopid(g.getShopid());
+            p.setUpdownstate(g.getUpdownstate());
+
+            list.add(p);
+        }
         PageHelper.startPage(pageNum, pageSize);
+        return list;
+    }
+
+    @Override
+    public List<GoodsPriceParam> GetGoodsOrderByPriceDesc(int pageNum, int pageSize) {
+
+        List<GoodsPriceParam> goods=userDao.GetGoodsOrderByPriceDesc();
+        PageHelper.startPage(pageNum, pageSize);
+
         return goods;
     }
 
     @Override
-    public List<Goods> GetGoodsOrderByPriceDesc(int pageNum, int pageSize) {
-        GoodsExample goodsExample = new GoodsExample();
-        goodsExample.createCriteria().andUpdownstateEqualTo(1).andCheckstateEqualTo(1);
-        List<Goods> goods=userDao.GetGoodsOrderByPriceDesc();
-        PageHelper.startPage(pageNum, pageSize);
-        return goods;
-    }
+    public List<GoodsPriceParam> GetGoodsOrderByPriceAsc(int pageNum, int pageSize) {
+        List<GoodsPriceParam> goods=userDao.GetGoodsOrderByPriceAsc();
 
-    @Override
-    public List<Goods> GetGoodsOrderByPriceAsc(int pageNum, int pageSize) {
-        GoodsExample goodsExample = new GoodsExample();
-        goodsExample.createCriteria().andUpdownstateEqualTo(1).andCheckstateEqualTo(1);
-        List<Goods> goods=userDao.GetGoodsOrderByPriceAsc();
         PageHelper.startPage(pageNum, pageSize);
         return goods;
     }

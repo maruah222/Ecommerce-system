@@ -4,6 +4,7 @@ import com.example.ecommerce.common.api.CommonResult;
 import com.example.ecommerce.dto.ChartsParam;
 import com.example.ecommerce.dto.CommentParam;
 import com.example.ecommerce.dto.GoodDetailParam;
+import com.example.ecommerce.dto.GoodsPriceParam;
 import com.example.ecommerce.mbg.model.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -66,8 +67,8 @@ public interface UserrService {
     List<CommentParam> getCommentByGoodId(String GoodId,int pageNum, int pageSize);
 
 
-    List<Goods> GetGoodsOrderByNumber(int pageNum, int pageSize);
-    List<Goods> GetGoodsOrderByPriceDesc(int pageNum, int pageSize);
-    List<Goods> GetGoodsOrderByPriceAsc(int pageNum, int pageSize);
+    List<GoodsPriceParam> GetGoodsOrderByNumber(int pageNum, int pageSize);
+    List<GoodsPriceParam> GetGoodsOrderByPriceDesc(int pageNum, int pageSize);
+    List<GoodsPriceParam> GetGoodsOrderByPriceAsc(int pageNum, int pageSize);
 }
 

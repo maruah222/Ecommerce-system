@@ -132,9 +132,9 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.example.ecommerce.mbg.model.Order">
-    insert into `order `(OrderID, UserID, State,
+    insert into `order` (OrderID, UserID, State,
       PayTime, GetTIme, CommentTime, 
-      `number`, price, money,
+      number, price, money, 
       GoodId, attribute, address, 
       Comment)
     values (#{orderid,jdbcType=VARCHAR}, #{userid,jdbcType=VARCHAR}, #{state,jdbcType=INTEGER}, 
@@ -337,7 +337,7 @@
         CommentTime = #{commenttime,jdbcType=TIMESTAMP},
       </if>
       <if test="number != null">
-       `number` = #{number,jdbcType=INTEGER},
+        `number` = #{number,jdbcType=INTEGER},
       </if>
       <if test="price != null">
         price = #{price,jdbcType=DECIMAL},

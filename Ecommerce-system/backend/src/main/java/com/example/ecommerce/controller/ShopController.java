@@ -263,43 +263,12 @@ public class ShopController {
     }
 
 
-    @ApiOperation("查看自家商品的订单记录")
-    @RequestMapping(value = "/ExportOrder",method = RequestMethod.GET)
-    @ResponseBody
-    public void ExportOrder(@RequestParam  String ShopId, HttpServletResponse response) throws IOException {
-        List<List<String>> excelData = new ArrayList<>();
-
-        List<String> head = new ArrayList<>();
-        head.add("第一列");
-        head.add("第二列");
-        head.add("第三列");
-
-        List<String> data1 = new ArrayList<>();
-        data1.add("123");
-        data1.add("234");
-        data1.add("345");
-
-        List<String> data2 = new ArrayList<>();
-        data2.add("abc");
-        data2.add("bcd");
-        data2.add("cde");
-
-        excelData.add(head);
-        excelData.add(data1);
-        excelData.add(data2);
-
-        String sheetName = "测试";
-        String fileName = "ExcelTest.csv";
-
-        shopService.exportExcel(response, excelData, sheetName, fileName, 15);
-    }
-
-
     @ApiOperation("导出订单记录")
-    @RequestMapping(value = "/goodsExcel",method = RequestMethod.GET)
+    @RequestMapping(value = "/ShowOrderExcelByShopId",method = RequestMethod.GET)
     @ResponseBody
-    public void goodsExcel(HttpServletResponse response){
-        XSSFWorkbook wb =shopService.showOrderExcelByShopId("123456");
+    public void ShowOrderExcelByShopId(@RequestParam String ShopId,
+                                       HttpServletResponse response){
+        XSSFWorkbook wb =shopService.showOrderExcelByShopId(ShopId);
         String filename = "Goods报表.xls";
         OutputStream outputStream =null;
         response.setHeader("Content-Type", "application/octet-stream;charset=utf-8");
@@ -322,7 +291,7 @@ public class ShopController {
     }
 
 
-    @ApiOperation("商家上架商品")
+    @ApiOperation("商家下架商品")
     @RequestMapping(value = "/DownGoodsByGoodId",method = RequestMethod.GET)
     @ResponseBody
     public CommonResult DownGoodsByGoodId(@RequestParam String GoodId,
@@ -331,5 +300,17 @@ public class ShopController {
         return shopService.downGoodsByGoodId(GoodId, ShopId);
     }
 
+
+
+    @ApiOperation("根据商家id获取下架的商品")
+    @RequestMapping(value = "/getOrdernotGet",method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult getOrdernotGet(@RequestParam String ShopId,
+                                             @RequestParam(value = "pageNum") @ApiParam("页码") int pageNum,
+                                             @RequestParam(value = "pageSize") @ApiParam("页面大小") int pageSize)
+    {
+        List<Order> list=shopService.getOrdernotGet(ShopId,pageNum,pageSize);
+        return CommonResult.success(CommonPage.restPage(list));
+    }
 
 }
