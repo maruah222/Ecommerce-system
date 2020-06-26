@@ -7,6 +7,7 @@
   <view class="goods">
     <button style="width:80%" class="btn" bindtap="addgood">商品上架审核</button>
     <button style="width:80%" class="btn" bindtap="degood">商品下架</button>
+    <button style="width:80%" class="btn" bindtap="readdgood">商品二次上架审核</button>
   </view>
   <view class="seller">
     <button style="width:80%" class="btn" bindtap="sellermanagement">商家申请审核</button>

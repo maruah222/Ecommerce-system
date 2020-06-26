@@ -42,10 +42,7 @@ Page({
     this.setData({ goodpicture: e.detail.value })
   },
   introductionInput: function (e) {
-    this.setData({ introduction: e.detail.value })
-  },
-  numberInput: function (e) {
-    this.setData({ number: e.detail.value })
+    this.setData({ introduction: e.detail.value });
   },
   isPackageInput: function (e) {
     this.setData({ isPackage: e.detail.value })
@@ -79,9 +76,7 @@ Page({
     this.setData({ ['sku.attribute']: attr });
   },
   leftNumberInput: function (e) {
-    this.setData({ ['sku.leftNumber']: e.detail.value })
-  },
-  numberInput: function (e) {
+    this.setData({ ['sku.leftNumber']: e.detail.value });
     this.setData({ ['sku.number']: e.detail.value })
   },
   pictureInput: function (e) {
@@ -147,7 +142,7 @@ Page({
     console.log(this.data.goodid)
     self=this;
     wx.getStorage({
-      key: 'sellerID',
+      key: 'sellerid',
       success(res) {
         self.setData({ ShopId: res.data });
         console.log(res.data)

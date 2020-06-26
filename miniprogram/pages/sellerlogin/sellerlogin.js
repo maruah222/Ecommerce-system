@@ -18,6 +18,10 @@ Page({
 
   login: function () {
     let self = this;
+    wx.setStorage({
+      key: 'sellerid',
+      data: self.data.username,
+    });
     wx.request({
       url: 'http://47.105.66.104:8080/ecommerce/Shop/Sellerlogin',
       data: {
@@ -32,13 +36,9 @@ Page({
             title: '登陆成功',
             icon: 'success',
           });
-          wx.setStorage({
-            key: "sellerID",
-            data: self.data.username
-          })
           let sellerno = self.data.username;
           wx.navigateTo({
-            url: '/pages/seller/seller?sellerno=' + sellerno,
+            url: '/pages/seller/seller',
           })
         }
         else
@@ -46,7 +46,6 @@ Page({
             title: '账号密码错误',
             icon: 'none',
           });
-        console.log(res.data)
       }
     })
 
@@ -74,7 +73,7 @@ Page({
   },
 
   /**
-   * 生命周期函数--监听页面显示
+    生命周期函数--监听页面显示
    */
   onShow: function () {
 

@@ -29,6 +29,8 @@
       <view class="title">{{item.goodname}}</view>
       <view class="desc">{{item.categoryid}}</view>
       <view class="price">{{item.shopid}}</view>
+      <view class="price" wx:if="{{item.ispackage==1}}">包邮</view>
+      <view class="price" wx:else>不包邮</view>
     </view>
   </view>
 </view>

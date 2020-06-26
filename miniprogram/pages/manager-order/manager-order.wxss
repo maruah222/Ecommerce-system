@@ -47,4 +47,13 @@
   font-size: 40rpx;
   background: orange;
   color: white;
+  margin-top: 5rpx;
 }
+
+.order_main .order_item .button{
+  padding:10rpx,10rpx;
+  display: flex;
+  background: orange;
+  color: white;
+}
+

@@ -30,12 +30,14 @@
 	"libVersion": "2.8.1",
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 	"appid": "touristappid",
 =======
 =======
 >>>>>>> master
-	"appid": "wx0a29bff979c7132f",
+=======
 >>>>>>> master
+	"appid": "wx0a29bff979c7132f",
 	"projectname": "test",
 	"miniprogramRoot": "miniprogram/",
 	"cloudfunctionRoot": "cloudfunctions/",
@@ -77,9 +79,12 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 					"name": "cloud",
 					"pathName": "pages/cloud/cloud",
 =======
+=======
+>>>>>>> master
 =======
 >>>>>>> master
 =======
@@ -95,6 +100,9 @@
 					"pathName": "pages/good-detail/good-detail",
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> master
+=======
 >>>>>>> master
 =======
 >>>>>>> master
@@ -129,8 +137,13 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 					"name": "支付",
 					"pathName": "pages/pay/pay",
+=======
+					"name": "商家",
+					"pathName": "pages/sellerlogin/sellerlogin",
+>>>>>>> master
 =======
 					"name": "商家",
 					"pathName": "pages/sellerlogin/sellerlogin",
@@ -146,6 +159,7 @@
 					"id": -1,
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 					"name": "管理员",
 					"pathName": "pages/admin/admin",
 =======
@@ -159,6 +173,24 @@
 =======
 					"name": "上架",
 					"pathName": "pages/good-add/good-add",
+>>>>>>> master
+=======
+					"name": "上架",
+					"pathName": "pages/good-add/good-add",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "增加规格",
+					"pathName": "pages/good-addsku/good-addsku",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "商家页面",
+					"pathName": "pages/seller/seller",
 >>>>>>> master
 					"scene": null
 				}

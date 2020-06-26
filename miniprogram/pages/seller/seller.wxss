@@ -1,5 +1,10 @@
 /* pages/seller/seller.wxss */
-
+.ybtn{
+  width: 20rpx;
+  background-color:rgb(19, 169, 19);
+  color:white;
+  margin-top: 25rpx;
+}
 .good-list .item {
   display: flex;
   padding: 30rpx 20rpx;
@@ -36,7 +41,7 @@
 .good-list .item .content .desc {
   font-size: 24rpx;
   color: #999;
-  margin-top: 20rpx;
+  margin-top: 30rpx;
 }
 
 .good-list .item .content .sellandstock {
@@ -59,6 +64,10 @@
   color: red;
   margin-top: 20rpx;
   font-size: 32rpx;
+}
+.good-list .item .content .allsell{
+  margin-top:30rpx;
+  font-size:32rps; 
 }
 
 /*以左0底0为基准固定*/

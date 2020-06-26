@@ -8,6 +8,7 @@ Page({
     address:{},
     goodData:[],
     srcgoodData:[],
+    tempData:[],
     totalprice:0,
     totalnumber:0,
     token:null,
@@ -81,7 +82,7 @@ Page({
     let totalprice=0;
     let totalnumber=0;
     this.data.goodData.forEach(v=>{
-        totalprice+=v.number*v.price;
+        totalprice+=v.number*v.price+ !v.ispackage*10;
         totalnumber+=v.number;
     })
     this.setData({totalprice:totalprice});
@@ -89,6 +90,11 @@ Page({
     this.setData({goodData:gooddata});
   },
   handlepay:function(){
+    let temp=JSON.parse(JSON.stringify(this.data.srcgoodData));
+    temp.forEach(v=>{
+      v.attribute=v.goodname+v.attribute;
+    })
+    console.log(temp);
     if(this.data.address===""){
       wx.showToast({
         title: "请填写您的收货地址",
@@ -98,7 +104,7 @@ Page({
     }else{
       wx.request({
         url: 'http://47.105.66.104:8080/ecommerce/User/ConfirmOrderByChart',
-        data: this.data.srcgoodData,
+        data: temp,
         method: 'POST',
         header: {
           'Authorization': 'Bearer '+this.data.token

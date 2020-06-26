@@ -114,10 +114,10 @@ Page({
         }
       }
     })
-    /*var citystr = JSON.stringify(this.data.sku);
+    var citystr = JSON.stringify(this.data.sku);
     console.log(citystr);
     var weatherObj = JSON.parse(citystr);
-    console.log(weatherObj);*/
+    console.log(weatherObj);
     /*wx.request({
       url: 'http://47.105.66.104:8080/ecommerce/User/AddChart',  // 仅为示例，并非真实的接口地址
       header: {

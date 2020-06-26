@@ -4,44 +4,98 @@ Page({
   /**
    * 页面的初始数据
    */
+
   data: {
-    sellerId:1,
-    goodData: [{
-      "sellerID":"123456",
-      "Id": 49,
-      "ShopId": 2,
-      "GoodsNo": "6780851",
-      "DataStatus": 2,
-      "Title": "Iphone 8x",
-      "Classify": 500,
-      "ClassifyName": "零食",
-      "GoodsImage": "../../images/pig.jpg",
-      "Stock": 10,
-      "SaleAmount": 100,
-      "CreateDate": "2018-11-04T18:30:21.000Z",
-      "UpdateDate": "2018-11-19T08:25:32.000Z",
-      "Brand": "苹果",
-      "OrderNum": 0,
-      "SellNum": 20,
-      "attrValueList": [
-        {
-          "attrKey": "型号",
-          "attrValue": "2"
-        },
-        {
-          "attrKey": "颜色",
-          "attrValue": "白色"
-        },
-      ]
-    },
-    ]
+    sellerId: '',
+    goodname: '',
+    goodid: '',
+    goodData: [],
   },
 
+  jumptogood: function (e) {
+    let self = this;
+    console.log(e);
+    this.setData({ goodid: e.currentTarget.dataset.goodid });
+    this.setData({ goodname: e.currentTarget.dataset.goodname });
+    wx.setStorage({
+      key: 'goodname',
+      data: self.data.goodname,
+    }),
+      wx.setStorage({
+        key: 'goodid',
+        data: self.data.goodid,
+        success: function (res) {
+          console.log(self.data.goodid)
+          wx.navigateTo({
+            url: '/pages/good-change/good-change',
+          })
+        },
+      })
+  },
+  getorders:function(){
+    wx.downloadFile({
+      url: 'http://47.105.66.104:8080/ecommerce/Shop/goodsExcel',
+      data:{
+        //ShopId:this.data.sellerId
+      },
+      
+      success:(res)=>{
+        var filePath = res.tempFilePath;
+          console.log(res);
+          wx.openDocument({
+              filePath: filePath,
+              success: function(res) {
+                  console.log('打开文档成功')
+              },
+              fail: function(res) {
+                  console.log(res);
+              },
+              complete: function(res) {
+                  console.log(res);
+              }
+          })
+      }
+    })
+  },
+  getdata: function () {
+    let self = this;
+    wx.request({
+      url: 'http://47.105.66.104:8080/ecommerce/User/GetGoodsByShopId',
+      header: {        //'content-type': 'application/json' // 默认值
+        //这里修改json为text   json的话请求时会返回400(bad request)
+        'content-type': 'application/texts'
+      },
+      data: {
+        shopId: self.data.sellerId,
+        pageNum: 1,
+        pageSize: 10,
+      },
+      success: function (res) {
+        console.log(res);
+        self.setData({ goodData: res.data.data.list });
+        console.log(self.data.goodData)
+      }
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    console.log(options)
+    let self = this;
+    wx.getStorage({
+      key: 'sellerid',
+      success: function (res) {
+        self.setData({ sellerId: res.data });
+        self.getdata()
+      },
+    })
+  },
+
+
+  changeseller:function(){
+    wx.navigateTo({
+      url: '/pages/changeseller/changeseller',
+    })
   },
 
   addgood:function(){
@@ -66,7 +120,13 @@ Page({
     console.log(this.data.goodData[0].sellerID);
     let sellerid = this.data.goodData[0].sellerID;
     wx.navigateTo({
-      url: '/pages/manager-order/manager-order?sellerid='+sellerid,
+      url: '/pages/manager-order/manager-order',
+    })
+  },
+
+  changesku:function(){
+    wx.navigateTo({
+      url: '/pages/good-addsku/good-addsku',
     })
   },
 

@@ -1,0 +1,52 @@
+<!--pages/changeseller/changeseller.wxml-->
+<view class="container">
+  <view class="profile">
+    <form bindsubmit="formSubmit" bindreset="formReset">
+      <view class="weui-cells weui-cells_access">
+        <view class="weui-cell">
+          <text>账号：</text>
+          <text>{{Name}}</text>
+        </view>
+
+        <view class="weui-cell no_access">
+          <view class="weui-cell__bd weui-cell_primary">
+            <text>密码：</text>
+          </view>
+          <input placeholder="请填写密码" placeholder-class='number' maxlength='20' value="{{password}}" bindinput="PasswordInput" />
+        </view>
+
+        <view class="weui-cell">
+          <view class="weui-cell__bd weui-cell_primary">
+            <text>电话：</text>
+          </view>
+          <input placeholder="请填写电话" placeholder-class='number' maxlength='20' value="{{telephone}}" bindinput="telephoneInput" />
+        </view>
+
+        <view class="weui-cell no_access">
+          <view class="weui-cell__bd weui-cell_primary">
+            <text>地址：</text>
+          </view>
+          <input placeholder="请填写地址" placeholder-class='number' maxlength='20' value="{{Address}}" bindinput="AddressInput" />
+        </view>
+
+        <view class="weui-cell no_access">
+          <view class="weui-cell__bd weui-cell_primary">
+            <text>店名：</text>
+          </view>
+          <input placeholder="请填写店名" placeholder-class='number' maxlength='20' value="{{shopname}}" bindinput="shopnameInput" />
+        </view>
+       
+        <view class="weui-cell no_access">
+          <view class="weui-cell__bd weui-cell_primary">
+            <text>商家名：</text>
+          </view>
+          <input placeholder="请填写商家名" placeholder-class='number' maxlength='20' value="{{sellername}}" bindinput="sellernameInput" />
+        </view> 
+
+      </view>
+
+      <button formType="submit" type="primary" style="margin-top:20px">保存</button>
+    </form>
+  </view>
+
+</view>

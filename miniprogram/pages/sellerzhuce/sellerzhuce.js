@@ -53,6 +53,9 @@ Page({
           icon: 'success',
         });
          //console.log("注册成功")
+        wx.navigateBack({
+          delta: 1
+        });
         },
       fail: function (res) { 
         wx.showToast({
@@ -61,7 +64,6 @@ Page({
         });
         //console.log("注册失败") 
         },
-      complete: function (res) { },
     })
   },
   /**

@@ -17,12 +17,16 @@
 
   <view class="good-info">
     <view class="price">${{price}}</view>
+    <view>库存：{{leftNumber}}</view>
     <view class="choose">
       <view class="title">{{title}}</view>
     </view>
   </view>
   <!--商品信息-->
 
+  <view>
+      <button style="width:50%" class="btn" bindtap="jumptoshop">查看商家商品</button>
+  </view>
 
   <view class="address">
     <view class="iconfont iconmap"></view>

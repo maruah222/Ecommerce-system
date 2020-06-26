@@ -1,0 +1,8 @@
+{
+  "component": true,
+  "usingComponents": {},
+  "backgroundTextStyle": "light",
+  "navigationBarBackgroundColor": "#F6F6F6",
+  "navigationBarTitleText": "所有商品",
+  "navigationBarTextStyle": "black"
+}

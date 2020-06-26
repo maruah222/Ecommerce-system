@@ -83,5 +83,10 @@ Page({
   onLoad:function()
   {
     this.getgoodData();
+  },
+
+  onShow:function()
+  {
+    this.getgoodData();
   }
 })

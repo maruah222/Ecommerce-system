@@ -5,48 +5,89 @@ Page({
    * 页面的初始数据
    */
     data: {
-      orders: [{
-        order_id: 1,
-        order_number: 1919191,
-        order_price: 100,
-        order_date: "2020.6.7",
-        state:0,
-      },
-        {
-          order_id: 1,
-          order_number: 1919191,
-          order_price: 100,
-          order_date: "2020.6.7",
-          state: 1,
-        },
-        {
-          order_id: 1,
-          order_number: 1919191,
-          order_price: 100,
-          order_date: "2020.6.7",
-          state: 2,
-        },
-        {
-          order_id: 1,
-          order_number: 1919191,
-          order_price: 100,
-          order_date: "2020.6.7",
-          state: 3,
-        },
-        {
-          order_id: 1,
-          order_number: 1919191,
-          order_price: 100,
-          order_date: "2020.6.7",
-          state: 4,
-        }]
+      orderID:"",
+      ShopId:"",
+      orders: [],
     },
+
+  getdata(){
+    let self=this;
+    wx.request({
+      url: 'http://47.105.66.104:8080/ecommerce/Shop/getNeedVerifyReturn',
+      data:{
+        ShopId:self.data.ShopId,
+        pageNum:1,
+        pageSize:6
+      },
+      success(res){
+        self.setData({orders:res.data.data.list});
+        console.log(self.data.orders);
+      }
+    })
+  },  
+
+  getorderid(e){
+    let self=this;
+    console.log(e);
+    this.setData({ orderID:e.currentTarget.dataset.id});
+    console.log(this.data.orderID);
+    wx.showModal({
+      title: '提示',
+      content: '是否要退货',
+      confirmText:"退货",
+      cancelText:"拒绝",
+      success(res) {
+        if (res.confirm) {
+          self.waitsent();
+        } else if (res.cancel) {
+          self.waitquit();
+        }
+      },
+      complete(){
+        self.getdata();
+      }
+    })
+  },
+
+  waitsent(){
+    let self=this;
+    wx.request({
+      url: 'http://47.105.66.104:8080/ecommerce/Shop/VerifyReturn',
+      data:{
+        OrderId:self.data.orderID,
+        value:1
+      },
+      success(res){console.log(res)}
+    })
+  },
+
+  waitquit() {
+    let self = this;
+    wx.request({
+      url: 'http://47.105.66.104:8080/ecommerce/Shop/VerifyReturn',
+      data: {
+        OrderId: self.data.orderID,
+        value: 2
+      },
+      success(res) { 
+        console.log(res)
+        self.getdata();
+       }
+    })
+  },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    console.log(options)
+    let self = this;
+    wx.getStorage({
+      key: 'sellerid',
+      success: function (res) {
+        self.setData({ ShopId: res.data });
+        self.getdata();
+      },
+    })
   },
 
   /**
@@ -60,7 +101,6 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    
   },
 
   /**

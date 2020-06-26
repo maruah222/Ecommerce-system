@@ -18,6 +18,16 @@ Page({
       url: '/pages/changemine/changemine',
     })
   },
+
+  logout:function(){
+    let self=this;
+    wx.clearStorage({
+      success:function(){
+        self.setData({name:""});
+        self.setData({state:"未登录"});
+      }
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */

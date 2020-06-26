@@ -61,11 +61,6 @@
   </view>
 
   <view class="row-group">
-    <text>数量</text>
-    <input placeholder="请填写数量" placeholder-class='txt' maxlength='20' value="{{number2}}" bindinput="numberInput" />
-  </view>
-
-  <view class="row-group">
     <text>商品型号图片</text>
     <input placeholder="请填写图片链接" placeholder-class='txt' maxlength='255' value="{{picture}}" bindinput="pictureInput" />
   </view>
@@ -73,11 +68,6 @@
   <view class="row-group">
     <text>价格</text>
     <input placeholder="请填写商品价格" placeholder-class='txt' maxlength='20' value="{{price}}" bindinput="priceInput" />
-  </view>
-
-  <view class="row-group">
-    <text>SKU编号</text>
-    <input placeholder="请填写SKU编号" placeholder-class='txt' maxlength='20' value="{{skuid}}" bindinput="skuidInput" />
   </view>
 
   <view class="row-group">

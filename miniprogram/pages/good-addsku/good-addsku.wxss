@@ -1,0 +1,70 @@
+/* pages/good-addsku/good-addsku.wxss */
+.good-list .item {
+  display: flex;
+  padding: 30rpx 20rpx;
+  border-bottom: solid 2rpx #999;
+}
+
+.good-list .item .pic {
+  width: 200rpx;
+  height: 200rpx;
+}
+
+.good-list .item .pic image {
+  width: 200rpx;
+  height: 200rpx;
+}
+
+.good-list .item .content {
+  margin-left: 20rpx;
+}
+
+.good-list .item .content .text {
+  display: flex;
+}
+
+.good-list .item .content .text .title {
+  font-size: 32rpx;
+}
+
+.good-list .item .content .text .type {
+  font-size: 32rpx;
+  padding: 0 12rpx;
+}
+
+.good-list .item .content .desc {
+  font-size: 32rpx;
+  color: #999;
+  margin-top: 20rpx;
+}
+
+.good-list .item .content .sellandstock {
+  display: flex;
+}
+
+.good-list .item .content .sell {
+  margin-top: 20rpx;
+  font-size: 32rpx;
+  padding:0 10rpx;
+}
+
+.good-list .item .content .stock {
+  margin-top: 20rpx;
+  font-size: 32rpx;
+  padding:0 10rpx;
+}
+
+.good-list .item .content .price {
+  color: red;
+  margin-top: 20rpx;
+  font-size: 32rpx;
+}
+
+.good-list .item .content .submit{
+  margin-top:10rpx; 
+  color: #fff;
+  border: 2rpx solid #00c8b6;
+  background-color: blue;
+  font-size: 32rpx;
+  font-weight: bold;
+}

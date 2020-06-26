@@ -17,7 +17,21 @@ Page({
       method: 'GET',
       success:(res)=>{
         console.log(res);
-        
+        wx.request({
+          url: 'http://47.105.66.104:8080/ecommerce/User/GetAllGoods',
+          data:{
+            pageNum:1,
+            pageSize:111,
+          },
+          method: 'GET',
+          success:(res1)=>{
+            this.setData({up_goods:res1.data.data.list});
+            wx.showToast({
+              title: res1.data.message,
+              icon: "none",
+            });
+          }
+        })
       }
     })
 

@@ -18,6 +18,11 @@ Page({
       url: '../degood/degood',
     })
   },
+  readdgood:function(){
+    wx.navigateTo({
+      url: '../readdgood/readdgood',
+    })
+  },
   sellermanagement:function(){
     wx.navigateTo({
       url: '../sellermanagement/sellermanagement',

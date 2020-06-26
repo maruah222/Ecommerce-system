@@ -1,0 +1,37 @@
+<!--pages/addsku/addsku.wxml-->
+<view class="form">
+  <view class="row-group">
+    <text>{{ attribute1[0].attrKey}}</text>
+    <input placeholder="请输入属性" placeholder-class='txt' maxlength='255' value="{{attribute2}}" bindinput="attributeIdInput" />
+  </view>
+
+    <view class="row-group">
+    <text>{{ attribute1[1].attrKey}}</text>
+    <input placeholder="请输入属性" placeholder-class='txt' maxlength='255' value="{{attribute3}}" bindinput="attributeId1Input" />
+  </view>
+
+  <view class="row-group">
+    <text>库存</text>
+    <input placeholder="请填写库存" placeholder-class='txt' maxlength='20' value="{{leftNumber}}" bindinput="leftNumberInput" />
+  </view>
+
+  <view class="row-group">
+    <text>商品型号图片</text>
+    <input placeholder="请填写图片链接" placeholder-class='txt' maxlength='255' value="{{picture}}" bindinput="pictureInput" />
+  </view>
+
+  <view class="row-group">
+    <text>价格</text>
+    <input placeholder="请填写商品价格" placeholder-class='txt' maxlength='20' value="{{price}}" bindinput="priceInput" />
+  </view>
+
+
+  <view class="row-group">
+    <text>VIP折扣</text>
+    <input placeholder="请填写VIP的价格" placeholder-class='txt' maxlength='20' value="{{vipprice}}" bindinput="vippriceInput" />
+  </view>
+
+  <view class="but">
+    <button class="submit" open-type="getUserInfo" bindtap="onClickadd">上架</button>
+  </view>
+</view>

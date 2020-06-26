@@ -69,7 +69,7 @@ Page({
       key: 'token',
       success:(res)=>{
         this.setData({token:res.data});
-        console.log(this.data.token);
+        /*console.log(this.data.token);*/
         this.getgoodData();
       }
     })
@@ -79,7 +79,7 @@ Page({
       key: 'token',
       success:(res)=>{
         this.setData({token:res.data});
-        console.log(this.data.token);
+        /*console.log(this.data.token);*/
         this.getgoodData();
       }
     })

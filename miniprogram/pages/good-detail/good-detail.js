@@ -40,6 +40,7 @@ Page({
     attributetemp: "",
     Address: "这是一个商品地址",
     price: 0,
+    leftNumber:0,
     "SwiperImgList":[
     ],
     "DetailImgList": [
@@ -55,6 +56,7 @@ Page({
       "Attribute": []
     },
     skuss: [],
+    shop:null,
   },
 
   /**
@@ -84,6 +86,7 @@ Page({
       },
       method: 'GET',
       success(res) {
+        self.setData({shop:res.data.data.shopId});
         for (var i = 0; i < res.data.data.skus.length; i++) {
           self.setData({ ['sku.skuid']: res.data.data.skus[i].skuid });
           self.setData({ ['sku.goodid']: res.data.data.skus[i].goodid });
@@ -410,6 +413,7 @@ Page({
           this.setData({ attributetemp: citystr });
           console.log(this.data.attributetemp)
           this.setData({ price: this.data.commodityAttr[i].price })
+          this.setData({leftNumber:this.data.commodityAttr[i].leftNumber})
           console.log(this.data.commodityAttr[i].price);
           break;
         }
@@ -421,4 +425,11 @@ Page({
       })
     }
   },
+  jumptoshop:function(){
+    let shopno=this.data.shop;
+    console.log(shopno);
+    wx.navigateTo({
+      url: '/pages/shop-detail/shop-detail?shopno='+shopno,
+    })
+  }
 })

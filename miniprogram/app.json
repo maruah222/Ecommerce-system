@@ -19,7 +19,10 @@
     "pages/degood/degood",
     "pages/adminlogin/adminlogin",
     "pages/good-add/good-add",
-    "pages/changemine/changemine"
+    "pages/changemine/changemine",
+    "pages/good-addsku/good-addsku",
+    "pages/changeseller/changeseller",
+    "pages/readdgood/readdgood"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",

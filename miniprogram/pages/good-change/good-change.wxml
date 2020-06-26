@@ -1,25 +1,28 @@
 <!--pages/good-change/good-change.wxml-->
-<view class="form">
-  <view class="row-group">
-    <text>商品SKU-ID号</text>
-    <input placeholder="请填写改变的商品SKU-ID号" placeholder-class='txt' maxlength='15' value="{{account}}" bindinput="AccountInput" />
+<view class="good-list">
+  <view class="item" wx:for="{{gooddata}}" wx:key="*this" data-skuid="{{item.skuid}}" bindtap="delete">
+    <view class="pic">
+      <image src="{{item.picture}}"></image>
+    </view>
+    <view class="content">
+      <view class="text">
+        <view class="title">{{goodname}}</view>
+        <view class="type" wx:for="{{item.attribute}}" wx:key="*this">{{item.attrValue}}</view>
+      </view>
+      <view class="desc">sku编号：{{item.skuid}}</view>
+      <view class="sellandstock">
+        <block class="button">
+        <view class="price">${{item.price}}</view>
+        <view class="stock">库存：{{item.LeftNumber}}</view>
+        <view class="allsell">销量：{{item.allsell}}</view>
+        </block>
+      </view>
+    </view>
   </view>
-  
-  <view class="row-group">
-    <text>价格</text>
-    <input placeholder="请填写商品价格" placeholder-class='txt' maxlength='15' value="{{account}}" bindinput="PriceInput" />
-  </view>
-  
-
-
-  <view class="row-group">
-    <text>库存</text>
-    <input placeholder="请填写商品的库存" placeholder-class='txt' maxlength='15' value="{{account}}" bindinput="StockInput" />
-  </view>
- 
-
-  <view class="submit">
-  <button class="submitbutton" type="primary" bindtap="submit">提交</button>
 </view>
 
+<view class="anniu">
+<button class="submit"  open-type="getUserInfo" bindtap="addstock">进货</button>
+<button class="submit"  open-type="getUserInfo" bindtap="changeprice">修改价格</button>
 </view>
+

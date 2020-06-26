@@ -85,10 +85,10 @@
         <image class="go-icon" src='/images/pig.jpg'></image>
       </view>
     </view>
-    <view class="item">
-      <view class="left">领劵中心</view>
+    <view class="item" bindtap="logout">
+      <view class="left">退出登陆</view>
       <view class="right">
-        <text>你的福利都在这里</text>
+        <text></text>
         <image class="go-icon" src='/images/pig.jpg'></image>
       </view>
     </view>

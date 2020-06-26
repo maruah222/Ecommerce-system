@@ -5,7 +5,7 @@
   <view class="cart_main">
     <!--商品为0显示提示-->
     <block wx:if="{{goodData.length!==0}}">
-    <view class="cart_item" wx:for="{{goodData}}">
+    <view class="cart_item" wx:for="{{goodData}}" wx:key="*this">
       <!-- 复选框-->
       <view class="cart_chk_wrap">
         <checkbox-group data-id="{{item.chartid}}" bindchange="handleItemChange">

@@ -7,8 +7,8 @@ Page({
   data: {
     token:"",
     Name: "",
-    password: "965241334",
-    telephone: "19927523092",
+    password: "",
+    telephone: "",
     Address: ""
   },
 

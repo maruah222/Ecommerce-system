@@ -47,6 +47,7 @@ Page({
           },
           success:(res1)=>{
            this.setData({orders:res1.data.data.list});
+           this.setData({hiddenmodalput:true});
           }
         })
       }

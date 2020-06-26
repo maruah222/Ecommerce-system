@@ -1,0 +1,20 @@
+<!--pages/delete-sku/delete-sku.wxml-->
+<view class="good-list">
+  <view class="item" wx:for="{{gooddata}}" wx:key="*this" data-skuid="{{item.skuid}}" bindtap="delete">
+    <view class="pic">
+      <image src="{{item.picture}}"></image>
+    </view>
+    <view class="content">
+      <view class="text">
+        <view class="title">{{goodname}}</view>
+        <view class="type" wx:for="{{item.attribute}}" wx:key="*this">{{item.attrValue}}</view>
+      </view>
+      <view class="desc">sku编号：{{item.skuid}}</view>
+      <view class="sellandstock">
+        <view class="price">${{item.price}}</view>
+      </view>
+    </view>
+  </view>
+
+  <button class="submit"  open-type="getUserInfo" bindtap="onClickSubmit">增加商品</button>
+</view>

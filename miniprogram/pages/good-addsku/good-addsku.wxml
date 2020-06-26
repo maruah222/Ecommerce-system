@@ -1,0 +1,18 @@
+<!--pages/good-addsku/good-addsku.wxml-->
+<view class="good-list">
+  <view class="item" wx:for="{{goodData}}" wx:key="*this" data-goodid="{{item.goodid}}" data-goodname="{{item.goodname}}"bindtap="jumptogood">
+    <view class="pic">
+      <image src="{{item.goodpicture}}"></image>
+    </view>
+    <view class="content">
+      <view class="text">
+        <view class="title">{{item.goodname}}</view>
+      </view>
+      <view class="desc">{{item.goodid}}</view>
+      <view class="price" wx:if="{{item.ispackage==1}}">包邮</view>
+      <view class="price" wx:else>不包邮</view>
+      <view class="sellandstock">
+      </view>
+    </view>
+  </view>
+</view>

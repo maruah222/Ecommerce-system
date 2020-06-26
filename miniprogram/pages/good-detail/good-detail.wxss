@@ -24,7 +24,12 @@
 .swiper-box .tips text {
   color: ghostwhite;
 }
-
+.btn{
+  width: 20rpx;
+  background-color:rgb(19, 169, 19);
+  color:white;
+  margin-top: 25rpx;
+}
 .good-info {
   padding: 30rpx;
 }
