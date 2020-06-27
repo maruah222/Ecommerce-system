@@ -137,7 +137,7 @@ Page({
             wx.request({
               url: 'http://47.105.66.104:8080/ecommerce/User/DeleteChartByGoodId',
               data: {
-                chartId: gooddata[index].chartid,
+                chartId: gooddata[index1].chartid,
               },
               method: 'GET',
               header: {
