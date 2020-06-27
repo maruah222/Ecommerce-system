@@ -1,14 +1,25 @@
-// pages/delete-good/delete-good.js
+// pages/shop-detail/shop-detail.js
 Page({
 
   /**
    * 页面的初始数据
    */
+
   data: {
     sellerId: '',
     goodname: '',
     goodid: '',
     goodData: [],
+  },
+
+  jumptogood: function (e) {
+    //点击后要获取商品的数据（一般是ID）
+    //在进行跳转，将goodid给商品详情页
+    let goodno = e.currentTarget.dataset.goodid;
+    //console.log(goodno)打印出商品号
+    wx.navigateTo({
+      url: '/pages/good-detail/good-detail?goodno=' + goodno,
+    })
   },
 
   getdata: function () {
@@ -27,57 +38,12 @@ Page({
       }
     })
   },
-
-  down:function(){
-    wx.navigateTo({
-      url: '/pages/down/down',
-    })
-  },
-  jumptogood:function(e){
-    let self = this;
-    this.setData({ goodid: e.currentTarget.dataset.goodid });
-    console.log(self.data.goodid);
-    wx.showModal({
-      title: '提示',
-      content: '是否要下架商品',
-      confirmText: "确认",
-      cancelText: "取消",
-      success(res) {
-        if (res.confirm) {
-          self.xiajia();
-        } else if (res.cancel) {
-          console.log("取消删除")
-        }
-      },
-    })
-  },
-
-  xiajia:function(){
-    let self = this;
-    wx.request({
-      url: 'http://47.105.66.104:8080/ecommerce/Shop/DownGoodsByGoodId',
-      data: {
-        GoodId:self.data.goodid,
-        ShopId:self.data.sellerId
-      },
-      success: function (res) {
-        console.log("确认删除");
-        self.getdata();
-      },
-    })
-  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    let self = this;
-    wx.getStorage({
-      key: 'sellerid',
-      success: function (res) {
-        self.setData({ sellerId: res.data });
-        self.getdata()
-      },
-    })
+    this.data.sellerId = options.shopno;
+    this.getdata();
   },
 
   /**
@@ -91,14 +57,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    let self = this;
-    wx.getStorage({
-      key: 'sellerid',
-      success: function (res) {
-        self.setData({ sellerId: res.data });
-        self.getdata()
-      },
-    })
+    
   },
 
   /**

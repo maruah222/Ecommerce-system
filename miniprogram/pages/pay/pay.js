@@ -91,9 +91,9 @@ Page({
   },
   handlepay:function(){
     let temp=JSON.parse(JSON.stringify(this.data.srcgoodData));
-    temp.forEach(v=>{
-      v.attribute=v.goodname+v.attribute;
-    })
+    temp.forEach(v => {
+            v.attribute = v.goodname + " " + v.attribute  + " X" + v.number;
+        })
     console.log(temp);
     if(this.data.address===""){
       wx.showToast({

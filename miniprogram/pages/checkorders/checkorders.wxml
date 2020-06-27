@@ -1,4 +1,3 @@
-<!--pages/manager-order/manager-order.wxml-->
 <view class="order_main">
   <view wx:for="{{orders}}" wx:key="order_id" class="order_item" data-id="{{item.orderid}}" bindtap="getorderid">
     <view class="order_no_row">
@@ -7,24 +6,21 @@
     </view>
 
     <view class="order_price_row">
-    <view class="order_price_text">订单价格</view>
+      <view class="order_price_text">订单价格</view>
       <view class="order_price_value">￥{{item.money}}</view>
     </view>
 
     <view class="order_time_row">
-    <view class="order_time_text">原因</view>
-      <view class="order_time_value">{{item.returnreason}}</view>
+      <view class="order_time_text">订单属性</view>
+      <view class="order_time_value">{{item.attribute}}</view>
     </view>
-
+    <view class="order_time_row">
+      <view class="order_time_text">订单时间</view>
+      <view class="order_time_value">{{item.paytime}}</view>
+    </view>
       <view class="order_state_row">
     <view class="order_state_text">订单状态</view>
-      <view class="order_state_value">待处理</view>
+      <view class="order_state_value">未收货</view>
     </view>
   </view>
 </view>
-
-<view class="but">
-    <button class="submit" open-type="getUserInfo" bindtap="onClickadd">下载所有订单</button>
-</view>
-
-

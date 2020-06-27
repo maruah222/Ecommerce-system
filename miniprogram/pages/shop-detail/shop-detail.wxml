@@ -1,4 +1,4 @@
-<!--pages/delete-good/delete-good.wxml-->
+<!--pages/shop-detail/shop-detail.wxml-->
 <view class="good-list">
   <view class="item" wx:for="{{goodData}}" wx:key="*this" data-goodid="{{item.goodid}}" data-goodname="{{item.goodname}}"bindtap="jumptogood">
     <view class="pic">
@@ -9,14 +9,8 @@
         <view class="title">{{item.goodname}}</view>
       </view>
       <view class="desc">{{item.goodid}}</view>
-      <view class="sellandstock">
-      <view class="allsell">总销量：{{item.allsellnumber}}</view>
-      </view>
+      <view class="price" wx:if="{{item.ispackage==1}}">包邮</view>
+      <view class="price" wx:else>不包邮</view>
     </view>
   </view>
 </view>
-
-<view class="anniu">
-<button class="submit"  open-type="getUserInfo" bindtap="down">已下架</button>
-</view>
-

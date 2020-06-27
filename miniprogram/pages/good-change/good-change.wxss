@@ -73,16 +73,3 @@
   margin-top: 30rpx;
   font-size: 36rpx;
 }
-
-.anniu{
-  display: flex;
-}
-
-.anniu .submit{
-  margin-top:10rpx; 
-  color: #fff;
-  border: 2rpx solid #00c8b6;
-  background-color: blue;
-  font-size: 32rpx;
-  font-weight: bold;
-}

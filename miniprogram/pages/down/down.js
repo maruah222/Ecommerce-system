@@ -1,4 +1,4 @@
-// pages/delete-good/delete-good.js
+// pages/down/down.js
 Page({
 
   /**
@@ -11,12 +11,46 @@ Page({
     goodData: [],
   },
 
+  jumptogood:function(e){
+    let self = this;
+    console.log(e);
+    this.setData({ goodid: e.currentTarget.dataset.goodid });
+    console.log(self.data.goodid);
+    wx.showModal({
+      title: '提示',
+      content: '是否要上架商品',
+      confirmText: "确认",
+      cancelText: "取消",
+      success(res) {
+        if (res.confirm) {
+          self.shangjia();
+        } else if (res.cancel) {
+          console.log("取消删除")
+        }
+      },
+    })
+  },
+
+  shangjia:function(){
+    let self = this;
+    wx.request({
+      url: 'http://47.105.66.104:8080/ecommerce/Shop/ApplyDownGoodsUp',
+      data: {
+        GoodId: self.data.goodid,
+      },
+      success: function (res) {
+        console.log("已申请上架，请等待审核");
+        self.getdata();
+      },
+    })
+  },
+
   getdata: function () {
     let self = this;
     wx.request({
-      url: 'http://47.105.66.104:8080/ecommerce/User/GetGoodsByShopId',
+      url: 'http://47.105.66.104:8080/ecommerce/Shop/getDownGoodsByShopId',
       data: {
-        shopId: self.data.sellerId,
+        ShopId: self.data.sellerId,
         pageNum: 1,
         pageSize: 10,
       },
@@ -28,44 +62,6 @@ Page({
     })
   },
 
-  down:function(){
-    wx.navigateTo({
-      url: '/pages/down/down',
-    })
-  },
-  jumptogood:function(e){
-    let self = this;
-    this.setData({ goodid: e.currentTarget.dataset.goodid });
-    console.log(self.data.goodid);
-    wx.showModal({
-      title: '提示',
-      content: '是否要下架商品',
-      confirmText: "确认",
-      cancelText: "取消",
-      success(res) {
-        if (res.confirm) {
-          self.xiajia();
-        } else if (res.cancel) {
-          console.log("取消删除")
-        }
-      },
-    })
-  },
-
-  xiajia:function(){
-    let self = this;
-    wx.request({
-      url: 'http://47.105.66.104:8080/ecommerce/Shop/DownGoodsByGoodId',
-      data: {
-        GoodId:self.data.goodid,
-        ShopId:self.data.sellerId
-      },
-      success: function (res) {
-        console.log("确认删除");
-        self.getdata();
-      },
-    })
-  },
   /**
    * 生命周期函数--监听页面加载
    */
@@ -91,14 +87,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    let self = this;
-    wx.getStorage({
-      key: 'sellerid',
-      success: function (res) {
-        self.setData({ sellerId: res.data });
-        self.getdata()
-      },
-    })
+    
   },
 
   /**

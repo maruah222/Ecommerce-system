@@ -28,7 +28,7 @@
   width: 20rpx;
   background-color:rgb(19, 169, 19);
   color:white;
-  margin-top: 25rpx;
+  margin-top: 11rpx;
 }
 .good-info {
   padding: 30rpx;

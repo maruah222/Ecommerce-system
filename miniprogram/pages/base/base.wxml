@@ -20,7 +20,7 @@
   </view>
 </view>
 
-<view class="good-list">
+<view wx:if="{{currentTab==0}}" class="good-list">
   <view class="item" wx:for="{{goodData}}" wx:key="*this" data-goodid="{{item.goodid}}" bindtap="jumptogood">
     <view class="pic">
       <image src="{{item.goodpicture}}"></image>
@@ -29,6 +29,64 @@
       <view class="title">{{item.goodname}}</view>
       <view class="desc">{{item.categoryid}}</view>
       <view class="price">{{item.shopid}}</view>
+      <view class="price" wx:if="{{item.ispackage==1}}">包邮</view>
+      <view class="price" wx:else>不包邮</view>
+    </view>
+  </view>
+</view>
+
+<view wx:elif="{{currentTab==1}}" class="good-list">
+  <view class="item" wx:for="{{shopdata}}" wx:key="*this" data-shopid="{{item.shopid}}" bindtap="jumptoshop">
+    <view class="pic">
+      <image src="/images/btn-tabs_10.png"></image>
+    </view>
+    <view class="content">
+      <view class="title">{{item.shopname}}</view>
+      <view class="desc">{{item.sellername}}</view>
+      <view class="price">{{item.shopaddress}}</view>
+    </view>
+  </view>
+</view>
+
+<view wx:elif="{{currentTab==2}}" class="good-list">
+  <view class="item" wx:for="{{goodData}}" wx:key="*this" data-goodid="{{item.goodid}}" bindtap="jumptogood">
+    <view class="pic">
+      <image src="{{item.goodpicture}}"></image>
+    </view>
+    <view class="content">
+      <view class="title">{{item.goodname}}</view>
+      <view class="desc">{{item.categoryid}}</view>
+      <view class="price">总销量：{{item.allsellnumber}}</view>
+      <view class="price" wx:if="{{item.ispackage==1}}">包邮</view>
+      <view class="price" wx:else>不包邮</view>
+    </view>
+  </view>
+</view>
+
+<view wx:elif="{{currentTab==3}}" class="good-list">
+  <view class="item" wx:for="{{goodData}}" wx:key="*this" data-goodid="{{item.goodid}}" bindtap="jumptogood">
+    <view class="pic">
+      <image src="{{item.goodpicture}}"></image>
+    </view>
+    <view class="content">
+      <view class="title">{{item.goodname}}</view>
+      <view class="desc">{{item.categoryid}}</view>
+      <view class="price">{{item.price}}</view>
+      <view class="price" wx:if="{{item.ispackage==1}}">包邮</view>
+      <view class="price" wx:else>不包邮</view>
+    </view>
+  </view>
+</view>
+
+<view wx:elif="{{currentTab==4}}" class="good-list">
+  <view class="item" wx:for="{{goodData}}" wx:key="*this" data-goodid="{{item.goodid}}" bindtap="jumptogood">
+    <view class="pic">
+      <image src="{{item.goodpicture}}"></image>
+    </view>
+    <view class="content">
+      <view class="title">{{item.goodname}}</view>
+      <view class="desc">{{item.categoryid}}</view>
+      <view class="price">{{item.price}}</view>
       <view class="price" wx:if="{{item.ispackage==1}}">包邮</view>
       <view class="price" wx:else>不包邮</view>
     </view>

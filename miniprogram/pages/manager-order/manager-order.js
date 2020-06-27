@@ -5,6 +5,7 @@ Page({
    * 页面的初始数据
    */
     data: {
+      ShopId:"",
       orderID:"",
       ShopId:"",
       orders: [],
@@ -43,9 +44,6 @@ Page({
           self.waitquit();
         }
       },
-      complete(){
-        self.getdata();
-      }
     })
   },
 
@@ -57,7 +55,10 @@ Page({
         OrderId:self.data.orderID,
         value:1
       },
-      success(res){console.log(res)}
+      success(res){
+        console.log(res);
+        self.getdata();
+      }
     })
   },
 
@@ -76,6 +77,24 @@ Page({
     })
   },
 
+  
+  onClickadd:function(){
+    let self=this;
+    wx.getStorage({
+      key: 'sellerid',
+      success: function(res) {
+        self.setData({ShopId:res.data});
+        console.log(self.data.ShopId);
+        wx.request({
+          url: 'http://47.105.66.104:8080/ecommerce/Shop/ShowOrderExcelByShopId',
+          data:{
+            ShopId:self.data.ShopId
+          },
+          success: function(res) {console.log(res)},
+        })
+      },
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */

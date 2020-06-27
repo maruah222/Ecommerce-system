@@ -53,6 +53,19 @@ Page({
     })
   },
 
+  skuget:function(e){
+    let self=this;
+    console.log(this.data.skuid);
+    this.setData({ skuid: e.currentTarget.dataset.skuid});
+    console.log(this.data.skuid);
+    wx.setStorage({
+      key: 'sku1',
+      data: self.data.skuid,
+    });
+    wx.navigateTo({
+      url: '/pages/add-change/add-change',
+    })
+  },
   addstock:function(){
     wx.navigateTo({
       url: '/pages/addstock/addstock',
@@ -96,7 +109,21 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    
+    let self = this;
+    wx.getStorage({
+      key: 'goodid',
+      success: function (res) {
+        self.setData({ goodid: res.data });
+        self.getdata();
+      },
+    })
+    wx.getStorage({
+      key: 'goodname',
+      success: function (res) {
+        self.setData({ goodname: res.data });
+        console.log(self.data.goodname);
+      },
+    })
   },
 
   /**

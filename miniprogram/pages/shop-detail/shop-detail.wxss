@@ -1,4 +1,4 @@
-/* pages/delete-good/delete-good.wxss */
+/* pages/shop-detail/shop-detail.wxss */
 .good-list .item {
   display: flex;
   padding: 30rpx 20rpx;
@@ -55,20 +55,11 @@
 }
 
 .good-list .item .content .price {
-  color: red;
+  color:seagreen;
   margin-top: 20rpx;
-  font-size: 32rpx;
+  font-size: 36rpx;
 }
 .good-list .item .content .allsell{
   margin-top:30rpx;
   font-size:32rps; 
-}
-
-.anniu .submit{
-  margin-top:10rpx; 
-  color: #fff;
-  border: 2rpx solid #00c8b6;
-  background-color: blue;
-  font-size: 32rpx;
-  font-weight: bold;
 }

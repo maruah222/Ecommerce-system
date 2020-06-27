@@ -1,0 +1,6 @@
+<!--pages/add-change/add-change.wxml-->
+<view></view>
+<view class="anniu">
+<button class="submit"  open-type="getUserInfo" bindtap="addstock">进货</button>
+<button class="submit"  open-type="getUserInfo" bindtap="changeprice">修改价格</button>
+</view>

@@ -52,6 +52,18 @@ Page({
       }
     })
   },
+
+  jumptosell:function(){
+    wx.navigateTo({
+      url: '/pages/sellerlogin/sellerlogin',
+    })
+  },
+
+  jumptomanager: function () {
+    wx.navigateTo({
+      url: '/pages/adminlogin/adminlogin',
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */

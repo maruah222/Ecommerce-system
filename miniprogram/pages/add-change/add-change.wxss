@@ -1,0 +1,11 @@
+/* pages/add-change/add-change.wxss */
+
+
+.anniu .submit{
+  margin-top:300rpx; 
+  color: #fff;
+  border: 2rpx solid #00c8b6;
+  background-color: blue;
+  font-size: 32rpx;
+  font-weight: bold;
+}

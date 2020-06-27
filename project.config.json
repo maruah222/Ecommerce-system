@@ -28,15 +28,6 @@
 	},
 	"compileType": "miniprogram",
 	"libVersion": "2.8.1",
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-	"appid": "touristappid",
-=======
-=======
->>>>>>> master
-=======
->>>>>>> master
 	"appid": "wx0a29bff979c7132f",
 	"projectname": "test",
 	"miniprogramRoot": "miniprogram/",
@@ -76,21 +67,8 @@
 			"list": [
 				{
 					"id": -1,
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 					"name": "cloud",
 					"pathName": "pages/cloud/cloud",
-=======
-=======
->>>>>>> master
-=======
->>>>>>> master
-=======
->>>>>>> master
-					"name": "pages/mine/mine",
-					"pathName": "pages/mine/mine",
 					"query": "",
 					"scene": null
 				},
@@ -98,16 +76,6 @@
 					"id": -1,
 					"name": "详情",
 					"pathName": "pages/good-detail/good-detail",
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> master
-=======
->>>>>>> master
-=======
->>>>>>> master
-=======
->>>>>>> master
 					"query": "",
 					"scene": null
 				},
@@ -134,49 +102,14 @@
 				},
 				{
 					"id": -1,
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 					"name": "支付",
 					"pathName": "pages/pay/pay",
-=======
-					"name": "商家",
-					"pathName": "pages/sellerlogin/sellerlogin",
->>>>>>> master
-=======
-					"name": "商家",
-					"pathName": "pages/sellerlogin/sellerlogin",
->>>>>>> master
-=======
-					"name": "商家",
-					"pathName": "pages/sellerlogin/sellerlogin",
->>>>>>> master
-					"query": "",
 					"scene": null
 				},
 				{
 					"id": -1,
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 					"name": "管理员",
 					"pathName": "pages/admin/admin",
-=======
-					"name": "商家",
-					"pathName": "pages/sellerlogin/sellerlogin",
->>>>>>> master
-=======
-					"name": "上架",
-					"pathName": "pages/good-add/good-add",
->>>>>>> master
-=======
-					"name": "上架",
-					"pathName": "pages/good-add/good-add",
->>>>>>> master
-=======
-					"name": "上架",
-					"pathName": "pages/good-add/good-add",
 					"query": "",
 					"scene": null
 				},
@@ -191,7 +124,6 @@
 					"id": -1,
 					"name": "商家页面",
 					"pathName": "pages/seller/seller",
->>>>>>> master
 					"scene": null
 				}
 			]

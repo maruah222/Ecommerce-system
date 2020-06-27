@@ -1,13 +1,8 @@
 <!--pages/addstock/addstock.wxml-->
 <view class="form">
-  <view class="row-group">
-    <text>SKUID号</text>
-    <input placeholder="请填写要修改的SKU号" placeholder-class='txt' maxlength='15' value="{{account}}" bindinput="AccountInput" />
-  </view>
-
     <view class="row-group">
-    <text>进货量</text>
-    <input placeholder="请填写要进货的量" placeholder-class='txt' maxlength='15' value="{{add}}" bindinput="addInput" />
+    <text>总量</text>
+    <input placeholder="请填写总量" placeholder-class='txt' maxlength='15' value="{{add}}" bindinput="addInput" />
   </view>
   </view>
 

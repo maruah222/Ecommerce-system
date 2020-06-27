@@ -30,7 +30,6 @@ Page({
       "number": 0,
       "picture": "string",
       "price": 0,
-      "skuid": 0,
       "vipprice": 0
     },
     skutemp: [],
@@ -69,15 +68,15 @@ Page({
     let self = this;
     wx.request({
       url: 'http://47.105.66.104:8080/ecommerce/Shop/AddSkuByGoodId',
+      method:"POST",
       data: {
-        GoodId:self.data.goodid,
-        SkuId:1,
-        num: self.data.sku.number,
+        goodid:self.data.goodid,
+        number: self.data.sku.number,
         price:self.data.sku.price,
         vipprice:self.data.sku.vipprice,
-        Left_number:self.data.sku.leftNumber,
+        leftNumber:self.data.sku.leftNumber,
         picture:self.data.sku.picture,
-        Attribute:self.data.sku.attribute
+        attribute:self.data.sku.attribute
       },
       success: function (res) {
         wx.showToast({

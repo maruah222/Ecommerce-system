@@ -1,47 +1,28 @@
-// pages/addstock/addstock.js
+// pages/add-change/add-change.js
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    skuid: "",
-    number:0
+    
   },
-
-  addInput: function (e) {
-    this.setData({ number: e.detail.value })
-  },
-
-  submit: function () {
-    let self=this;
-    wx.request({
-      url: 'http://47.105.66.104:8080/ecommerce/Shop/AddNumberInSku',
-      data: {
-        skuId:self.data.skuid,
-        number:self.data.number
-      },
-      success: function(res) {
-        console.log("进货成功");
-        wx.navigateBack({
-          delta: 1
-        });
-      },
-    })
-  },
-
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    let self=this;
-    wx.getStorage({
-      key: 'sku1',
-      success: function(res) {
-        self.setData({skuid:res.data})
-        console.log(self.data.skuid)
-      },
+  },
+
+  addstock: function () {
+    wx.navigateTo({
+      url: '/pages/addstock/addstock',
+    })
+  },
+
+  changeprice: function () {
+    wx.navigateTo({
+      url: '/pages/changesku/changesku',
     })
   },
 

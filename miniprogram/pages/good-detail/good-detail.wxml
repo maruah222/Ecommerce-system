@@ -19,14 +19,12 @@
     <view class="price">${{price}}</view>
     <view>库存：{{leftNumber}}</view>
     <view class="choose">
-      <view class="title">{{title}}</view>
+      <view class="title">商品名：{{title}}</view>
+      <button style="width:47%;margin-left:20px;font-size:13px;padding:5px,24px;min-height:20px"class="btn" bindtap="jumptoshop">查看商家商品→</button>
     </view>
+ 
   </view>
   <!--商品信息-->
-
-  <view>
-      <button style="width:50%" class="btn" bindtap="jumptoshop">查看商家商品</button>
-  </view>
 
   <view class="address">
     <view class="iconfont iconmap"></view>

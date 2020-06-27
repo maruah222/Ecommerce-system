@@ -1,7 +1,4 @@
 <!--pages/seller/seller.wxml-->
-<view>
-      <button style="width:80%" class="ybtn" bindtap="getorders">获取所有订单信息</button>
-</view>
 <view class="good-list">
   <view class="item" wx:for="{{goodData}}" wx:key="*this" data-goodid="{{item.goodid}}" data-goodname="{{item.goodname}}"bindtap="jumptogood">
     <view class="pic">
@@ -35,6 +32,11 @@
   <view class="daohan" bindtap="manageorder" data-sellerid="{{item.sellerid}}">
     <view class="iconfont iconguanli"></view>
     <view>管理订单</view>
+  </view>
+
+  <view class="daohan" bindtap="checkorder" data-sellerid="{{item.sellerid}}">
+    <view class="iconfont iconguanli"></view>
+    <view>查看订单</view>
   </view>
 
   <view class="daohan" bindtap="changeseller" data-sellerid="{{item.sellerid}}">

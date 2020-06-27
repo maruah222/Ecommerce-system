@@ -9,7 +9,7 @@ Page({
     autoplay: true,
     interval: 2000,
     duration: 500,
-    navbar: ['全部', '手机'],
+    navbar: ['综合','商家', '销量','价格↑','价格↓'],
     currentTab: 0,//默认加载第0个页面
     goodData: [
       {
@@ -28,14 +28,67 @@ Page({
         "updownstate": 1,
         "introduction": null
       }
-    ]
+    ],
+    shopdata: [{
+      "shopid": "915477812@qq.com",
+      "shopname": "阿狗家",
+      "totalsales": 0,
+      "shopaddress": "广东省",
+      "registerstate": 1,
+      "sellerpassword": "$2a$10$0ZGEOb58F8ZxgRfc9oBtfu457zo/OIPgrqwiPWxFJBG8idotwlR42",
+      "sellername": "阿狗",
+      "sellertelephone": "171717171"}]
   },
   
   // 导航切换监听
   navbarTap: function (e) {
-    console.debug(e);
+    let self=this;
     this.setData({
       currentTab: e.currentTarget.dataset.idx//把当前用户点击的Tab坐标传给currentTab。
+    })
+    switch (e.currentTarget.dataset.idx) {
+      case 0:
+        self.getgoodData();
+        break;
+      case 1:
+        self.getshopdata();
+        break;
+      case 2:
+        self.getgoodData1();
+        break;
+      case 3:
+        self.getgoodData2();
+        break;
+      case 4:
+        self.getgoodData3();
+        break;    
+    }
+  },
+  getshopdata:function(){
+    let self = this;
+    //显示加载
+    wx.showLoading({
+      title: '加载中',
+    });
+    wx.request({
+      url: 'http://47.105.66.104:8080/ecommerce/User/GetAllShop', //仅为示例，并非真实的接口地址
+      data: {
+        pageNum: 1,
+        pageSize: 100
+      },
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success(res) {
+        //隐藏加载
+        wx.hideLoading();
+        console.log(res.data)
+        let result = res.data;
+        if (result.code == 200 && result.data.list.length > 0)//success是自己写的接口的调用成功值，这里是true
+        {
+          self.setData({ shopdata: result.data.list })
+        }
+      }
     })
   },
 
@@ -50,7 +103,7 @@ Page({
       url: 'http://47.105.66.104:8080/ecommerce/User/GetAllGoods', //仅为示例，并非真实的接口地址
       data: {
         pageNum:1,
-        pageSize:10
+        pageSize:100
       },
       header: {
         'content-type': 'application/json' // 默认值
@@ -68,6 +121,97 @@ Page({
     })
   },
 
+  getgoodData1: function () {
+    let self = this;
+    //显示加载
+    wx.showLoading({
+      title: '加载中',
+    });
+    wx.request({
+      url: 'http://47.105.66.104:8080/ecommerce/User/GetGoodsOrderByNumber', //仅为示例，并非真实的接口地址
+      data: {
+        pageNum: 1,
+        pageSize: 100
+      },
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success(res) {
+        //隐藏加载
+        wx.hideLoading();
+        console.log(res.data)
+        let result = res.data;
+        if (result.code == 200 && result.data.list.length > 0)//success是自己写的接口的调用成功值，这里是true
+        {
+          self.setData({ goodData: result.data.list })
+        }
+      }
+    })
+  },
+
+  getgoodData2: function () {
+    let self = this;
+    //显示加载
+    wx.showLoading({
+      title: '加载中',
+    });
+    wx.request({
+      url: 'http://47.105.66.104:8080/ecommerce/User/GetGoodsOrderByPriceAsc', //仅为示例，并非真实的接口地址
+      data: {
+        pageNum: 1,
+        pageSize: 100
+      },
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success(res) {
+        //隐藏加载
+        wx.hideLoading();
+        console.log(res.data)
+        let result = res.data;
+        if (result.code == 200 && result.data.list.length > 0)//success是自己写的接口的调用成功值，这里是true
+        {
+          self.setData({ goodData: result.data.list })
+        }
+      }
+    })
+  },
+
+  getgoodData3: function () {
+    let self = this;
+    //显示加载
+    wx.showLoading({
+      title: '加载中',
+    });
+    wx.request({
+      url: 'http://47.105.66.104:8080/ecommerce/User/GetGoodsOrderByPriceDesc', //仅为示例，并非真实的接口地址
+      data: {
+        pageNum: 1,
+        pageSize: 100
+      },
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success(res) {
+        //隐藏加载
+        wx.hideLoading();
+        console.log(res.data)
+        let result = res.data;
+        if (result.code == 200 && result.data.list.length > 0)//success是自己写的接口的调用成功值，这里是true
+        {
+          self.setData({ goodData: result.data.list })
+        }
+      }
+    })
+  },
+  jumptoshop:function(e){
+    console.log(e);
+    let shopno = e.currentTarget.dataset.shopid;
+    console.log(shopno);
+    wx.navigateTo({
+      url: '/pages/shop-detail/shop-detail?shopno='+shopno,
+    })
+  },
   jumptogood:function(e)
   {
     console.log(e);

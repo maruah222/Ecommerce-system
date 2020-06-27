@@ -19,7 +19,11 @@
     </view>
     <view class="order_time_row">
       <view class="order_time_text">订单状态</view>
-      <view class="order_time_value">{{item.state}}</view>
+      <view class="order_time_value" wx:if="{{item.state==1}}">已支付</view>
+      <view class="order_time_value" wx:elif="{{item.state==2}}">已收货</view>
+      <view class="order_time_value" wx:elif="{{item.state==3}}">退款中</view>
+      <view class="order_time_value" wx:elif="{{item.state==4}}">超时</view>
+      <view class="order_time_value" wx:elif="{{item.state==5}}">已退款</view>
     </view>
     <view wx:if="{{item.state===1}}">
       <button style="width:80%" class="ybtn" data-id="{{item.orderid}}"  bindtap="getgoods">确认收货</button>

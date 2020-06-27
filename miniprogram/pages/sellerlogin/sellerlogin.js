@@ -48,8 +48,6 @@ Page({
           });
       }
     })
-
-
   },
 
   zhuce:function(){

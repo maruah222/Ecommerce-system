@@ -57,3 +57,34 @@
   font-size: 32rpx;
   font-weight: bold;
 }
+
+.bottom-nav {
+  height: 130rpx;
+  width: 100%;
+  display: flex;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  background: white;
+}
+
+.bottom-nav .daohan {
+  flex: 0.5;
+  text-align: center;
+  font-size: 28rpx;
+}
+
+.bottom-nav .addcard {
+  flex: 1;
+  text-align: center;
+  line-height: 130rpx;
+  font-size: 36rpx;
+  background: orange;
+  color: white;
+}
+
+.choose-line .title {
+  padding: 10rpx 20rpx;
+  margin: 10rpx 0;
+  border-left: 4rpx solid #ccc;
+}

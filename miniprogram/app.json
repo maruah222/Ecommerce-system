@@ -22,7 +22,8 @@
     "pages/changemine/changemine",
     "pages/good-addsku/good-addsku",
     "pages/changeseller/changeseller",
-    "pages/readdgood/readdgood"
+    "pages/readdgood/readdgood",
+    "pages/checkorders/checkorders"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",
@@ -49,18 +50,6 @@
       {
         "pagePath": "pages/mine/mine",
         "text": "个人",
-        "iconPath": "images/btn-tabs_06.png",
-        "selectedIconPath": "images/btn-tabs_10.png"
-      },
-      {
-        "pagePath": "pages/sellerlogin/sellerlogin",
-        "text": "商家",
-        "iconPath": "images/btn-tabs_06.png",
-        "selectedIconPath": "images/btn-tabs_10.png"
-      },
-      {
-        "pagePath": "pages/adminlogin/adminlogin",
-        "text": "管理员",
         "iconPath": "images/btn-tabs_06.png",
         "selectedIconPath": "images/btn-tabs_10.png"
       }

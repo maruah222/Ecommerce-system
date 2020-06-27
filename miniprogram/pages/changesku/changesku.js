@@ -9,11 +9,9 @@ Page({
     price1:0,
     vipprice1:0,
     goodid:"",
+    picture:"",
   },
 
-  AccountInput: function (e) {
-    this.setData({ skuid: e.detail.value })
-  },
 
   priceInput: function (e) {
     this.setData({ price1: e.detail.value })
@@ -23,13 +21,17 @@ Page({
     this.setData({ vipprice1: e.detail.value })
   },
 
+  pictureInput: function (e) {
+    this.setData({ picture: e.detail.value })
+  },
+
   submit:function(){
     let self=this;
     wx.request({
-      url: 'http://47.105.66.104:8080/ecommerce/Shop/ ModifySku',
+      url: 'http://47.105.66.104:8080/ecommerce/Shop/ModifySku',
       data: {
-        SkuId:self.data.skuid,
-        GoodId:self.data.goodid,
+        skuId:self.data.skuid,
+        picture:self.data.picture,
         price:self.data.price1,
         vipprice:self.data.vipprice1,
       },
@@ -51,6 +53,13 @@ Page({
       success: function(res) {
         self.setData({goodid:res.data});
         console.log(self.data.goodid);
+      },
+    })
+    wx.getStorage({
+      key: 'sku1',
+      success: function(res) {
+        self.setData({skuid:res.data});
+        console.log(self.data.skuid);
       },
     })
   },

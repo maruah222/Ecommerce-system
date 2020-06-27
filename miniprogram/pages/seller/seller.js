@@ -32,39 +32,11 @@ Page({
         },
       })
   },
-  getorders:function(){
-    wx.downloadFile({
-      url: 'http://47.105.66.104:8080/ecommerce/Shop/goodsExcel',
-      data:{
-        //ShopId:this.data.sellerId
-      },
-      
-      success:(res)=>{
-        var filePath = res.tempFilePath;
-          console.log(res);
-          wx.openDocument({
-              filePath: filePath,
-              success: function(res) {
-                  console.log('打开文档成功')
-              },
-              fail: function(res) {
-                  console.log(res);
-              },
-              complete: function(res) {
-                  console.log(res);
-              }
-          })
-      }
-    })
-  },
+
   getdata: function () {
     let self = this;
     wx.request({
       url: 'http://47.105.66.104:8080/ecommerce/User/GetGoodsByShopId',
-      header: {        //'content-type': 'application/json' // 默认值
-        //这里修改json为text   json的话请求时会返回400(bad request)
-        'content-type': 'application/texts'
-      },
       data: {
         shopId: self.data.sellerId,
         pageNum: 1,
@@ -117,10 +89,14 @@ Page({
   },
 
   manageorder:function(){
-    console.log(this.data.goodData[0].sellerID);
-    let sellerid = this.data.goodData[0].sellerID;
     wx.navigateTo({
       url: '/pages/manager-order/manager-order',
+    })
+  },
+
+  checkorder:function(){
+    wx.navigateTo({
+      url: '/pages/checkorders/checkorders',
     })
   },
 
@@ -141,7 +117,14 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    let self = this;
+    wx.getStorage({
+      key: 'sellerid',
+      success: function (res) {
+        self.setData({ sellerId: res.data });
+        self.getdata()
+      },
+    })
   },
 
   /**

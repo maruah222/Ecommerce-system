@@ -20,3 +20,15 @@
     <button class="submit"  open-type="getUserInfo" bindtap="onClickSubmit">登录</button>
   </view>
 </view>
+
+<view class="bottom-nav">
+    <view class="daohan" bindtap="jumptosell">
+      <view class="iconfont iconfill"></view>
+      <view>商家</view>
+    </view>
+
+    <view class="daohan" bindtap="jumptomanager">
+      <view class="iconfont iconfill"></view>
+      <view>管理员</view>
+    </view>
+  </view>

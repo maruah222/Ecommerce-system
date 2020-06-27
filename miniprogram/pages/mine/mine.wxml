@@ -52,7 +52,7 @@
 <view class="middle-view">
   <view class="item">
     <view class="iconfont icondaifukuan" bindtap="handle_waiting_pay"></view>
-    <view >待付款</view>
+    <view >个人订单</view>
   </view>
     <view class="item">
     <view class="iconfont icondaifahuo"></view>

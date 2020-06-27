@@ -1,6 +1,6 @@
 <!--pages/good-change/good-change.wxml-->
 <view class="good-list">
-  <view class="item" wx:for="{{gooddata}}" wx:key="*this" data-skuid="{{item.skuid}}" bindtap="delete">
+  <view class="item" wx:for="{{gooddata}}" wx:key="*this" data-skuid="{{item.skuid}}" bindtap="skuget">
     <view class="pic">
       <image src="{{item.picture}}"></image>
     </view>
@@ -21,8 +21,4 @@
   </view>
 </view>
 
-<view class="anniu">
-<button class="submit"  open-type="getUserInfo" bindtap="addstock">进货</button>
-<button class="submit"  open-type="getUserInfo" bindtap="changeprice">修改价格</button>
-</view>
 
