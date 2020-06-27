@@ -276,8 +276,10 @@ public class UserServiceImpl implements UserrService {
     @Override
     public List<Shop> getAllShop(int pageNum, int pageSize) {
         PageHelper.startPage(pageNum, pageSize);
+        ShopExample shopExample = new ShopExample();
+        shopExample.createCriteria().andRegisterstateEqualTo(1);
 
-        return shopMapper.selectByExample(new ShopExample());
+        return shopMapper.selectByExample(shopExample);
     }
 
     @Override

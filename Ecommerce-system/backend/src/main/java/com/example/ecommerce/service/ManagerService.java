@@ -2,6 +2,7 @@ package com.example.ecommerce.service;
 
 import com.example.ecommerce.common.api.CommonResult;
 import com.example.ecommerce.mbg.model.*;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -47,4 +48,8 @@ public interface ManagerService {
     List<Userr> getUserbeVIP(int pageNum,int pageSize);
 
     CommonResult VerifyUserBeVIP(String UserId,int num);
+
+    XSSFWorkbook showLoginRecordinExcel();
+
+    XSSFWorkbook showGoodUpRecordinExcel();
 }

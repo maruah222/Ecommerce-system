@@ -11,12 +11,18 @@ import com.example.ecommerce.service.ManagerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,7 +32,7 @@ import java.util.Map;
  * @date: 2020/6/3 23:54
  * @description:
  */
-@Api(tags = "ManagerController",description = "普通用户的操作接口")
+@Api(tags = "ManagerController",description = "管理员的操作接口")
 @Controller
 @RequestMapping("/Manager")
 public class ManageController {
@@ -171,5 +177,57 @@ public class ManageController {
         return managerService.VerifyUserBeVIP(UserId,num);
     }
 
+
+    @ApiOperation("导出登录记录")
+    @RequestMapping(value = "/ShowLoginRecordinExcel",method = RequestMethod.GET)
+    @ResponseBody
+    public void ShowLoginRecordinExcel(HttpServletResponse response) {
+        XSSFWorkbook wb = managerService.showLoginRecordinExcel();
+        String filename = "Loginrecord.xls";
+        OutputStream outputStream = null;
+        response.setHeader("Content-Type", "application/octet-stream;charset=utf-8");
+
+        try {
+            filename = URLEncoder.encode(filename, "UTF-8");
+            //设置ContentType请求信息格式
+            response.setContentType("application/vnd.ms-excel");
+            response.setHeader("Content-Disposition",
+                    "attachment;filename=" + URLEncoder.encode(filename));
+            outputStream = response.getOutputStream();
+            wb.write(outputStream);
+            outputStream.flush();
+            outputStream.close();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @ApiOperation("导出商品上架申请记录")
+    @RequestMapping(value = "/ShowGoodUpRecordinExcel",method = RequestMethod.GET)
+    @ResponseBody
+    public void ShowGoodUpRecordinExcel(HttpServletResponse response) {
+        XSSFWorkbook wb = managerService.showGoodUpRecordinExcel();
+        String filename = "GoodsUpRecord.xls";
+        OutputStream outputStream = null;
+        response.setHeader("Content-Type", "application/octet-stream;charset=utf-8");
+
+        try {
+            filename = URLEncoder.encode(filename, "UTF-8");
+            //设置ContentType请求信息格式
+            response.setContentType("application/vnd.ms-excel");
+            response.setHeader("Content-Disposition",
+                    "attachment;filename=" + URLEncoder.encode(filename));
+            outputStream = response.getOutputStream();
+            wb.write(outputStream);
+            outputStream.flush();
+            outputStream.close();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 }

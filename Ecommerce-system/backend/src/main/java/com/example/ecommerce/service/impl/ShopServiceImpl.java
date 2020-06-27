@@ -237,6 +237,8 @@ public class ShopServiceImpl implements ShopService {
         Order order = orderMapper.selectByPrimaryKey(OrderId);
         order.setState(5);
 
+        orderMapper.updateByPrimaryKey(order);
+
         OrderReturnExample o=new OrderReturnExample();
         o.createCriteria().andOrderidEqualTo(order.getOrderid());
 
@@ -399,7 +401,7 @@ public class ShopServiceImpl implements ShopService {
          List<Order> orders = shopDao.selectOrderByGoodId(list);
 
          XSSFWorkbook x = new XSSFWorkbook();
-         Sheet sheet = x.createSheet("该商品的订单记录");
+         Sheet sheet = x.createSheet(ShopId+"商品的订单记录");
          Row row = sheet.createRow(0);
 
          row.createCell(0).setCellValue("订单ID");

@@ -269,7 +269,7 @@ public class ShopController {
     public void ShowOrderExcelByShopId(@RequestParam String ShopId,
                                        HttpServletResponse response){
         XSSFWorkbook wb =shopService.showOrderExcelByShopId(ShopId);
-        String filename = "Goods报表.xls";
+        String filename = "OrderRecord.xls";
         OutputStream outputStream =null;
         response.setHeader("Content-Type", "application/octet-stream;charset=utf-8");
 

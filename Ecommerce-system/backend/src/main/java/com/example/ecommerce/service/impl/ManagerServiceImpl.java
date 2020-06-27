@@ -13,6 +13,9 @@ import com.example.ecommerce.service.ManagerService;
 import com.example.ecommerce.service.ShopService;
 import com.example.ecommerce.service.UserpermissionService;
 import com.github.pagehelper.PageHelper;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -85,6 +88,9 @@ public class ManagerServiceImpl implements ManagerService {
 
     @Autowired(required = false)
     private GoodSkuMapper goodSkuMapper;
+
+    @Autowired(required = false)
+    private GoodsuprecordMapper goodsuprecordMapper;
 
     @Autowired
     private JavaMailSender javaMailSender;
@@ -194,6 +200,15 @@ public class ManagerServiceImpl implements ManagerService {
         goodsMapper.updateByPrimaryKey(goods);
         VerifyGoodSendEmail(goods.getShopid(),"1");
 
+        Goodsuprecord goodsuprecord = new Goodsuprecord();
+        goodsuprecord.setGoodid(Goodid);
+        goodsuprecord.setGoodname(goods.getGoodname());
+        goodsuprecord.setShopid(goods.getShopid());
+        goodsuprecord.setState(1);
+        goodsuprecord.setVerifytime(new Date());
+
+        goodsuprecordMapper.insert(goodsuprecord);
+
         return CommonResult.success(Goodid,"商品上架成功");
     }
 
@@ -205,6 +220,14 @@ public class ManagerServiceImpl implements ManagerService {
         goodSkuExample.createCriteria().andGoodidEqualTo(Goodid);
         goodSkuMapper.deleteByExample(goodSkuExample);
 
+        Goodsuprecord goodsuprecord = new Goodsuprecord();
+        goodsuprecord.setGoodid(Goodid);
+        goodsuprecord.setGoodname(good.getGoodname());
+        goodsuprecord.setShopid(good.getShopid());
+        goodsuprecord.setState(0);
+        goodsuprecord.setVerifytime(new Date());
+
+        goodsuprecordMapper.insert(goodsuprecord);
 
         VerifyGoodSendEmail(good.getShopid(),"0");
         return CommonResult.success(Goodid,"商品审核失败，拒绝上架");
@@ -320,6 +343,75 @@ public class ManagerServiceImpl implements ManagerService {
        }
 
        return CommonResult.failed("只能输入0或1哦");
+    }
+
+    @Override
+    public XSSFWorkbook showLoginRecordinExcel() {
+        List<Loginrecord> list = loginrecordMapper.selectByExample(new LoginrecordExample());
+
+        XSSFWorkbook x = new XSSFWorkbook();
+        Sheet sheet = x.createSheet("登录记录");
+        Row row = sheet.createRow(0);
+
+        row.createCell(0).setCellValue("ID");
+        row.createCell(1).setCellValue("用户ID");
+        row.createCell(2).setCellValue("登录时间");
+        row.createCell(2).setCellValue("角色");
+
+
+        int i=1;
+        for(Loginrecord l:list) {
+            Row r = sheet.createRow(i);
+
+            r.createCell(0).setCellValue(l.getId());
+            r.createCell(1).setCellValue(l.getUserid());
+            r.createCell(2).setCellValue(l.getLogintime());
+            if(l.getRole()==0){
+            r.createCell(3).setCellValue("用户");
+            }
+            if(l.getRole()==1){
+                r.createCell(3).setCellValue("管理员");
+            }
+            if(l.getRole()==2){
+                r.createCell(3).setCellValue("商家");
+            }
+        }
+        return x;
+    }
+
+    @Override
+    public XSSFWorkbook showGoodUpRecordinExcel() {
+
+        List<Goodsuprecord> list = goodsuprecordMapper.selectByExample(new GoodsuprecordExample());
+
+        XSSFWorkbook x = new XSSFWorkbook();
+        Sheet sheet = x.createSheet("登录记录");
+        Row row = sheet.createRow(0);
+
+        row.createCell(0).setCellValue("ID");
+        row.createCell(1).setCellValue("商家ID");
+        row.createCell(2).setCellValue("商品ID");
+        row.createCell(3).setCellValue("商品名字");
+        row.createCell(4).setCellValue("审核时间");
+        row.createCell(5).setCellValue("审核是否通过");
+
+
+        int i=1;
+        for(Goodsuprecord l:list) {
+            Row r = sheet.createRow(i);
+            r.createCell(0).setCellValue(l.getId());
+            r.createCell(1).setCellValue(l.getShopid());
+            r.createCell(2).setCellValue(l.getGoodname());
+            r.createCell(3).setCellValue(l.getVerifytime());
+            if (l.getState() == 0) {
+                r.createCell(4).setCellValue("审核不通过");
+            }
+            if (l.getState() == 1) {
+                r.createCell(4).setCellValue("审核通过");
+            }
+        }
+
+        return x;
     }
 
 }
