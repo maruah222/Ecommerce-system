@@ -20,7 +20,7 @@
       <!-- 商品信息-->
       <view class="cart_info_wrap">
         <view class="goods_name" data-goodid="{{item.goodid}}" bindtap="jumptogood">{{item.goodname}}</view>
-        <view class="goods_sku">{{item.att1}} {{item.att2}}</view>
+        <view class="goods_sku">{{item.attri}}</view>
         <view class="goods_price_warp">
           <view class="goods_price">￥{{item.price}}</view>
           <view class="cart_num_tool">

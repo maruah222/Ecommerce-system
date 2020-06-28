@@ -34,16 +34,19 @@ Page({
         let a = JSON.parse(JSON.stringify(res.data.data.list));
         res.data.data.list.forEach(v => {
           var tempatt = JSON.parse(v.attribute);
-          v.att1 = tempatt[0].attrValue;
-          v.att2 = tempatt[1].attrValue;
+          let temp = "";
+          tempatt.forEach(a => {
+            temp = temp + a.attrValue + " ";
+          })
+          v.attri = temp;
         })
         a.forEach(v => {
           var temp = JSON.parse(v.attribute);
-          let key1 = temp[0].attrKey;
-          let key2 = temp[1].attrKey;
-          let val1 = temp[0].attrValue;
-          let val2 = temp[1].attrValue;
-          v.attribute = key1 + ":" + val1 + " " + key2 + ":" + val2;
+          let tempattr = "";
+          temp.forEach(a => {
+            tempattr = tempattr + a.attrKey + ":" + a.attrValue + " ";
+          })
+          v.attribute = tempattr;
         })
         this.setData({ srcgoodData: a });
         this.setData({ goodData: res.data.data.list });
@@ -147,6 +150,7 @@ Page({
                 gooddata.splice(index1, 1);
                 srcgooddata.splice(index2, 1);
                 this.setData({ srcgoodData: srcgooddata });
+                console.log(this.data.srcgoodData);
                 this.setCart(gooddata);
               }
             })
