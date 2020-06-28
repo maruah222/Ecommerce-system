@@ -32,28 +32,25 @@
   </view>
 
     <view class="row-group">
-    <text>商品类型的值：（比如颜色）</text>
-    <input placeholder="请填写商品类型" placeholder-class='txt' maxlength='20' value="{{key1}}" bindinput="key1Input" />
+    <text>sku行数</text>
+    <input placeholder="请填写行数" placeholder-class='txt' maxlength='25' value="{{index1}}" bindinput="indexInput" />
   </view>
 
-    <view class="row-group">
-    <text>商品类型的值：（比如内存）</text>
-    <input placeholder="请填写商品类型" placeholder-class='txt' maxlength='20' value="{{key2}}" bindinput="key2Input" />
+    <view class="row-group" wx:for="{{attribute1}}" wx:for-index="idx">
+    <text>商品类型的值：（比如颜色）</text>
+    <input placeholder="请填写商品类型" placeholder-class='txt' maxlength='20' value="{{key1}}" bindinput="key1Input" data-index="{{idx}}"/>
   </view>
+
 
   <view class="row-group">
   <text>以下是SKU属性，多次填写增加后上架</text>
   </view>
 
-  <view class="row-group">
-    <text>{{ attribute1[0].attrKey}}</text>
-    <input placeholder="请输入属性" placeholder-class='txt' maxlength='255' value="{{attribute2}}" bindinput="attributeIdInput" />
+  <view class="row-group" wx:for="{{attribute1}}" wx:for-index="idx">
+    <text>{{ attribute1[idx].attrKey}}</text>
+    <input placeholder="请输入属性" placeholder-class='txt' maxlength='255' value="{{attribute2}}" bindinput="attributeIdInput" data-index="{{idx}}"/>
   </view>
 
-    <view class="row-group">
-    <text>{{ attribute1[1].attrKey}}</text>
-    <input placeholder="请输入属性" placeholder-class='txt' maxlength='255' value="{{attribute3}}" bindinput="attributeId1Input" />
-  </view>
 
   <view class="row-group">
     <text>库存</text>

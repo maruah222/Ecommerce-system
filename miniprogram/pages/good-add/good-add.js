@@ -1,3 +1,4 @@
+// index/list.js
 // pages/good-add/good-add.js
 Page({
 
@@ -5,25 +6,22 @@ Page({
    * 页面的初始数据
    */
   data: {
-    attribute1:[
-      {
+    index: 0,
+    attribute1: [],
+    skuone: {
       "attrKey": "",
       "attrValue": ""
-      },
-      {
-        "attrKey": "",
-        "attrValue": ""
-      },
-    ],
-    goodid:'',
-    ShopId:'',
+    },
+    skusku: {},
+    goodid: '',
+    ShopId: '',
     goodname: '',
     goodpicture: '',
-    introduction:'',
-    isPackage:0,
-    frontpicture:'',
-    categoryId:'',
-    sku:{
+    introduction: '',
+    isPackage: 0,
+    frontpicture: '',
+    categoryId: '',
+    sku: {
       "attribute": "string",
       "goodid": "string",
       "leftNumber": 0,
@@ -33,7 +31,19 @@ Page({
       "skuid": 0,
       "vipprice": 0
     },
-    skutemp:[],
+    skutemp: [],
+  },
+  indexInput: function (e) {
+    let self = this;
+    this.setData({ index: e.detail.value })
+    console.log(this.data.index);
+    var a = this.data.attribute1;
+    for (var i = 0; i < this.data.index; i++) {
+      a.push(JSON.parse(JSON.stringify(self.data.skuone)));
+    };
+    var y = this.data.attribute1
+    this.setData({ attribute1: y });
+    console.log(self.data.attribute1);
   },
   GoodnameInput: function (e) {
     this.setData({ goodname: e.detail.value })
@@ -54,26 +64,20 @@ Page({
     this.setData({ categoryId: e.detail.value })
   },
   key1Input: function (e) {
+    var x = e.currentTarget.dataset.index;
     var that = this;
-    var temp = "attribute1[" + 0 + "].attrKey";
-    this.setData({ [temp]: e.detail.value })
-  },
-  key2Input: function (e) {
-    var that = this;
-    var temp = "attribute1[" + 1 + "].attrKey";
+    var temp = "attribute1[" + x + "].attrKey";
     this.setData({ [temp]: e.detail.value })
   },
   attributeIdInput: function (e) {
+    var x = e.currentTarget.dataset.index;
     var that = this;
-    var temp = "attribute1[" + 0 + "].attrValue";
-    this.setData({ [temp]: e.detail.value })
-  },
-  attributeId1Input: function (e) {
-    var that = this;
-    var temp = "attribute1[" + 1 + "].attrValue";
+    var temp = "attribute1[" + x + "].attrValue";
     this.setData({ [temp]: e.detail.value });
-    var attr = JSON.stringify(this.data.attribute1);
-    this.setData({ ['sku.attribute']: attr });
+    if (e.currentTarget.dataset.index == (self.data.attribute1.length - 1)) {
+      var attr = JSON.stringify(this.data.attribute1);
+      this.setData({ ['sku.attribute']: attr });
+    }
   },
   leftNumberInput: function (e) {
     this.setData({ ['sku.leftNumber']: e.detail.value });
@@ -92,13 +96,13 @@ Page({
     this.setData({ ['sku.vipprice']: e.detail.value })
   },
 
-  add:function(){
+  add: function () {
     let x = JSON.parse(JSON.stringify(this.data.sku));
     this.data.skutemp.push(x);
     console.log(this.data.skutemp);
   },
 
-  onClickadd:function(){
+  onClickadd: function () {
     console.log(this.data.sku)
     let self = this;
     wx.request({
@@ -106,17 +110,17 @@ Page({
       data: {
         categoryId: self.data.categoryId,
         frontpicture: self.data.frontpicture,
-        goodId:self.data.goodid,
+        goodId: self.data.goodid,
         goodname: self.data.goodname,
         goodpicture: self.data.goodpicture,
         introduction: self.data.introduction,
         isPackage: self.data.isPackage,
         shopId: self.data.ShopId,
-        skus:self.data.skutemp,
+        skus: self.data.skutemp,
       },
       method: 'POST',
       dataType: 'json',
-      header: { 'content-type': 'application/json'},
+      header: { 'content-type': 'application/json' },
       success: function (res) {
         wx.showToast({
           title: '上架成功请等待审核',
@@ -137,10 +141,10 @@ Page({
    */
   onLoad: function (options) {
     var time = parseInt(new Date().getTime() / 1000) + '';
-    this.setData({ goodid: time});
+    this.setData({ goodid: time });
     this.setData({ ['sku.goodid']: time });
     console.log(this.data.goodid)
-    self=this;
+    self = this;
     wx.getStorage({
       key: 'sellerid',
       success(res) {
@@ -155,48 +159,48 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-    
+
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    
+
   },
 
   /**
    * 生命周期函数--监听页面隐藏
    */
   onHide: function () {
-    
+
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-    
+
   },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-    
+
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-    
+
   },
 
   /**
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-    
+
   }
 })
