@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.ecommerce.dao.UserDao">
+    <resultMap id="BaseResultMap" type="com.example.ecommerce.mbg.model.Goods">
+        <id column="goodID" jdbcType="VARCHAR" property="goodid" />
+        <result column="ShopID" jdbcType="VARCHAR" property="shopid" />
+        <result column="Goodname" jdbcType="VARCHAR" property="goodname" />
+        <result column="Goodpicture" jdbcType="VARCHAR" property="goodpicture" />
+        <result column="CheckState" jdbcType="INTEGER" property="checkstate" />
+        <result column="ispackage" jdbcType="INTEGER" property="ispackage" />
+        <result column="Frontpicture" jdbcType="VARCHAR" property="frontpicture" />
+        <result column="ShangTime" jdbcType="TIMESTAMP" property="shangtime" />
+        <result column="categoryId" jdbcType="VARCHAR" property="categoryid" />
+        <result column="AllsellNumber" jdbcType="INTEGER" property="allsellnumber" />
+        <result column="UpdownState" jdbcType="INTEGER" property="updownstate" />
+    </resultMap>
+    <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.example.ecommerce.mbg.model.Goods">
+        <result column="introduction" jdbcType="LONGVARCHAR" property="introduction" />
+    </resultMap>
+    <resultMap extends="BaseResultMap" id="ResultMapWithBLOB" type="com.example.ecommerce.dto.GoodsPriceParam">
+        <result column="introduction" jdbcType="LONGVARCHAR" property="introduction" />
+        <result column="price" jdbcType="DECIMAL" property="price" />
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+    goodID, ShopID, Goodname, Goodpicture, CheckState, ispackage, Frontpicture, ShangTime,
+    categoryId, AllsellNumber, UpdownState
+  </sql>
+    <sql id="Blob_Column_List">
+    introduction
+  </sql>
+    <insert id="InsertOrder" parameterType="java.util.List">
+        INSERT INTO `order` (OrderId,UserId,State,PayTime,Comment) VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.orderid},
+            #{item.userid},
+            #{item.state},
+            #{item.paytime},
+            #{item.comment})
+        </foreach>
+    </insert>
+    <insert id="InsertOrderFromChart" parameterType="java.util.List">
+        INSERT INTO `order` (OrderId,UserId,State,PayTime,Comment,`number`,price,money,goodId,attribute,address) VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.orderid},
+            #{item.userid},
+            #{item.state},
+            #{item.paytime},
+            #{item.comment},
+            #{item.number},
+            #{item.price},
+            #{item.money},
+            #{item.goodid},
+            #{item.attribute},
+            #{item.address})
+        </foreach>
+    </insert>
+    <select id="GetGoodsOrderByNumber" parameterType="com.example.ecommerce.mbg.model.GoodsExample" resultMap="ResultMapWithBLOBs">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List" />
+        ,
+        <include refid="Blob_Column_List" />
+        from goods
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause" />
+        </if>
+        order by allsellnumber desc
+    </select>
+    <select id="GetGoodsOrderByPriceDesc" resultMap="ResultMapWithBLOB">
+        SELECT DISTINCT g.goodID, g.ShopID, g.Goodname, g.Goodpicture, g.CheckState, g.ispackage, g.Frontpicture, g.ShangTime, g.categoryId, g.AllsellNumber, g.UpdownState,s.price
+       FROM goods AS g JOIN good_sku AS s
+       WHERE g.checkstate=1 AND g.updownstate=1 AND g.goodid = s.goodid AND checkstate=1 AND updownstate=1
+       GROUP BY goodId
+       ORDER BY price desc
+    </select>
+    <select id="GetGoodsOrderByPriceAsc" resultMap="ResultMapWithBLOB">
+       SELECT DISTINCT g.goodID, g.ShopID, g.Goodname, g.Goodpicture, g.CheckState, g.ispackage, g.Frontpicture, g.ShangTime, g.categoryId, g.AllsellNumber, g.UpdownState,s.price
+       FROM goods AS g JOIN good_sku AS s
+       WHERE g.checkstate=1 AND g.updownstate=1 AND g.goodid = s.goodid AND checkstate=1 AND updownstate=1
+       GROUP BY goodId
+       ORDER BY price asc
+    </select>
+    <select id="getPriceFromGood" parameterType="java.lang.String" resultType="java.math.BigDecimal">
+        SELECT min(price) from good_sku where goodId = #{GoodId};
+    </select>
+</mapper>

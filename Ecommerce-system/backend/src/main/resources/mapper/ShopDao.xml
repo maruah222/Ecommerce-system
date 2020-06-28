@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.ecommerce.dao.ShopDao">
+
+<resultMap id="BaseResultMap" type="com.example.ecommerce.mbg.model.Order">
+    <id column="OrderID" jdbcType="VARCHAR" property="orderid" />
+    <result column="UserID" jdbcType="VARCHAR" property="userid" />
+    <result column="State" jdbcType="INTEGER" property="state" />
+    <result column="PayTime" jdbcType="TIMESTAMP" property="paytime" />
+    <result column="GetTIme" jdbcType="TIMESTAMP" property="gettime" />
+    <result column="CommentTime" jdbcType="TIMESTAMP" property="commenttime" />
+    <result column="number" jdbcType="INTEGER" property="number" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="money" jdbcType="DECIMAL" property="money" />
+    <result column="GoodId" jdbcType="VARCHAR" property="goodid" />
+    <result column="attribute" jdbcType="VARCHAR" property="attribute" />
+</resultMap>
+    <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.example.ecommerce.mbg.model.Order">
+        <result column="Comment" jdbcType="LONGVARCHAR" property="comment" />
+    </resultMap>
+
+    <select id="selectOrderByGoodId" parameterType="java.util.List" resultMap="ResultMapWithBLOBs">
+        Select * from `order` where GoodId in
+        <foreach collection="list" item = "item" open="(" close=")" separator=",">
+            #{item.goodid}
+        </foreach>
+    </select>
+
+    <select id="selectnotGetOrderByGoodId" parameterType="java.util.List" resultMap="ResultMapWithBLOBs">
+        Select * from `order` where state=1 and GoodId in
+        <foreach collection="list" item = "item" open="(" close=")" separator=",">
+            #{item.goodid}
+        </foreach>
+    </select>
+</mapper>

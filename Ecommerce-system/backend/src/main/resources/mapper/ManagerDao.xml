@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.ecommerce.dao.ManagerDao">
+    <resultMap id="BaseResultMap" type="com.example.ecommerce.mbg.model.Userr">
+        <id column="UserID" jdbcType="VARCHAR" property="userid" />
+        <result column="UserAddress" jdbcType="VARCHAR" property="useraddress" />
+        <result column="UserTelephone" jdbcType="VARCHAR" property="usertelephone" />
+        <result column="Userpower" jdbcType="INTEGER" property="userpower" />
+    </resultMap>
+<select id="SelectUserBeVIP" resultMap="BaseResultMap">
+SELECT userId,userAddress,usertelephone,userpower from userr where userId in (
+SELECT userId FROM `order` GROUP BY userId HAVING SUM(money)>3000 ORDER BY money;
+)
+</select>
+</mapper>

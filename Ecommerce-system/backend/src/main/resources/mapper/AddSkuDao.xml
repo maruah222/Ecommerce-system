@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.ecommerce.dao.AddSkuDao">
+    <insert id="InsertList" parameterType="java.util.List" >
+        INSERT INTO good_sku (goodId,`number`,price,Vipprice,Left_number,picture,Attribute) VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.goodid},
+            #{item.number},
+            #{item.price},
+            #{item.vipprice},
+            #{item.leftNumber},
+            #{item.picture},
+            #{item.attribute})
+        </foreach>
+    </insert>
+</mapper>
